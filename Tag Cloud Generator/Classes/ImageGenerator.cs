@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Linq;
 using Tag_Cloud_Generator.Interfaces;
@@ -36,19 +35,18 @@ namespace Tag_Cloud_Generator.Classes
             ImageSize = new Size(width, height);
         }
 
-        public void CreateImage(ICloudGenerator cloud, string path, ImageFormat format)
+        public Bitmap CreateImage(ICloudGenerator cloud)
         {
-            using (var image = new Bitmap(ImageSize.Width, ImageSize.Height))
+            var image = new Bitmap(ImageSize.Width, ImageSize.Height);
+            using (var graphics = Graphics.FromImage(image))
             {
-                using (var graphics = Graphics.FromImage(image))
-                {
-                    SetGraphics(graphics);
-                    words = cloud.CreateCloud(graphics).Words.OrderByDescending(w => w.Frequency).ToArray();
-                    DrawAllWords();
-                    graphics.ResetTransform();
-                }
-                image.Save(path, format);
+                SetGraphics(graphics);
+                words = cloud.CreateCloud(graphics).Words.OrderByDescending(w => w.Frequency).ToArray();
+                DrawAllWords();
+                graphics.ResetTransform();
             }
+            return image;
+            
         }
 
         private void DrawAllWords()

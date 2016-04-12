@@ -48,12 +48,16 @@
             this.imageHeight = new System.Windows.Forms.NumericUpDown();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.asyncCloudCreator = new System.ComponentModel.BackgroundWorker();
+            this.cloudCreateProgress = new System.Windows.Forms.ProgressBar();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -99,6 +103,7 @@
             // 
             // inputTextBox
             // 
+            this.inputTextBox.AllowDrop = true;
             this.inputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -108,6 +113,7 @@
             this.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.inputTextBox.Size = new System.Drawing.Size(514, 344);
             this.inputTextBox.TabIndex = 2;
+            this.inputTextBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.inputTextBox_DragDrop);
             // 
             // tabPage2
             // 
@@ -159,6 +165,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.pictureBox1);
+            this.tabPage3.Controls.Add(this.cloudCreateProgress);
             this.tabPage3.Controls.Add(this.createCloudButton);
             this.tabPage3.Controls.Add(this.fontLabel);
             this.tabPage3.Controls.Add(this.button2);
@@ -268,10 +276,37 @@
             // 
             this.colorDialog1.FullOpen = true;
             // 
+            // asyncCloudCreator
+            // 
+            this.asyncCloudCreator.DoWork += new System.ComponentModel.DoWorkEventHandler(this.asyncCloudCreator_DoWork);
+            // 
+            // cloudCreateProgress
+            // 
+            this.cloudCreateProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudCreateProgress.Location = new System.Drawing.Point(8, 354);
+            this.cloudCreateProgress.Name = "cloudCreateProgress";
+            this.cloudCreateProgress.Size = new System.Drawing.Size(510, 23);
+            this.cloudCreateProgress.TabIndex = 9;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(248, 144);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(270, 204);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
+            // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(534, 411);
             this.Controls.Add(this.tabControl1);
             this.MinimumSize = new System.Drawing.Size(550, 450);
@@ -285,6 +320,7 @@
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -311,6 +347,9 @@
         private System.Windows.Forms.FontDialog fontDialog1;
         private System.Windows.Forms.Label fontLabel;
         private System.Windows.Forms.Button createCloudButton;
+        private System.ComponentModel.BackgroundWorker asyncCloudCreator;
+        public System.Windows.Forms.ProgressBar cloudCreateProgress;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

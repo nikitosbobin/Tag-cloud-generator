@@ -82,21 +82,39 @@ namespace Tag_Cloud_Generator
 
         private void createCloudButton_Click(object sender, EventArgs e)
         {
-            try
+            decoder.TextLines = inputTextBox.Lines;
+            if (decoder.TextLines.Length == 0)
             {
-                decoder.TextLines = inputTextBox.Lines;
-                var colors = colorsListView.Items
-                    .Cast<ListViewItem>()
-                    .Select(i => new SolidBrush(i.Text.ToColor()))
-                    .ToList();
-                imageGenerator = new ImageGenerator((int) imageWidth.Value, (int) imageHeight.Value, colors);
-                cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator);
-                imageGenerator.CreateImage(cloudGenerator, "out.png", ImageFormat.Png);
+                MessageBox.Show("There are no words to build cloud");
+                return;
             }
-            catch(Exception exception)
+            var colors = colorsListView.Items
+                .Cast<ListViewItem>()
+                .Select(i => new SolidBrush(i.Text.ToColor()))
+                .ToList();
+            imageGenerator = new ImageGenerator((int) imageWidth.Value, (int) imageHeight.Value, colors);
+            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
+            asyncCloudCreator.RunWorkerAsync();
+        }
+
+        private void asyncCloudCreator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Invoke((MethodInvoker) delegate
             {
-                MessageBox.Show(exception.ToString());
-            }
+                createCloudButton.Enabled = false;
+            });
+            var image = imageGenerator.CreateImage(cloudGenerator);
+            MessageBox.Show("Cloud created");
+            Invoke((MethodInvoker)delegate
+            {
+                createCloudButton.Enabled = true;
+                pictureBox1.Image = image;
+            });
+        }
+
+        private void inputTextBox_DragDrop(object sender, DragEventArgs e)
+        {
+
         }
     }
 }
