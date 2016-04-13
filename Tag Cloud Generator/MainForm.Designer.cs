@@ -34,11 +34,15 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.inputTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.backgroundColor = new System.Windows.Forms.PictureBox();
+            this.setBcgColorButton = new System.Windows.Forms.Button();
             this.deleteColorButton = new System.Windows.Forms.Button();
             this.colorsListView = new System.Windows.Forms.ListView();
             this.Colors = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.addColorButton = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.cloudCreateProgress = new System.Windows.Forms.ProgressBar();
             this.createCloudButton = new System.Windows.Forms.Button();
             this.fontLabel = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -49,15 +53,16 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.asyncCloudCreator = new System.ComponentModel.BackgroundWorker();
-            this.cloudCreateProgress = new System.Windows.Forms.ProgressBar();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -117,6 +122,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.backgroundColor);
+            this.tabPage2.Controls.Add(this.setBcgColorButton);
             this.tabPage2.Controls.Add(this.deleteColorButton);
             this.tabPage2.Controls.Add(this.colorsListView);
             this.tabPage2.Controls.Add(this.addColorButton);
@@ -127,6 +134,24 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Colors";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // backgroundColor
+            // 
+            this.backgroundColor.Location = new System.Drawing.Point(297, 64);
+            this.backgroundColor.Name = "backgroundColor";
+            this.backgroundColor.Size = new System.Drawing.Size(17, 17);
+            this.backgroundColor.TabIndex = 7;
+            this.backgroundColor.TabStop = false;
+            // 
+            // setBcgColorButton
+            // 
+            this.setBcgColorButton.Location = new System.Drawing.Point(216, 64);
+            this.setBcgColorButton.Name = "setBcgColorButton";
+            this.setBcgColorButton.Size = new System.Drawing.Size(75, 23);
+            this.setBcgColorButton.TabIndex = 6;
+            this.setBcgColorButton.Text = "Background";
+            this.setBcgColorButton.UseVisualStyleBackColor = true;
+            this.setBcgColorButton.Click += new System.EventHandler(this.setBcgColorButton_Click);
             // 
             // deleteColorButton
             // 
@@ -180,6 +205,27 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Cloud settings";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(248, 144);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(270, 204);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
+            // 
+            // cloudCreateProgress
+            // 
+            this.cloudCreateProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudCreateProgress.Location = new System.Drawing.Point(8, 354);
+            this.cloudCreateProgress.Name = "cloudCreateProgress";
+            this.cloudCreateProgress.Size = new System.Drawing.Size(510, 23);
+            this.cloudCreateProgress.TabIndex = 9;
             // 
             // createCloudButton
             // 
@@ -276,30 +322,13 @@
             // 
             this.colorDialog1.FullOpen = true;
             // 
+            // fontDialog1
+            // 
+            this.fontDialog1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            // 
             // asyncCloudCreator
             // 
             this.asyncCloudCreator.DoWork += new System.ComponentModel.DoWorkEventHandler(this.asyncCloudCreator_DoWork);
-            // 
-            // cloudCreateProgress
-            // 
-            this.cloudCreateProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cloudCreateProgress.Location = new System.Drawing.Point(8, 354);
-            this.cloudCreateProgress.Name = "cloudCreateProgress";
-            this.cloudCreateProgress.Size = new System.Drawing.Size(510, 23);
-            this.cloudCreateProgress.TabIndex = 9;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(248, 144);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(270, 204);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
             // 
             // MainForm
             // 
@@ -316,11 +345,12 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -350,6 +380,10 @@
         private System.ComponentModel.BackgroundWorker asyncCloudCreator;
         public System.Windows.Forms.ProgressBar cloudCreateProgress;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button setBcgColorButton;
+        private System.Windows.Forms.PictureBox backgroundColor;
+        private System.Windows.Forms.ColorDialog backgroundColorDialog;
     }
 }
 

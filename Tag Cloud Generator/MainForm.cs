@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -23,6 +24,7 @@ namespace Tag_Cloud_Generator
             colorsListView.SmallImageList = new ImageList();
             textHandler = new SimpleTextHandler();
             decoder = new TxtDecoder();
+            backgroundColor.Image = GetImage(Color.Black);
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -83,18 +85,17 @@ namespace Tag_Cloud_Generator
         private void createCloudButton_Click(object sender, EventArgs e)
         {
             decoder.TextLines = inputTextBox.Lines;
-            if (decoder.TextLines.Length == 0)
-            {
-                MessageBox.Show("There are no words to build cloud");
-                return;
-            }
-            var colors = colorsListView.Items
-                .Cast<ListViewItem>()
-                .Select(i => new SolidBrush(i.Text.ToColor()))
-                .ToList();
-            imageGenerator = new ImageGenerator((int) imageWidth.Value, (int) imageHeight.Value, colors);
+            imageGenerator = new ImageGenerator((int) imageWidth.Value, (int) imageHeight.Value);
             cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
             asyncCloudCreator.RunWorkerAsync();
+        }
+
+        private List<Color> GetColors()
+        {
+            return colorsListView.Items
+                .Cast<ListViewItem>()
+                .Select(i => i.Text.ToColor())
+                .ToList();
         }
 
         private void asyncCloudCreator_DoWork(object sender, DoWorkEventArgs e)
@@ -103,18 +104,46 @@ namespace Tag_Cloud_Generator
             {
                 createCloudButton.Enabled = false;
             });
-            var image = imageGenerator.CreateImage(cloudGenerator);
-            MessageBox.Show("Cloud created");
-            Invoke((MethodInvoker)delegate
+            Bitmap image = null;
+            try
             {
-                createCloudButton.Enabled = true;
-                pictureBox1.Image = image;
-            });
+                List<Color> colors = null;
+                var color = Color.Black;
+                var font = new Font("Times New Roman", 12f);
+                Invoke((MethodInvoker) delegate
+                {
+                    colors = GetColors();
+                    color = backgroundColorDialog.Color;
+                    font = fontDialog1.Font;
+                });
+                image = imageGenerator.CreateImage(cloudGenerator, font, color, colors);
+            }
+            catch (Exception exception)
+            {
+                if (exception.Message.Contains("no words"))
+                    MessageBox.Show("There are no words to build cloud");
+            }
+            finally
+            {
+                Invoke((MethodInvoker) delegate
+                {
+                    createCloudButton.Enabled = true;
+                    pictureBox1.Image = image;
+                });
+            }
+
         }
 
         private void inputTextBox_DragDrop(object sender, DragEventArgs e)
         {
 
+        }
+
+        private void setBcgColorButton_Click(object sender, EventArgs e)
+        {
+            var result = backgroundColorDialog.ShowDialog();
+            if (result != DialogResult.OK) return;
+            backgroundColor.Image = GetImage(backgroundColorDialog.Color);
         }
     }
 }

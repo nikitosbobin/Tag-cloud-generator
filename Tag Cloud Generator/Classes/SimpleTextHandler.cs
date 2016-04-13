@@ -15,7 +15,7 @@ namespace Tag_Cloud_Generator.Classes
         private string[] decodedLines;
         private readonly HashSet<string> boringWords;
 
-        public IEnumerable<WordBlock> GetWords(ITextDecoder decoder, Graphics graphics)
+        public IEnumerable<WordBlock> GetWords(ITextDecoder decoder, Graphics graphics, Font wordsFont)
         {
             decodedLines = decoder.GetDecodedText();
             var innerWords = new Dictionary<string, WordBlock>();
@@ -26,7 +26,7 @@ namespace Tag_Cloud_Generator.Classes
                     if (innerWords.ContainsKey(word))
                         innerWords[word].Frequency++;
                     else
-                        innerWords.Add(word, new WordBlock(graphics, word));
+                        innerWords.Add(word, new WordBlock(graphics, wordsFont, word));
                 }
                 else
                     if (!boringWords.Contains(word))

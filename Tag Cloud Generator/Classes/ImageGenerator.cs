@@ -12,7 +12,6 @@ namespace Tag_Cloud_Generator.Classes
     {
         public Size ImageSize { get; }
         private WordBlock[] words;
-        private readonly List<SolidBrush> wordsBrushes;
 
         //шрифты еще надо почистить
         private string fontFamily;
@@ -27,45 +26,41 @@ namespace Tag_Cloud_Generator.Classes
             set { fontFamily = value; }
         }
 
-        public ImageGenerator(int width, int height, List<SolidBrush> colors = null)
+        public ImageGenerator(int width, int height)
         {
-            wordsBrushes = colors == null || colors.Count == 0 
-                ? new List<SolidBrush> { new SolidBrush(Color.White) } 
-                : colors;
             ImageSize = new Size(width, height);
         }
 
-        public Bitmap CreateImage(ICloudGenerator cloud)
+        public Bitmap CreateImage(ICloudGenerator cloud, Font wordsFont, Color backgroundColor, List<Color> wordsBrushes = null)
         {
             var image = new Bitmap(ImageSize.Width, ImageSize.Height);
             using (var graphics = Graphics.FromImage(image))
             {
-                SetGraphics(graphics);
-                words = cloud.CreateCloud(graphics).Words.OrderByDescending(w => w.Frequency).ToArray();
-                DrawAllWords();
+                SetGraphics(graphics, backgroundColor);
+                words = cloud.CreateCloud(graphics, wordsFont).Words.OrderByDescending(w => w.Frequency).ToArray();
+                DrawAllWords(wordsBrushes);
                 graphics.ResetTransform();
             }
             return image;
             
         }
 
-        private void DrawAllWords()
+        private void DrawAllWords(List<Color> wordsBrushes)
         {
             foreach (var word in words)
             {
-                if (wordsBrushes.Count == 1 && wordsBrushes.First().Color == Color.White)
-                    word.Draw(GetGrayGradation(word));
-                else
-                    word.Draw(wordsBrushes.GetRandomElement());
+                word.Draw(wordsBrushes == null || wordsBrushes.Count == 0 
+                    ? GetGrayGradation(word) 
+                    : wordsBrushes.GetRandomElement());
             }
         }
 
-        private SolidBrush GetGrayGradation(WordBlock word)
+        private Color GetGrayGradation(WordBlock word)
         {
             var better = words.First();
             var t = word.Frequency / (double)better.Frequency;
             if (t < 0.3) t = 0.3;
-            return new SolidBrush(ConvertToColor(0, (byte)(t * 255), 255));
+            return ConvertToColor(0, (byte)(t * 255), 255);
         }
 
         private static Color ConvertToColor(byte r, byte g, byte b)
@@ -77,11 +72,11 @@ namespace Tag_Cloud_Generator.Classes
             return totalHtmlColor.ToColor();
         }
 
-        private void SetGraphics(Graphics graphics)
+        private void SetGraphics(Graphics graphics, Color backgroundColor)
         {
             var imageCenter = ImageSize.Center();
             graphics.Transform = new Matrix(1, 0, 0, 1, imageCenter.X, imageCenter.Y);
-            graphics.Clear("#000000".ToColor());
+            graphics.Clear(backgroundColor);
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
         }
     }

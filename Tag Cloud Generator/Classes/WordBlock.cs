@@ -7,11 +7,6 @@ namespace Tag_Cloud_Generator.Classes
 {
     class WordBlock
     {
-        public static WordBlock Clone(WordBlock source)
-        {
-            return new WordBlock(source.Graphics, source.Source, source.Frequency);
-        }
-
         public class Comparer : IEqualityComparer<WordBlock>
         {
             public bool Equals(WordBlock x, WordBlock y)
@@ -30,7 +25,7 @@ namespace Tag_Cloud_Generator.Classes
             }
         }
 
-        public WordBlock(Graphics graphics, string source, int frequency = 1)
+        public WordBlock(Graphics graphics, Font font, string source, int frequency = 1)
         {
             Graphics = graphics;
             Source = source;
@@ -40,6 +35,7 @@ namespace Tag_Cloud_Generator.Classes
             IsVertical = rnd.Next(0, 2) == 1;
             //IsVertical = false;
             savedLocations = new Stack<Point>();
+            Font = font;
         }
 
         public Graphics Graphics { get; }
@@ -62,17 +58,12 @@ namespace Tag_Cloud_Generator.Classes
             return Source.Measure(Graphics, Font);
         }
 
-        private Font font;
-        public Font Font
-        {
-            get { return font ?? (font = new Font("Times New Roman", 12f)); }
-            set { font = value; }
-        }
+        public Font Font { get; set; }
 
         public float FontSize
         {
             get { return Font.Size; }
-            set { Font = new Font(Font.FontFamily.ToString(), value); }
+            set { Font = new Font(Font.Name, value); }
         }
 
         public bool IsVertical { get; set; }
@@ -137,14 +128,14 @@ namespace Tag_Cloud_Generator.Classes
             return $"{Source}--{Frequency}";
         }
 
-        public void Draw(Brush brush)
+        public void Draw(Color color)
         {
             //Graphics.DrawRectangle(new Pen(Color.Blue), Location.X, Location.Y, 2, 2);
             var grState = Graphics.Save();
             Graphics.TranslateTransform(Location.X, Location.Y);
             var angle = IsVertical ? 270f : 0f;
             Graphics.RotateTransform(angle);
-            Graphics.DrawString(Source, Font, brush, 0, 0);
+            Graphics.DrawString(Source, Font, new SolidBrush(color), 0, 0);
             Graphics.Restore(grState);
             //var v = GetWordRectangle(Graphics);
             //Graphics.DrawRectangle(new Pen(Color.Crimson), v);

@@ -22,14 +22,14 @@ namespace Tag_Cloud_Generator.Classes
             rnd = new Random(DateTime.Now.Millisecond);
         }
 
-        private MainForm context;
+        private readonly MainForm context;
         private List<Tuple<Rectangle, int>> frames;
         private readonly ITextDecoder decoder;
         private readonly Random rnd;
 
-        public ICloudGenerator CreateCloud(Graphics graphics)
+        public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont)
         {
-            Words = TextHandler.GetWords(decoder, graphics).OrderByDescending(u => u.Frequency).Take(3000).ToArray();
+            Words = TextHandler.GetWords(decoder, graphics, wordsFont).OrderByDescending(u => u.Frequency).Take(3000).ToArray();
             if (Words.Length == 0)
                 throw new Exception("There are no words to build cloud");
             Words[0].FontSize = ImageGenerator.ImageSize.Height * WordScale;
@@ -81,7 +81,7 @@ namespace Tag_Cloud_Generator.Classes
 
         private bool BypassCircuit(WordBlock word, Rectangle circuit, int count)
         {
-            var points = circuit.GetPoints()/*.OffsetArray(rnd.Next(0, 4))*/;
+            var points = circuit.GetPoints().OffsetArray(rnd.Next(0, 4));
             for (var i = 0; i < points.Length; ++i)
             {
                 if (MoveOnLine(word, points[i], points[(i + 1) % points.Length], count))

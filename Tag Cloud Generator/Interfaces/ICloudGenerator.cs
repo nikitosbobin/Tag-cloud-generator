@@ -7,7 +7,7 @@ namespace Tag_Cloud_Generator.Interfaces
     {
         interface ICloudGenerator
         {
-            ICloudGenerator CreateCloud(Graphics graphics);
+            ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont);
             ITextHandler TextHandler { get; set; }
             WordBlock[] Words { get; set; }
             ICloudImageGenerator ImageGenerator { get; }
