@@ -110,13 +110,16 @@ namespace Tag_Cloud_Generator
                 List<Color> colors = null;
                 var color = Color.Black;
                 var font = new Font("Times New Roman", 12f);
+                var count = 30;
                 Invoke((MethodInvoker) delegate
                 {
+                    GetAllDataFromForm();
                     colors = GetColors();
                     color = backgroundColorDialog.Color;
                     font = fontDialog1.Font;
+                    count = wordsCountBar.Value;
                 });
-                image = imageGenerator.CreateImage(cloudGenerator, font, color, colors);
+                image = imageGenerator.CreateImage(cloudGenerator, font, count, color, colors);
             }
             catch (Exception exception)
             {
@@ -134,9 +137,22 @@ namespace Tag_Cloud_Generator
 
         }
 
-        private void inputTextBox_DragDrop(object sender, DragEventArgs e)
+        private void /*provider*/ GetAllDataFromForm()
         {
 
+        }
+
+        private void inputTextBox_DragDrop(object sender, DragEventArgs e)
+        {
+            var path = ((string[]) e.Data.GetData(DataFormats.FileDrop, false)).First();
+            try
+            {
+                inputTextBox.Lines = File.ReadAllLines(path);
+            }
+            catch
+            {
+                MessageBox.Show("Can not read file");
+            }
         }
 
         private void setBcgColorButton_Click(object sender, EventArgs e)
@@ -144,6 +160,11 @@ namespace Tag_Cloud_Generator
             var result = backgroundColorDialog.ShowDialog();
             if (result != DialogResult.OK) return;
             backgroundColor.Image = GetImage(backgroundColorDialog.Color);
+        }
+
+        private void inputTextBox_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
         }
     }
 }

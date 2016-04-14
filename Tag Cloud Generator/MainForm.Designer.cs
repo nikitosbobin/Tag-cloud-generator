@@ -55,6 +55,7 @@
             this.asyncCloudCreator = new System.ComponentModel.BackgroundWorker();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
+            this.wordsCountBar = new System.Windows.Forms.TrackBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -63,6 +64,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wordsCountBar)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -119,6 +121,7 @@
             this.inputTextBox.Size = new System.Drawing.Size(514, 344);
             this.inputTextBox.TabIndex = 2;
             this.inputTextBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.inputTextBox_DragDrop);
+            this.inputTextBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.inputTextBox_DragEnter);
             // 
             // tabPage2
             // 
@@ -190,6 +193,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.wordsCountBar);
             this.tabPage3.Controls.Add(this.pictureBox1);
             this.tabPage3.Controls.Add(this.cloudCreateProgress);
             this.tabPage3.Controls.Add(this.createCloudButton);
@@ -229,7 +233,7 @@
             // 
             // createCloudButton
             // 
-            this.createCloudButton.Location = new System.Drawing.Point(109, 144);
+            this.createCloudButton.Location = new System.Drawing.Point(167, 325);
             this.createCloudButton.Name = "createCloudButton";
             this.createCloudButton.Size = new System.Drawing.Size(75, 23);
             this.createCloudButton.TabIndex = 8;
@@ -330,6 +334,18 @@
             // 
             this.asyncCloudCreator.DoWork += new System.ComponentModel.DoWorkEventHandler(this.asyncCloudCreator_DoWork);
             // 
+            // wordsCountBar
+            // 
+            this.wordsCountBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.wordsCountBar.Location = new System.Drawing.Point(11, 134);
+            this.wordsCountBar.Maximum = 100;
+            this.wordsCountBar.Name = "wordsCountBar";
+            this.wordsCountBar.Size = new System.Drawing.Size(174, 45);
+            this.wordsCountBar.SmallChange = 10;
+            this.wordsCountBar.TabIndex = 11;
+            this.wordsCountBar.TickFrequency = 10;
+            this.wordsCountBar.Value = 30;
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -351,6 +367,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wordsCountBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -384,6 +401,7 @@
         private System.Windows.Forms.Button setBcgColorButton;
         private System.Windows.Forms.PictureBox backgroundColor;
         private System.Windows.Forms.ColorDialog backgroundColorDialog;
+        private System.Windows.Forms.TrackBar wordsCountBar;
     }
 }
 

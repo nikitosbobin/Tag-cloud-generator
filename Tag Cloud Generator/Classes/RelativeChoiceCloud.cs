@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
@@ -27,9 +28,12 @@ namespace Tag_Cloud_Generator.Classes
         private readonly ITextDecoder decoder;
         private readonly Random rnd;
 
-        public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont)
+        public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount)
         {
-            Words = TextHandler.GetWords(decoder, graphics, wordsFont).OrderByDescending(u => u.Frequency).Take(3000).ToArray();
+            Words = TextHandler.GetWords(decoder, graphics, wordsFont)
+                .OrderByDescending(u => u.Frequency)
+                .ToArray();
+            Words = Words.Take((int) (Words.Length*wordsCount/(double) 100)).ToArray();
             if (Words.Length == 0)
                 throw new Exception("There are no words to build cloud");
             Words[0].FontSize = ImageGenerator.ImageSize.Height * WordScale;

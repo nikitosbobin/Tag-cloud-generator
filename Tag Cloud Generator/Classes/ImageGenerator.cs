@@ -31,13 +31,13 @@ namespace Tag_Cloud_Generator.Classes
             ImageSize = new Size(width, height);
         }
 
-        public Bitmap CreateImage(ICloudGenerator cloud, Font wordsFont, Color backgroundColor, List<Color> wordsBrushes = null)
+        public Bitmap CreateImage(ICloudGenerator cloud, Font wordsFont, int wordsCount, Color backgroundColor, List<Color> wordsBrushes = null)
         {
             var image = new Bitmap(ImageSize.Width, ImageSize.Height);
             using (var graphics = Graphics.FromImage(image))
             {
                 SetGraphics(graphics, backgroundColor);
-                words = cloud.CreateCloud(graphics, wordsFont).Words.OrderByDescending(w => w.Frequency).ToArray();
+                words = cloud.CreateCloud(graphics, wordsFont,wordsCount).Words.OrderByDescending(w => w.Frequency).ToArray();
                 DrawAllWords(wordsBrushes);
                 graphics.ResetTransform();
             }
