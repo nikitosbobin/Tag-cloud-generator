@@ -186,6 +186,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "NewFileForm";
             this.Text = "Create new file";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NewFileForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.widthNumericInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumericInput)).EndInit();
             this.ResumeLayout(false);

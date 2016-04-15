@@ -26,6 +26,11 @@ namespace Tag_Cloud_Generator.Classes
             set { fontFamily = value; }
         }
 
+        public ImageGenerator(Size imageSize)
+        {
+            ImageSize = imageSize;
+        }
+
         public ImageGenerator(int width, int height)
         {
             ImageSize = new Size(width, height);

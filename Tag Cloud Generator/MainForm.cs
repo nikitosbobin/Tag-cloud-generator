@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -18,13 +17,22 @@ namespace Tag_Cloud_Generator
         private readonly ITextHandler textHandler;
         private ICloudImageGenerator imageGenerator;
         private ICloudGenerator cloudGenerator;
+        private WordsColorsForm colorsForm;
+        private FormDataProvider dataProvider;
         public MainForm()
         {
             InitializeComponent();
-            colorsListView.SmallImageList = new ImageList();
             textHandler = new SimpleTextHandler();
             decoder = new TxtDecoder();
-            backgroundColor.Image = GetImage(Color.Black);
+            colorsForm = new WordsColorsForm();
+            dataProvider = new FormDataProvider
+            {
+                WordsColors = null,
+                BackGroundColor = Color.Black,
+                ImageSize = new Size(800, 800),
+                WordsFont = new Font("Times New Roman", 12f),
+                WordsCount = 30
+            };
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -50,54 +58,15 @@ namespace Tag_Cloud_Generator
         {
             openFileDialog1.ShowDialog();
         }
-        
-        private void deleteColorButton_Click(object sender, EventArgs e)
-        {
-            var selected = colorsListView.Items.SelectedItems();
-            foreach (var itemIndex in selected.OrderByDescending(d => d))
-                colorsListView.Items.RemoveAt(itemIndex);
-        }
-
-        private void addColorButton_Click(object sender, EventArgs e)
-        {
-            var result = colorDialog1.ShowDialog(this);
-            if (result != DialogResult.OK) return;
-            colorsListView.SmallImageList.Images.Add(GetImage(colorDialog1.Color));
-            colorsListView.Items.Add(colorDialog1.Color.ToHtmlColor(), colorsListView.SmallImageList.Images.Count - 1);
-        }
-
-        private Bitmap GetImage(Color color)
-        {
-            var result = new Bitmap(10, 10);
-            var graphics = Graphics.FromImage(result);
-            graphics.Clear(color);
-            graphics.Dispose();
-            return result;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            var result = fontDialog1.ShowDialog();
-            if (result != DialogResult.OK) return;
-            fontLabel.Text = fontDialog1.Font.Name;
-        }
 
         private void createCloudButton_Click(object sender, EventArgs e)
         {
             decoder.TextLines = inputTextBox.Lines;
-            imageGenerator = new ImageGenerator((int) imageWidth.Value, (int) imageHeight.Value);
+            imageGenerator = new ImageGenerator(dataProvider.ImageSize);
             cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
-            asyncCloudCreator.RunWorkerAsync(GetAllDataFromForm());
+            asyncCloudCreator.RunWorkerAsync();
         }
-
-        private List<Color> GetColors()
-        {
-            return colorsListView.Items
-                .Cast<ListViewItem>()
-                .Select(i => i.Text.ToColor())
-                .ToList();
-        }
-
+        
         private void asyncCloudCreator_DoWork(object sender, DoWorkEventArgs e)
         {
             Invoke((MethodInvoker) delegate
@@ -107,9 +76,8 @@ namespace Tag_Cloud_Generator
             Bitmap image = null;
             try
             {
-                var data = (FormDataProvider) e.Argument;
-                image = imageGenerator.CreateImage(cloudGenerator, data.WordsFont, 
-                    data.WordsCount, data.BackGroundColor, data.WordsColors);
+                image = imageGenerator.CreateImage(cloudGenerator, dataProvider.WordsFont,
+                    dataProvider.WordsCount, dataProvider.BackGroundColor, dataProvider.WordsColors);
             }
             catch (Exception exception)
             {
@@ -124,18 +92,6 @@ namespace Tag_Cloud_Generator
                     pictureBox1.Image = image;
                 });
             }
-
-        }
-
-        private FormDataProvider GetAllDataFromForm()
-        {
-            return new FormDataProvider
-            {
-                WordsColors = GetColors(),
-                BackGroundColor = backgroundColorDialog.Color,
-                WordsFont = fontDialog1.Font,
-                WordsCount = wordsCountBar.Value
-            };
         }
 
         private void inputTextBox_DragDrop(object sender, DragEventArgs e)
@@ -151,13 +107,6 @@ namespace Tag_Cloud_Generator
             }
         }
 
-        private void setBcgColorButton_Click(object sender, EventArgs e)
-        {
-            var result = backgroundColorDialog.ShowDialog();
-            if (result != DialogResult.OK) return;
-            backgroundColor.Image = GetImage(backgroundColorDialog.Color);
-        }
-
         private void inputTextBox_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
@@ -169,6 +118,41 @@ namespace Tag_Cloud_Generator
             if (newFIleDialog.ShowDialog(this) != DialogResult.OK) return;
             var width = newFIleDialog.Width;
             var height = newFIleDialog.Height;
+            dataProvider.ImageSize = new Size(width, height);
+        }
+
+        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fontDialog1.ShowDialog(this) != DialogResult.OK) return;
+            dataProvider.WordsFont = fontDialog1.Font;
+        }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
+            dataProvider.BackGroundColor = backgroundColorDialog.Color;
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Program easy. You needn't in help");
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Nikita Bobin");
+        }
+
+        private void colorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
+            dataProvider.WordsColors = colorsForm.Colors;
+
+        }
+
+        private void wordsCountBar_Scroll(object sender, EventArgs e)
+        {
+            dataProvider.WordsCount = ((TrackBar)sender).Value;
         }
     }
 }

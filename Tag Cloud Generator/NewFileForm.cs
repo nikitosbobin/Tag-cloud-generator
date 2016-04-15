@@ -33,5 +33,16 @@ namespace Tag_Cloud_Generator
         {
             DialogResult = DialogResult.OK;
         }
+
+        private void NewFileForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Close();
+            }else if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

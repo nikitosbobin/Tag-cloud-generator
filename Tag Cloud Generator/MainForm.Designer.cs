@@ -34,23 +34,11 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.inputTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.backgroundColor = new System.Windows.Forms.PictureBox();
-            this.setBcgColorButton = new System.Windows.Forms.Button();
-            this.deleteColorButton = new System.Windows.Forms.Button();
-            this.colorsListView = new System.Windows.Forms.ListView();
-            this.Colors = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.addColorButton = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.wordsCountBar = new System.Windows.Forms.TrackBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cloudCreateProgress = new System.Windows.Forms.ProgressBar();
             this.createCloudButton = new System.Windows.Forms.Button();
-            this.fontLabel = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.imageWidth = new System.Windows.Forms.NumericUpDown();
-            this.imageHeight = new System.Windows.Forms.NumericUpDown();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.asyncCloudCreator = new System.ComponentModel.BackgroundWorker();
@@ -60,15 +48,16 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.wordsCountBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,6 +80,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -129,11 +121,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.backgroundColor);
-            this.tabPage2.Controls.Add(this.setBcgColorButton);
-            this.tabPage2.Controls.Add(this.deleteColorButton);
-            this.tabPage2.Controls.Add(this.colorsListView);
-            this.tabPage2.Controls.Add(this.addColorButton);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -142,71 +129,12 @@
             this.tabPage2.Text = "Colors";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // backgroundColor
-            // 
-            this.backgroundColor.Location = new System.Drawing.Point(297, 64);
-            this.backgroundColor.Name = "backgroundColor";
-            this.backgroundColor.Size = new System.Drawing.Size(17, 17);
-            this.backgroundColor.TabIndex = 7;
-            this.backgroundColor.TabStop = false;
-            // 
-            // setBcgColorButton
-            // 
-            this.setBcgColorButton.Location = new System.Drawing.Point(216, 64);
-            this.setBcgColorButton.Name = "setBcgColorButton";
-            this.setBcgColorButton.Size = new System.Drawing.Size(75, 23);
-            this.setBcgColorButton.TabIndex = 6;
-            this.setBcgColorButton.Text = "Background";
-            this.setBcgColorButton.UseVisualStyleBackColor = true;
-            this.setBcgColorButton.Click += new System.EventHandler(this.setBcgColorButton_Click);
-            // 
-            // deleteColorButton
-            // 
-            this.deleteColorButton.Location = new System.Drawing.Point(216, 35);
-            this.deleteColorButton.Name = "deleteColorButton";
-            this.deleteColorButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteColorButton.TabIndex = 5;
-            this.deleteColorButton.Text = "Delete";
-            this.deleteColorButton.UseVisualStyleBackColor = true;
-            this.deleteColorButton.Click += new System.EventHandler(this.deleteColorButton_Click);
-            // 
-            // colorsListView
-            // 
-            this.colorsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.colorsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Colors});
-            this.colorsListView.FullRowSelect = true;
-            this.colorsListView.GridLines = true;
-            this.colorsListView.Location = new System.Drawing.Point(6, 6);
-            this.colorsListView.Name = "colorsListView";
-            this.colorsListView.Size = new System.Drawing.Size(190, 373);
-            this.colorsListView.TabIndex = 4;
-            this.colorsListView.UseCompatibleStateImageBehavior = false;
-            this.colorsListView.View = System.Windows.Forms.View.SmallIcon;
-            // 
-            // addColorButton
-            // 
-            this.addColorButton.Location = new System.Drawing.Point(216, 6);
-            this.addColorButton.Name = "addColorButton";
-            this.addColorButton.Size = new System.Drawing.Size(75, 23);
-            this.addColorButton.TabIndex = 0;
-            this.addColorButton.Text = "Add color";
-            this.addColorButton.UseVisualStyleBackColor = true;
-            this.addColorButton.Click += new System.EventHandler(this.addColorButton_Click);
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.wordsCountBar);
             this.tabPage3.Controls.Add(this.pictureBox1);
             this.tabPage3.Controls.Add(this.cloudCreateProgress);
             this.tabPage3.Controls.Add(this.createCloudButton);
-            this.tabPage3.Controls.Add(this.fontLabel);
-            this.tabPage3.Controls.Add(this.button2);
-            this.tabPage3.Controls.Add(this.label2);
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.imageWidth);
-            this.tabPage3.Controls.Add(this.imageHeight);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(526, 328);
@@ -217,7 +145,7 @@
             // wordsCountBar
             // 
             this.wordsCountBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.wordsCountBar.Location = new System.Drawing.Point(11, 134);
+            this.wordsCountBar.Location = new System.Drawing.Point(8, 15);
             this.wordsCountBar.Maximum = 100;
             this.wordsCountBar.Name = "wordsCountBar";
             this.wordsCountBar.Size = new System.Drawing.Size(174, 45);
@@ -225,18 +153,20 @@
             this.wordsCountBar.TabIndex = 11;
             this.wordsCountBar.TickFrequency = 10;
             this.wordsCountBar.Value = 30;
+            this.wordsCountBar.Scroll += new System.EventHandler(this.wordsCountBar_Scroll);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(248, 144);
+            this.pictureBox1.Location = new System.Drawing.Point(208, 44);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(270, 147);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.WaitOnLoad = true;
             // 
             // cloudCreateProgress
             // 
@@ -249,94 +179,13 @@
             // 
             // createCloudButton
             // 
-            this.createCloudButton.Location = new System.Drawing.Point(167, 325);
+            this.createCloudButton.Location = new System.Drawing.Point(83, 144);
             this.createCloudButton.Name = "createCloudButton";
             this.createCloudButton.Size = new System.Drawing.Size(75, 23);
             this.createCloudButton.TabIndex = 8;
             this.createCloudButton.Text = "Create cloud";
             this.createCloudButton.UseVisualStyleBackColor = true;
             this.createCloudButton.Click += new System.EventHandler(this.createCloudButton_Click);
-            // 
-            // fontLabel
-            // 
-            this.fontLabel.AutoSize = true;
-            this.fontLabel.Location = new System.Drawing.Point(106, 93);
-            this.fontLabel.Name = "fontLabel";
-            this.fontLabel.Size = new System.Drawing.Size(97, 13);
-            this.fontLabel.TabIndex = 7;
-            this.fontLabel.Text = "Times New Roman";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(11, 88);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Choose font";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Height:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Width:";
-            // 
-            // imageWidth
-            // 
-            this.imageWidth.Location = new System.Drawing.Point(68, 14);
-            this.imageWidth.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.imageWidth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.imageWidth.Name = "imageWidth";
-            this.imageWidth.Size = new System.Drawing.Size(46, 20);
-            this.imageWidth.TabIndex = 3;
-            this.imageWidth.Value = new decimal(new int[] {
-            1920,
-            0,
-            0,
-            0});
-            // 
-            // imageHeight
-            // 
-            this.imageHeight.Location = new System.Drawing.Point(68, 52);
-            this.imageHeight.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.imageHeight.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.imageHeight.Name = "imageHeight";
-            this.imageHeight.Size = new System.Drawing.Size(46, 20);
-            this.imageHeight.TabIndex = 2;
-            this.imageHeight.Value = new decimal(new int[] {
-            1080,
-            0,
-            0,
-            0});
             // 
             // colorDialog1
             // 
@@ -354,7 +203,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.helpToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(534, 24);
@@ -381,6 +232,45 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fontToolStripMenuItem,
+            this.backgroundToolStripMenuItem,
+            this.colorsToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // fontToolStripMenuItem
+            // 
+            this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fontToolStripMenuItem.Text = "Font";
+            this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
+            // 
+            // backgroundToolStripMenuItem
+            // 
+            this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.backgroundToolStripMenuItem.Text = "Background";
+            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
+            // 
+            // colorsToolStripMenuItem
+            // 
+            this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.colorsToolStripMenuItem.Text = "Colors";
+            this.colorsToolStripMenuItem.Click += new System.EventHandler(this.colorsToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -398,14 +288,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.wordsCountBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -422,31 +308,24 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox inputTextBox;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button addColorButton;
-        private System.Windows.Forms.ListView colorsListView;
-        private System.Windows.Forms.ColumnHeader Colors;
-        private System.Windows.Forms.Button deleteColorButton;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.NumericUpDown imageHeight;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown imageWidth;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.FontDialog fontDialog1;
-        private System.Windows.Forms.Label fontLabel;
         private System.Windows.Forms.Button createCloudButton;
         private System.ComponentModel.BackgroundWorker asyncCloudCreator;
         public System.Windows.Forms.ProgressBar cloudCreateProgress;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button setBcgColorButton;
-        private System.Windows.Forms.PictureBox backgroundColor;
         private System.Windows.Forms.ColorDialog backgroundColorDialog;
         private System.Windows.Forms.TrackBar wordsCountBar;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 

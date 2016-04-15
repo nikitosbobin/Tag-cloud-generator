@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tag_Cloud_Generator.Classes
 {
@@ -13,5 +9,6 @@ namespace Tag_Cloud_Generator.Classes
         public Color BackGroundColor { get; set; }
         public List<Color> WordsColors { get; set; }
         public int WordsCount { get; set; }
+        public Size ImageSize { get; set; }
     }
 }
