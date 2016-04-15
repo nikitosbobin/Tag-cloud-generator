@@ -55,6 +55,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.programStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.createCloudButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.wordsCountBar)).BeginInit();
@@ -96,7 +97,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(750, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(534, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -170,13 +171,14 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.wordsCountBar);
             this.tabPage3.Controls.Add(this.pictureBox1);
             this.tabPage3.Controls.Add(this.cloudCreateProgress);
             this.tabPage3.Controls.Add(this.createCloudButton);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(742, 333);
+            this.tabPage3.Size = new System.Drawing.Size(526, 333);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Cloud settings";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -185,7 +187,7 @@
             // 
             this.wordsCountBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.wordsCountBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.wordsCountBar.Location = new System.Drawing.Point(551, 21);
+            this.wordsCountBar.Location = new System.Drawing.Point(344, 40);
             this.wordsCountBar.Maximum = 100;
             this.wordsCountBar.Name = "wordsCountBar";
             this.wordsCountBar.Size = new System.Drawing.Size(174, 45);
@@ -202,7 +204,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Location = new System.Drawing.Point(8, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(345, 293);
+            this.pictureBox1.Size = new System.Drawing.Size(330, 293);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
@@ -214,7 +216,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudCreateProgress.Location = new System.Drawing.Point(8, 302);
             this.cloudCreateProgress.Name = "cloudCreateProgress";
-            this.cloudCreateProgress.Size = new System.Drawing.Size(726, 23);
+            this.cloudCreateProgress.Size = new System.Drawing.Size(510, 23);
             this.cloudCreateProgress.TabIndex = 9;
             // 
             // tabPage1
@@ -224,14 +226,13 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(742, 333);
+            this.tabPage1.Size = new System.Drawing.Size(526, 333);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "File load";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // inputTextBox
             // 
-            this.inputTextBox.AllowDrop = true;
             this.inputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -239,7 +240,7 @@
             this.inputTextBox.Multiline = true;
             this.inputTextBox.Name = "inputTextBox";
             this.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.inputTextBox.Size = new System.Drawing.Size(730, 292);
+            this.inputTextBox.Size = new System.Drawing.Size(514, 292);
             this.inputTextBox.TabIndex = 2;
             this.inputTextBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.inputTextBox_DragDrop);
             this.inputTextBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.inputTextBox_DragEnter);
@@ -265,7 +266,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(750, 359);
+            this.tabControl1.Size = new System.Drawing.Size(534, 359);
             this.tabControl1.TabIndex = 3;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -275,7 +276,7 @@
             this.programStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 389);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(750, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(534, 22);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -288,7 +289,7 @@
             // createCloudButton
             // 
             this.createCloudButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.createCloudButton.Location = new System.Drawing.Point(659, 273);
+            this.createCloudButton.Location = new System.Drawing.Point(443, 273);
             this.createCloudButton.Name = "createCloudButton";
             this.createCloudButton.Size = new System.Drawing.Size(75, 23);
             this.createCloudButton.TabIndex = 8;
@@ -296,13 +297,24 @@
             this.createCloudButton.UseVisualStyleBackColor = true;
             this.createCloudButton.Click += new System.EventHandler(this.createCloudButton_Click);
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(346, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(168, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Count of first frequent words";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.ClientSize = new System.Drawing.Size(750, 411);
+            this.ClientSize = new System.Drawing.Size(534, 411);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
@@ -310,6 +322,8 @@
             this.MinimumSize = new System.Drawing.Size(550, 450);
             this.Name = "MainForm";
             this.Text = "Tag cloud generator";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -355,6 +369,7 @@
         private System.Windows.Forms.ToolStripStatusLabel programStatus;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.Button createCloudButton;
+        private System.Windows.Forms.Label label1;
     }
 }
 

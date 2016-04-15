@@ -16,6 +16,7 @@ namespace Tag_Cloud_Generator
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 

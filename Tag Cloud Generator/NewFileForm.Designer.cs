@@ -76,7 +76,7 @@
             this.widthNumericInput.Size = new System.Drawing.Size(70, 20);
             this.widthNumericInput.TabIndex = 2;
             this.widthNumericInput.Value = new decimal(new int[] {
-            1,
+            720,
             0,
             0,
             0});
@@ -98,7 +98,7 @@
             this.heightNumericInput.Size = new System.Drawing.Size(70, 20);
             this.heightNumericInput.TabIndex = 3;
             this.heightNumericInput.Value = new decimal(new int[] {
-            1,
+            576,
             0,
             0,
             0});
@@ -116,7 +116,7 @@
             // acceptButton
             // 
             this.acceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.acceptButton.Location = new System.Drawing.Point(197, 156);
+            this.acceptButton.Location = new System.Drawing.Point(116, 156);
             this.acceptButton.Name = "acceptButton";
             this.acceptButton.Size = new System.Drawing.Size(75, 23);
             this.acceptButton.TabIndex = 5;
@@ -127,7 +127,7 @@
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(116, 156);
+            this.cancelButton.Location = new System.Drawing.Point(197, 156);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 6;

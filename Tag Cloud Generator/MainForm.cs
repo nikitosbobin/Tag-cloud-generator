@@ -111,7 +111,7 @@ namespace Tag_Cloud_Generator
 
         private void inputTextBox_DragDrop(object sender, DragEventArgs e)
         {
-            var path = ((string[]) e.Data.GetData(DataFormats.FileDrop, false)).First();
+            /*var path = ((string[]) e.Data.GetData(DataFormats.FileDrop, false)).First();
             try
             {
                 inputTextBox.Lines = File.ReadAllLines(path);
@@ -119,12 +119,12 @@ namespace Tag_Cloud_Generator
             catch
             {
                 MessageBox.Show("Can not read file");
-            }
+            }*/
         }
 
         private void inputTextBox_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = DragDropEffects.Move;
+            //e.Effect = DragDropEffects.Move;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -183,6 +183,25 @@ namespace Tag_Cloud_Generator
             saveFileDialog1.FileName = $"cloud[{date.Day}_{date.Month}_{date.Year}][{date.Hour}_{date.Minute}_{date.Second}]";
             if (saveFileDialog1.ShowDialog(this) != DialogResult.OK) return;
             pictureBox1.Image.Save(saveFileDialog1.FileName);
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            var path = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).First();
+            try
+            {
+                inputTextBox.Lines = File.ReadAllLines(path);
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+            }
+            catch
+            {
+                MessageBox.Show("Can not read file");
+            }
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
         }
     }
 }
