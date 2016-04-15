@@ -87,7 +87,7 @@ namespace Tag_Cloud_Generator
             decoder.TextLines = inputTextBox.Lines;
             imageGenerator = new ImageGenerator((int) imageWidth.Value, (int) imageHeight.Value);
             cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
-            asyncCloudCreator.RunWorkerAsync();
+            asyncCloudCreator.RunWorkerAsync(GetAllDataFromForm());
         }
 
         private List<Color> GetColors()
@@ -107,19 +107,9 @@ namespace Tag_Cloud_Generator
             Bitmap image = null;
             try
             {
-                List<Color> colors = null;
-                var color = Color.Black;
-                var font = new Font("Times New Roman", 12f);
-                var count = 30;
-                Invoke((MethodInvoker) delegate
-                {
-                    GetAllDataFromForm();
-                    colors = GetColors();
-                    color = backgroundColorDialog.Color;
-                    font = fontDialog1.Font;
-                    count = wordsCountBar.Value;
-                });
-                image = imageGenerator.CreateImage(cloudGenerator, font, count, color, colors);
+                var data = (FormDataProvider) e.Argument;
+                image = imageGenerator.CreateImage(cloudGenerator, data.WordsFont, 
+                    data.WordsCount, data.BackGroundColor, data.WordsColors);
             }
             catch (Exception exception)
             {
@@ -137,9 +127,15 @@ namespace Tag_Cloud_Generator
 
         }
 
-        private void /*provider*/ GetAllDataFromForm()
+        private FormDataProvider GetAllDataFromForm()
         {
-
+            return new FormDataProvider
+            {
+                WordsColors = GetColors(),
+                BackGroundColor = backgroundColorDialog.Color,
+                WordsFont = fontDialog1.Font,
+                WordsCount = wordsCountBar.Value
+            };
         }
 
         private void inputTextBox_DragDrop(object sender, DragEventArgs e)
@@ -165,6 +161,14 @@ namespace Tag_Cloud_Generator
         private void inputTextBox_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newFIleDialog = new NewFileForm();
+            if (newFIleDialog.ShowDialog(this) != DialogResult.OK) return;
+            var width = newFIleDialog.Width;
+            var height = newFIleDialog.Height;
         }
     }
 }
