@@ -33,7 +33,7 @@ namespace Tag_Cloud_Generator.Classes
             Location = Point.Empty;
             var rnd = new Random(DateTime.Now.Millisecond);
             IsVertical = rnd.Next(0, 2) == 1;
-            //IsVertical = false;
+            IsVertical = false;
             savedLocations = new Stack<Point>();
             Font = font;
         }

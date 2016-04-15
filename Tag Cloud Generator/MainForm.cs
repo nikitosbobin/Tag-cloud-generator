@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -29,10 +28,10 @@ namespace Tag_Cloud_Generator
             {
                 WordsColors = null,
                 BackGroundColor = Color.Black,
-                ImageSize = new Size(800, 800),
                 WordsFont = new Font("Times New Roman", 12f),
                 WordsCount = 30
             };
+            SwitchElementsEnabled(false);
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -42,7 +41,7 @@ namespace Tag_Cloud_Generator
                 var openFileDialog = sender as OpenFileDialog;
                 if (openFileDialog == null)
                 {
-                    MessageBox.Show($"Something wrong");
+                    MessageBox.Show("Something wrong");
                     return;
                 }
                 var path = openFileDialog.FileName;
@@ -50,7 +49,7 @@ namespace Tag_Cloud_Generator
             }
             catch
             {
-                MessageBox.Show($"Can not read file");
+                MessageBox.Show("Can not read file");
             }
         }
 
@@ -66,14 +65,22 @@ namespace Tag_Cloud_Generator
             cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
             asyncCloudCreator.RunWorkerAsync();
         }
-        
+
+        private void SwitchElementsEnabled(bool enabled)
+        {
+            saveAsToolStripMenuItem.Enabled = enabled;
+            tabControl1.Enabled = enabled;
+            editToolStripMenuItem.Enabled = enabled;
+        }
+
         private void asyncCloudCreator_DoWork(object sender, DoWorkEventArgs e)
         {
             Invoke((MethodInvoker) delegate
             {
                 createCloudButton.Enabled = false;
+                programStatus.Text = "Creating";
             });
-            Bitmap image = null;
+            Bitmap image;
             try
             {
                 image = imageGenerator.CreateImage(cloudGenerator, dataProvider.WordsFont,
@@ -81,17 +88,25 @@ namespace Tag_Cloud_Generator
             }
             catch (Exception exception)
             {
-                if (exception.Message.Contains("no words"))
-                    MessageBox.Show("There are no words to build cloud");
-            }
-            finally
-            {
-                Invoke((MethodInvoker) delegate
+                if (!exception.Message.Contains("no words")) return;
+                MessageBox.Show("There are no words to build cloud");
+                Invoke((MethodInvoker)delegate
                 {
                     createCloudButton.Enabled = true;
-                    pictureBox1.Image = image;
+                    cloudCreateProgress.Value = 0;
+                    programStatus.Text = "Error";
+                    saveAsToolStripMenuItem.Enabled = false;
                 });
+                return;
             }
+            Invoke((MethodInvoker) delegate
+            {
+                createCloudButton.Enabled = true;
+                pictureBox1.Image = image;
+                programStatus.Text = "Done";
+                cloudCreateProgress.Value = 0;
+                saveAsToolStripMenuItem.Enabled = true;
+            });
         }
 
         private void inputTextBox_DragDrop(object sender, DragEventArgs e)
@@ -114,11 +129,14 @@ namespace Tag_Cloud_Generator
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var newFIleDialog = new NewFileForm();
-            if (newFIleDialog.ShowDialog(this) != DialogResult.OK) return;
-            var width = newFIleDialog.Width;
-            var height = newFIleDialog.Height;
+            var newFileDialog = new NewFileForm();
+            if (newFileDialog.ShowDialog(this) != DialogResult.OK) return;
+            programStatus.Text = "Input text to create";
+            var width = newFileDialog.Width;
+            var height = newFileDialog.Height;
             dataProvider.ImageSize = new Size(width, height);
+            SwitchElementsEnabled(true);
+            inputTextBox.Clear();
         }
 
         private void fontToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,12 +165,24 @@ namespace Tag_Cloud_Generator
         {
             if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
             dataProvider.WordsColors = colorsForm.Colors;
-
         }
 
         private void wordsCountBar_Scroll(object sender, EventArgs e)
         {
             dataProvider.WordsCount = ((TrackBar)sender).Value;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            programStatus.Text = string.IsNullOrEmpty(inputTextBox.Text) ? "Input text to create" : "Ready to create";
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var date = DateTime.Now;
+            saveFileDialog1.FileName = $"cloud[{date.Day}_{date.Month}_{date.Year}][{date.Hour}_{date.Minute}_{date.Second}]";
+            if (saveFileDialog1.ShowDialog(this) != DialogResult.OK) return;
+            pictureBox1.Image.Save(saveFileDialog1.FileName);
         }
     }
 }
