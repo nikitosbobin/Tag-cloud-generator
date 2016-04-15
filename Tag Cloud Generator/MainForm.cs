@@ -16,8 +16,8 @@ namespace Tag_Cloud_Generator
         private readonly ITextHandler textHandler;
         private ICloudImageGenerator imageGenerator;
         private ICloudGenerator cloudGenerator;
-        private WordsColorsForm colorsForm;
-        private FormDataProvider dataProvider;
+        private readonly WordsColorsForm colorsForm;
+        private readonly FormDataProvider dataProvider;
         public MainForm()
         {
             InitializeComponent();
@@ -109,24 +109,6 @@ namespace Tag_Cloud_Generator
             });
         }
 
-        private void inputTextBox_DragDrop(object sender, DragEventArgs e)
-        {
-            /*var path = ((string[]) e.Data.GetData(DataFormats.FileDrop, false)).First();
-            try
-            {
-                inputTextBox.Lines = File.ReadAllLines(path);
-            }
-            catch
-            {
-                MessageBox.Show("Can not read file");
-            }*/
-        }
-
-        private void inputTextBox_DragEnter(object sender, DragEventArgs e)
-        {
-            //e.Effect = DragDropEffects.Move;
-        }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var newFileDialog = new NewFileForm();
@@ -202,6 +184,12 @@ namespace Tag_Cloud_Generator
         private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
+        }
+
+        private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                inputTextBox.SelectAll();
         }
     }
 }
