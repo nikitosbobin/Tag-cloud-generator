@@ -28,12 +28,22 @@ namespace Tag_Cloud_Generator.Classes
         private readonly ITextDecoder decoder;
         private readonly Random rnd;
 
+        private void SmoothFrequences()
+        {
+            var count = Words.Length;
+            Words = Words.OrderByDescending(u => u.Frequency).ToArray();
+            for (var i = 0; i < count; ++i)
+                Words[i].Frequency = count - i;
+        }
+
         public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount)
         {
             Words = TextHandler.GetWords(decoder, graphics, wordsFont)
                 .OrderByDescending(u => u.Frequency)
+                .ThenByDescending(w => w.Source.Length)
                 .ToArray();
             Words = Words.Take((int) (Words.Length*wordsCount/(double) 100)).ToArray();
+            //SmoothFrequences();
             if (Words.Length == 0)
                 throw new Exception("There are no words to build cloud");
             Words[0].FontSize = ImageGenerator.ImageSize.Height * WordScale;

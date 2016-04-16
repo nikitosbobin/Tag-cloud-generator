@@ -133,16 +133,6 @@ namespace Tag_Cloud_Generator
             dataProvider.BackGroundColor = backgroundColorDialog.Color;
         }
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Program easy. You needn't in help");
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Nikita Bobin");
-        }
-
         private void colorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
@@ -190,6 +180,16 @@ namespace Tag_Cloud_Generator
         {
             if (e.Control && e.KeyCode == Keys.A)
                 inputTextBox.SelectAll();
+        }
+
+        private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Program easy. You needn't in help");
+        }
+
+        private void authorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Nikita Bobin");
         }
     }
 }
