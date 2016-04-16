@@ -17,14 +17,22 @@ namespace Tag_Cloud_Generator
         {
             InitializeComponent();
             LoadTemplates();
-            data = new FormDataProvider();
+            backgroundColor.Image = GetImage(Color.White);
+            data = new FormDataProvider
+            {
+                WordsColors = null,
+                BackGroundColor = Color.White,
+                WordsFont = new Font("Times New Roman", 12f),
+                WordsCount = 30
+            };
             decoder = new TxtDecoder();
+            colorsForm = new WordsColorsForm();
         }
 
         
-        private FormDataProvider data;
+        private readonly FormDataProvider data;
         private readonly ITextDecoder decoder;
-
+        private readonly WordsColorsForm colorsForm;
         private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
         {
             {"SD (720x576)", new Size(720, 576)},
@@ -47,17 +55,32 @@ namespace Tag_Cloud_Generator
 
         private void fontButton_Click(object sender, EventArgs e)
         {
-
+            if (wordsFontDialog.ShowDialog(this) != DialogResult.OK) return;
+            data.WordsFont = wordsFontDialog.Font;
+            fontStringLabel.Text = data.WordsFont.Name;
         }
 
         private void backgroundColorButton_Click(object sender, EventArgs e)
         {
+            if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
+            data.BackGroundColor = backgroundColorDialog.Color;
+            backgroundColor.Image = GetImage(data.BackGroundColor);
+        }
 
+        private Bitmap GetImage(Color color)
+        {
+            var image = new Bitmap(80, 30);
+            var graphics = Graphics.FromImage(image);
+            graphics.Clear(color);
+            graphics.Dispose();
+            return image;
         }
 
         private void wordsColorsButton_Click(object sender, EventArgs e)
         {
-
+            if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
+            data.WordsColors = colorsForm.Colors;
+            colorsCountLabel.Text = data.WordsColors.Count.ToString();
         }
 
         private void generateCloudButton_Click(object sender, EventArgs e)

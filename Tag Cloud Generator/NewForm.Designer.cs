@@ -64,6 +64,7 @@
             this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
             this.backgroundCloudCreator = new System.ComponentModel.BackgroundWorker();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
+            this.colorsCountLabel = new System.Windows.Forms.Label();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
@@ -118,6 +119,8 @@
             // 
             // cloudGeneratingGroup
             // 
+            this.cloudGeneratingGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudGeneratingGroup.Controls.Add(this.colorsCountLabel);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsButton);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsLabel);
             this.cloudGeneratingGroup.Controls.Add(this.backgroundColor);
@@ -162,6 +165,7 @@
             this.backgroundColor.Location = new System.Drawing.Point(77, 141);
             this.backgroundColor.Name = "backgroundColor";
             this.backgroundColor.Size = new System.Drawing.Size(71, 22);
+            this.backgroundColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.backgroundColor.TabIndex = 9;
             this.backgroundColor.TabStop = false;
             // 
@@ -234,19 +238,27 @@
             // firstWordScaleBar
             // 
             this.firstWordScaleBar.Location = new System.Drawing.Point(144, 56);
+            this.firstWordScaleBar.Maximum = 100;
+            this.firstWordScaleBar.Minimum = 10;
             this.firstWordScaleBar.Name = "firstWordScaleBar";
             this.firstWordScaleBar.Size = new System.Drawing.Size(129, 45);
             this.firstWordScaleBar.TabIndex = 1;
+            this.firstWordScaleBar.TickFrequency = 10;
+            this.firstWordScaleBar.Value = 40;
             // 
             // wordsAmountBar
             // 
             this.wordsAmountBar.Location = new System.Drawing.Point(6, 56);
+            this.wordsAmountBar.Maximum = 100;
             this.wordsAmountBar.Name = "wordsAmountBar";
             this.wordsAmountBar.Size = new System.Drawing.Size(132, 45);
             this.wordsAmountBar.TabIndex = 0;
+            this.wordsAmountBar.TickFrequency = 10;
+            this.wordsAmountBar.Value = 50;
             // 
             // imageSizeGroup
             // 
+            this.imageSizeGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imageSizeGroup.Controls.Add(this.templateLabel);
             this.imageSizeGroup.Controls.Add(this.templateSelector);
             this.imageSizeGroup.Controls.Add(this.imageHeight);
@@ -348,6 +360,10 @@
             // 
             // cloudImageBox
             // 
+            this.cloudImageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cloudImageBox.Location = new System.Drawing.Point(12, 80);
             this.cloudImageBox.Name = "cloudImageBox";
             this.cloudImageBox.Size = new System.Drawing.Size(299, 283);
@@ -356,6 +372,7 @@
             // 
             // saveImageButton
             // 
+            this.saveImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveImageButton.Enabled = false;
             this.saveImageButton.Location = new System.Drawing.Point(537, 378);
             this.saveImageButton.Name = "saveImageButton";
@@ -367,6 +384,7 @@
             // 
             // generateCloudButton
             // 
+            this.generateCloudButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.generateCloudButton.Enabled = false;
             this.generateCloudButton.Location = new System.Drawing.Point(456, 378);
             this.generateCloudButton.Name = "generateCloudButton";
@@ -378,6 +396,8 @@
             // 
             // cloudCreatingProgress
             // 
+            this.cloudCreatingProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudCreatingProgress.Location = new System.Drawing.Point(12, 378);
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
             this.cloudCreatingProgress.Size = new System.Drawing.Size(438, 23);
@@ -403,6 +423,15 @@
             // backgroundColorDialog
             // 
             this.backgroundColorDialog.Color = System.Drawing.Color.White;
+            // 
+            // colorsCountLabel
+            // 
+            this.colorsCountLabel.AutoSize = true;
+            this.colorsCountLabel.Location = new System.Drawing.Point(81, 181);
+            this.colorsCountLabel.Name = "colorsCountLabel";
+            this.colorsCountLabel.Size = new System.Drawing.Size(13, 13);
+            this.colorsCountLabel.TabIndex = 8;
+            this.colorsCountLabel.Text = "0";
             // 
             // NewForm
             // 
@@ -480,5 +509,6 @@
         private System.ComponentModel.BackgroundWorker backgroundCloudCreator;
         private System.Windows.Forms.SaveFileDialog saveImageDialog;
         private System.Windows.Forms.TextBox loadedFilePath;
+        private System.Windows.Forms.Label colorsCountLabel;
     }
 }
