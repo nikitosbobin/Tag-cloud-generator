@@ -28,352 +28,415 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.textLoadGroup = new System.Windows.Forms.GroupBox();
+            this.loadedFilePath = new System.Windows.Forms.TextBox();
+            this.fileLabel = new System.Windows.Forms.Label();
+            this.browseFileButton = new System.Windows.Forms.Button();
+            this.cloudGeneratingGroup = new System.Windows.Forms.GroupBox();
+            this.wordsColorsButton = new System.Windows.Forms.Button();
+            this.wordsColorsLabel = new System.Windows.Forms.Label();
+            this.backgroundColor = new System.Windows.Forms.PictureBox();
+            this.backgroundColorButton = new System.Windows.Forms.Button();
+            this.backgroundLabel = new System.Windows.Forms.Label();
+            this.fontStringLabel = new System.Windows.Forms.Label();
+            this.fontLabel = new System.Windows.Forms.Label();
+            this.fontButton = new System.Windows.Forms.Button();
+            this.firstWordScaleLabel = new System.Windows.Forms.Label();
+            this.wordsAmountLabel = new System.Windows.Forms.Label();
+            this.firstWordScaleBar = new System.Windows.Forms.TrackBar();
+            this.wordsAmountBar = new System.Windows.Forms.TrackBar();
+            this.imageSizeGroup = new System.Windows.Forms.GroupBox();
+            this.templateLabel = new System.Windows.Forms.Label();
+            this.templateSelector = new System.Windows.Forms.ComboBox();
+            this.imageHeight = new System.Windows.Forms.NumericUpDown();
+            this.imageWidth = new System.Windows.Forms.NumericUpDown();
+            this.heightLabel = new System.Windows.Forms.Label();
+            this.widthLabel = new System.Windows.Forms.Label();
+            this.loadTextDialog = new System.Windows.Forms.OpenFileDialog();
+            this.cloudImageBox = new System.Windows.Forms.PictureBox();
+            this.saveImageButton = new System.Windows.Forms.Button();
+            this.generateCloudButton = new System.Windows.Forms.Button();
+            this.cloudCreatingProgress = new System.Windows.Forms.ProgressBar();
+            this.programStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.programStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.wordsColorDialog = new System.Windows.Forms.ColorDialog();
+            this.wordsFontDialog = new System.Windows.Forms.FontDialog();
+            this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
+            this.backgroundCloudCreator = new System.ComponentModel.BackgroundWorker();
+            this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
+            this.textLoadGroup.SuspendLayout();
+            this.cloudGeneratingGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstWordScaleBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wordsAmountBar)).BeginInit();
+            this.imageSizeGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).BeginInit();
+            this.programStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // textLoadGroup
             // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(299, 62);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Выбор текста";
+            this.textLoadGroup.Controls.Add(this.loadedFilePath);
+            this.textLoadGroup.Controls.Add(this.fileLabel);
+            this.textLoadGroup.Controls.Add(this.browseFileButton);
+            this.textLoadGroup.Location = new System.Drawing.Point(12, 12);
+            this.textLoadGroup.Name = "textLoadGroup";
+            this.textLoadGroup.Size = new System.Drawing.Size(299, 62);
+            this.textLoadGroup.TabIndex = 0;
+            this.textLoadGroup.TabStop = false;
+            this.textLoadGroup.Text = "Text load";
             // 
-            // label1
+            // loadedFilePath
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(6, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Файл: не выбран...";
+            this.loadedFilePath.Location = new System.Drawing.Point(42, 25);
+            this.loadedFilePath.Name = "loadedFilePath";
+            this.loadedFilePath.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.loadedFilePath.Size = new System.Drawing.Size(170, 20);
+            this.loadedFilePath.TabIndex = 2;
             // 
-            // button1
+            // fileLabel
             // 
-            this.button1.Location = new System.Drawing.Point(218, 16);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Обзор";
-            this.button1.UseVisualStyleBackColor = true;
+            this.fileLabel.AutoSize = true;
+            this.fileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.fileLabel.Location = new System.Drawing.Point(6, 27);
+            this.fileLabel.Name = "fileLabel";
+            this.fileLabel.Size = new System.Drawing.Size(30, 15);
+            this.fileLabel.TabIndex = 1;
+            this.fileLabel.Text = "File:";
             // 
-            // groupBox2
+            // browseFileButton
             // 
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.pictureBox2);
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.trackBar2);
-            this.groupBox2.Controls.Add(this.trackBar1);
-            this.groupBox2.Location = new System.Drawing.Point(327, 117);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(285, 246);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Генерация облака тегов";
+            this.browseFileButton.Location = new System.Drawing.Point(218, 24);
+            this.browseFileButton.Name = "browseFileButton";
+            this.browseFileButton.Size = new System.Drawing.Size(75, 23);
+            this.browseFileButton.TabIndex = 0;
+            this.browseFileButton.Text = "Browse...";
+            this.browseFileButton.UseVisualStyleBackColor = true;
+            this.browseFileButton.Click += new System.EventHandler(this.browseFileButton_Click);
             // 
-            // groupBox3
+            // cloudGeneratingGroup
             // 
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.comboBox1);
-            this.groupBox3.Controls.Add(this.numericUpDown2);
-            this.groupBox3.Controls.Add(this.numericUpDown1);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Location = new System.Drawing.Point(327, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(285, 99);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Разрешение облака тегов";
+            this.cloudGeneratingGroup.Controls.Add(this.wordsColorsButton);
+            this.cloudGeneratingGroup.Controls.Add(this.wordsColorsLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.backgroundColor);
+            this.cloudGeneratingGroup.Controls.Add(this.backgroundColorButton);
+            this.cloudGeneratingGroup.Controls.Add(this.backgroundLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.fontStringLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.fontLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.fontButton);
+            this.cloudGeneratingGroup.Controls.Add(this.firstWordScaleLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.wordsAmountLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.firstWordScaleBar);
+            this.cloudGeneratingGroup.Controls.Add(this.wordsAmountBar);
+            this.cloudGeneratingGroup.Enabled = false;
+            this.cloudGeneratingGroup.Location = new System.Drawing.Point(327, 117);
+            this.cloudGeneratingGroup.Name = "cloudGeneratingGroup";
+            this.cloudGeneratingGroup.Size = new System.Drawing.Size(285, 246);
+            this.cloudGeneratingGroup.TabIndex = 1;
+            this.cloudGeneratingGroup.TabStop = false;
+            this.cloudGeneratingGroup.Text = "Cloud generating";
             // 
-            // label4
+            // wordsColorsButton
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Шаблон: ";
+            this.wordsColorsButton.Location = new System.Drawing.Point(191, 176);
+            this.wordsColorsButton.Name = "wordsColorsButton";
+            this.wordsColorsButton.Size = new System.Drawing.Size(75, 23);
+            this.wordsColorsButton.TabIndex = 11;
+            this.wordsColorsButton.Text = "Change";
+            this.wordsColorsButton.UseVisualStyleBackColor = true;
+            this.wordsColorsButton.Click += new System.EventHandler(this.wordsColorsButton_Click);
             // 
-            // comboBox1
+            // wordsColorsLabel
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(64, 24);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(215, 21);
-            this.comboBox1.TabIndex = 4;
+            this.wordsColorsLabel.AutoSize = true;
+            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 181);
+            this.wordsColorsLabel.Name = "wordsColorsLabel";
+            this.wordsColorsLabel.Size = new System.Drawing.Size(72, 13);
+            this.wordsColorsLabel.TabIndex = 10;
+            this.wordsColorsLabel.Text = "Words colors:";
             // 
-            // numericUpDown2
+            // backgroundColor
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(206, 59);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(65, 20);
-            this.numericUpDown2.TabIndex = 3;
+            this.backgroundColor.Location = new System.Drawing.Point(77, 141);
+            this.backgroundColor.Name = "backgroundColor";
+            this.backgroundColor.Size = new System.Drawing.Size(71, 22);
+            this.backgroundColor.TabIndex = 9;
+            this.backgroundColor.TabStop = false;
             // 
-            // numericUpDown1
+            // backgroundColorButton
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(64, 59);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(65, 20);
-            this.numericUpDown1.TabIndex = 2;
+            this.backgroundColorButton.Location = new System.Drawing.Point(191, 140);
+            this.backgroundColorButton.Name = "backgroundColorButton";
+            this.backgroundColorButton.Size = new System.Drawing.Size(75, 23);
+            this.backgroundColorButton.TabIndex = 8;
+            this.backgroundColorButton.Text = "Change";
+            this.backgroundColorButton.UseVisualStyleBackColor = true;
+            this.backgroundColorButton.Click += new System.EventHandler(this.backgroundColorButton_Click);
             // 
-            // label3
+            // backgroundLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(149, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Высота: ";
+            this.backgroundLabel.AutoSize = true;
+            this.backgroundLabel.Location = new System.Drawing.Point(3, 145);
+            this.backgroundLabel.Name = "backgroundLabel";
+            this.backgroundLabel.Size = new System.Drawing.Size(68, 13);
+            this.backgroundLabel.TabIndex = 7;
+            this.backgroundLabel.Text = "Background:";
             // 
-            // label2
+            // fontStringLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 61);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Ширина: ";
+            this.fontStringLabel.AutoSize = true;
+            this.fontStringLabel.Location = new System.Drawing.Point(48, 110);
+            this.fontStringLabel.Name = "fontStringLabel";
+            this.fontStringLabel.Size = new System.Drawing.Size(97, 13);
+            this.fontStringLabel.TabIndex = 6;
+            this.fontStringLabel.Text = "Times New Roman";
             // 
-            // openFileDialog1
+            // fontLabel
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.fontLabel.AutoSize = true;
+            this.fontLabel.Location = new System.Drawing.Point(3, 110);
+            this.fontLabel.Name = "fontLabel";
+            this.fontLabel.Size = new System.Drawing.Size(34, 13);
+            this.fontLabel.TabIndex = 5;
+            this.fontLabel.Text = "Font: ";
             // 
-            // statusStrip1
+            // fontButton
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 419);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(624, 22);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
+            this.fontButton.Location = new System.Drawing.Point(191, 105);
+            this.fontButton.Name = "fontButton";
+            this.fontButton.Size = new System.Drawing.Size(75, 23);
+            this.fontButton.TabIndex = 4;
+            this.fontButton.Text = "Change";
+            this.fontButton.UseVisualStyleBackColor = true;
+            this.fontButton.Click += new System.EventHandler(this.fontButton_Click);
             // 
-            // pictureBox1
+            // firstWordScaleLabel
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 80);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(299, 283);
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
+            this.firstWordScaleLabel.AutoSize = true;
+            this.firstWordScaleLabel.Location = new System.Drawing.Point(169, 27);
+            this.firstWordScaleLabel.MaximumSize = new System.Drawing.Size(135, 50);
+            this.firstWordScaleLabel.Name = "firstWordScaleLabel";
+            this.firstWordScaleLabel.Size = new System.Drawing.Size(80, 13);
+            this.firstWordScaleLabel.TabIndex = 3;
+            this.firstWordScaleLabel.Text = "First word scale";
             // 
-            // button2
+            // wordsAmountLabel
             // 
-            this.button2.Location = new System.Drawing.Point(537, 378);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Сохранить";
-            this.button2.UseVisualStyleBackColor = true;
+            this.wordsAmountLabel.AutoSize = true;
+            this.wordsAmountLabel.Location = new System.Drawing.Point(34, 29);
+            this.wordsAmountLabel.Name = "wordsAmountLabel";
+            this.wordsAmountLabel.Size = new System.Drawing.Size(76, 13);
+            this.wordsAmountLabel.TabIndex = 2;
+            this.wordsAmountLabel.Text = "Words amount";
             // 
-            // button3
+            // firstWordScaleBar
             // 
-            this.button3.Location = new System.Drawing.Point(456, 378);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Создать";
-            this.button3.UseVisualStyleBackColor = true;
+            this.firstWordScaleBar.Location = new System.Drawing.Point(144, 56);
+            this.firstWordScaleBar.Name = "firstWordScaleBar";
+            this.firstWordScaleBar.Size = new System.Drawing.Size(129, 45);
+            this.firstWordScaleBar.TabIndex = 1;
             // 
-            // trackBar1
+            // wordsAmountBar
             // 
-            this.trackBar1.Location = new System.Drawing.Point(6, 56);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(132, 45);
-            this.trackBar1.TabIndex = 0;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.wordsAmountBar.Location = new System.Drawing.Point(6, 56);
+            this.wordsAmountBar.Name = "wordsAmountBar";
+            this.wordsAmountBar.Size = new System.Drawing.Size(132, 45);
+            this.wordsAmountBar.TabIndex = 0;
             // 
-            // trackBar2
+            // imageSizeGroup
             // 
-            this.trackBar2.Location = new System.Drawing.Point(144, 56);
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(129, 45);
-            this.trackBar2.TabIndex = 1;
+            this.imageSizeGroup.Controls.Add(this.templateLabel);
+            this.imageSizeGroup.Controls.Add(this.templateSelector);
+            this.imageSizeGroup.Controls.Add(this.imageHeight);
+            this.imageSizeGroup.Controls.Add(this.imageWidth);
+            this.imageSizeGroup.Controls.Add(this.heightLabel);
+            this.imageSizeGroup.Controls.Add(this.widthLabel);
+            this.imageSizeGroup.Enabled = false;
+            this.imageSizeGroup.Location = new System.Drawing.Point(327, 12);
+            this.imageSizeGroup.Name = "imageSizeGroup";
+            this.imageSizeGroup.Size = new System.Drawing.Size(285, 99);
+            this.imageSizeGroup.TabIndex = 2;
+            this.imageSizeGroup.TabStop = false;
+            this.imageSizeGroup.Text = "Tag cloud size";
             // 
-            // label5
+            // templateLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 29);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Количество слов";
+            this.templateLabel.AutoSize = true;
+            this.templateLabel.Location = new System.Drawing.Point(3, 29);
+            this.templateLabel.Name = "templateLabel";
+            this.templateLabel.Size = new System.Drawing.Size(57, 13);
+            this.templateLabel.TabIndex = 5;
+            this.templateLabel.Text = "Template: ";
             // 
-            // label6
+            // templateSelector
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(144, 27);
-            this.label6.MaximumSize = new System.Drawing.Size(135, 50);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(130, 13);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Масштаб первого слова";
+            this.templateSelector.FormattingEnabled = true;
+            this.templateSelector.Location = new System.Drawing.Point(64, 24);
+            this.templateSelector.Name = "templateSelector";
+            this.templateSelector.Size = new System.Drawing.Size(215, 21);
+            this.templateSelector.TabIndex = 4;
+            this.templateSelector.SelectedIndexChanged += new System.EventHandler(this.templateSelector_SelectedIndexChanged);
             // 
-            // button4
+            // imageHeight
             // 
-            this.button4.Location = new System.Drawing.Point(171, 105);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Изменить";
-            this.button4.UseVisualStyleBackColor = true;
+            this.imageHeight.Location = new System.Drawing.Point(206, 59);
+            this.imageHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.imageHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.imageHeight.Name = "imageHeight";
+            this.imageHeight.Size = new System.Drawing.Size(65, 20);
+            this.imageHeight.TabIndex = 3;
+            this.imageHeight.Value = new decimal(new int[] {
+            576,
+            0,
+            0,
+            0});
             // 
-            // label7
+            // imageWidth
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 110);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(47, 13);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "Шрифт: ";
+            this.imageWidth.Location = new System.Drawing.Point(64, 59);
+            this.imageWidth.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.imageWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.imageWidth.Name = "imageWidth";
+            this.imageWidth.Size = new System.Drawing.Size(65, 20);
+            this.imageWidth.TabIndex = 2;
+            this.imageWidth.Value = new decimal(new int[] {
+            720,
+            0,
+            0,
+            0});
             // 
-            // label8
+            // heightLabel
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(48, 110);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(97, 13);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "Times New Roman";
+            this.heightLabel.AutoSize = true;
+            this.heightLabel.Location = new System.Drawing.Point(160, 61);
+            this.heightLabel.Name = "heightLabel";
+            this.heightLabel.Size = new System.Drawing.Size(44, 13);
+            this.heightLabel.TabIndex = 1;
+            this.heightLabel.Text = "Height: ";
             // 
-            // label9
+            // widthLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 145);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(64, 13);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "Цвет фона:";
+            this.widthLabel.AutoSize = true;
+            this.widthLabel.Location = new System.Drawing.Point(17, 61);
+            this.widthLabel.Name = "widthLabel";
+            this.widthLabel.Size = new System.Drawing.Size(41, 13);
+            this.widthLabel.TabIndex = 0;
+            this.widthLabel.Text = "Width: ";
             // 
-            // button5
+            // loadTextDialog
             // 
-            this.button5.Location = new System.Drawing.Point(171, 140);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Изменить";
-            this.button5.UseVisualStyleBackColor = true;
+            this.loadTextDialog.FileName = "loadTextDialog";
+            this.loadTextDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.loadTextDialog_FileOk);
             // 
-            // pictureBox2
+            // cloudImageBox
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(74, 140);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(71, 22);
-            this.pictureBox2.TabIndex = 9;
-            this.pictureBox2.TabStop = false;
+            this.cloudImageBox.Location = new System.Drawing.Point(12, 80);
+            this.cloudImageBox.Name = "cloudImageBox";
+            this.cloudImageBox.Size = new System.Drawing.Size(299, 283);
+            this.cloudImageBox.TabIndex = 4;
+            this.cloudImageBox.TabStop = false;
             // 
-            // label10
+            // saveImageButton
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 181);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 13);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "Цвета слов:";
+            this.saveImageButton.Enabled = false;
+            this.saveImageButton.Location = new System.Drawing.Point(537, 378);
+            this.saveImageButton.Name = "saveImageButton";
+            this.saveImageButton.Size = new System.Drawing.Size(75, 23);
+            this.saveImageButton.TabIndex = 5;
+            this.saveImageButton.Text = "Save as";
+            this.saveImageButton.UseVisualStyleBackColor = true;
+            this.saveImageButton.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
-            // button6
+            // generateCloudButton
             // 
-            this.button6.Location = new System.Drawing.Point(171, 176);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 11;
-            this.button6.Text = "Изменить";
-            this.button6.UseVisualStyleBackColor = true;
+            this.generateCloudButton.Enabled = false;
+            this.generateCloudButton.Location = new System.Drawing.Point(456, 378);
+            this.generateCloudButton.Name = "generateCloudButton";
+            this.generateCloudButton.Size = new System.Drawing.Size(75, 23);
+            this.generateCloudButton.TabIndex = 6;
+            this.generateCloudButton.Text = "Generate";
+            this.generateCloudButton.UseVisualStyleBackColor = true;
+            this.generateCloudButton.Click += new System.EventHandler(this.generateCloudButton_Click);
             // 
-            // progressBar1
+            // cloudCreatingProgress
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 378);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(438, 23);
-            this.progressBar1.TabIndex = 7;
+            this.cloudCreatingProgress.Location = new System.Drawing.Point(12, 378);
+            this.cloudCreatingProgress.Name = "cloudCreatingProgress";
+            this.cloudCreatingProgress.Size = new System.Drawing.Size(438, 23);
+            this.cloudCreatingProgress.TabIndex = 7;
             // 
-            // toolStripStatusLabel1
+            // programStatus
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.programStatus.Name = "programStatus";
+            this.programStatus.Size = new System.Drawing.Size(76, 17);
+            this.programStatus.Text = "Text not load";
+            // 
+            // programStatusStrip
+            // 
+            this.programStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.programStatus});
+            this.programStatusStrip.Location = new System.Drawing.Point(0, 419);
+            this.programStatusStrip.Name = "programStatusStrip";
+            this.programStatusStrip.Size = new System.Drawing.Size(624, 22);
+            this.programStatusStrip.SizingGrip = false;
+            this.programStatusStrip.TabIndex = 3;
+            this.programStatusStrip.Text = "statusStrip1";
+            // 
+            // backgroundColorDialog
+            // 
+            this.backgroundColorDialog.Color = System.Drawing.Color.White;
             // 
             // NewForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 441);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.cloudCreatingProgress);
+            this.Controls.Add(this.generateCloudButton);
+            this.Controls.Add(this.saveImageButton);
+            this.Controls.Add(this.cloudImageBox);
+            this.Controls.Add(this.programStatusStrip);
+            this.Controls.Add(this.imageSizeGroup);
+            this.Controls.Add(this.cloudGeneratingGroup);
+            this.Controls.Add(this.textLoadGroup);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "NewForm";
-            this.Text = "Генератор тегов";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.Text = "Tag cloud generator";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NewForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.NewForm_DragEnter);
+            this.textLoadGroup.ResumeLayout(false);
+            this.textLoadGroup.PerformLayout();
+            this.cloudGeneratingGroup.ResumeLayout(false);
+            this.cloudGeneratingGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstWordScaleBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wordsAmountBar)).EndInit();
+            this.imageSizeGroup.ResumeLayout(false);
+            this.imageSizeGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).EndInit();
+            this.programStatusStrip.ResumeLayout(false);
+            this.programStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,35 +444,41 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.GroupBox textLoadGroup;
+        private System.Windows.Forms.GroupBox cloudGeneratingGroup;
+        private System.Windows.Forms.GroupBox imageSizeGroup;
+        private System.Windows.Forms.Label fileLabel;
+        private System.Windows.Forms.Button browseFileButton;
+        private System.Windows.Forms.NumericUpDown imageHeight;
+        private System.Windows.Forms.NumericUpDown imageWidth;
+        private System.Windows.Forms.Label heightLabel;
+        private System.Windows.Forms.Label widthLabel;
+        private System.Windows.Forms.OpenFileDialog loadTextDialog;
+        private System.Windows.Forms.Label templateLabel;
+        private System.Windows.Forms.ComboBox templateSelector;
+        private System.Windows.Forms.PictureBox cloudImageBox;
+        private System.Windows.Forms.Button saveImageButton;
+        private System.Windows.Forms.Button generateCloudButton;
+        private System.Windows.Forms.Label firstWordScaleLabel;
+        private System.Windows.Forms.Label wordsAmountLabel;
+        private System.Windows.Forms.TrackBar firstWordScaleBar;
+        private System.Windows.Forms.TrackBar wordsAmountBar;
+        private System.Windows.Forms.PictureBox backgroundColor;
+        private System.Windows.Forms.Button backgroundColorButton;
+        private System.Windows.Forms.Label backgroundLabel;
+        private System.Windows.Forms.Label fontStringLabel;
+        private System.Windows.Forms.Label fontLabel;
+        private System.Windows.Forms.Button fontButton;
+        private System.Windows.Forms.Button wordsColorsButton;
+        private System.Windows.Forms.Label wordsColorsLabel;
+        private System.Windows.Forms.ProgressBar cloudCreatingProgress;
+        private System.Windows.Forms.ToolStripStatusLabel programStatus;
+        private System.Windows.Forms.StatusStrip programStatusStrip;
+        private System.Windows.Forms.ColorDialog wordsColorDialog;
+        private System.Windows.Forms.FontDialog wordsFontDialog;
+        private System.Windows.Forms.ColorDialog backgroundColorDialog;
+        private System.ComponentModel.BackgroundWorker backgroundCloudCreator;
+        private System.Windows.Forms.SaveFileDialog saveImageDialog;
+        private System.Windows.Forms.TextBox loadedFilePath;
     }
 }

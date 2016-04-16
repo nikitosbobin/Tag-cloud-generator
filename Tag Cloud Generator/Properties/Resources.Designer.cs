@@ -68,5 +68,23 @@ namespace Tag_Cloud_Generator.Properties {
                 return ResourceManager.GetString("MainForm_button2_Click_Loading_file", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ready to create.
+        /// </summary>
+        internal static string NewForm_LoadText_Ready_to_create {
+            get {
+                return ResourceManager.GetString("NewForm_LoadText_Ready_to_create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Can not read file.
+        /// </summary>
+        internal static string NewForm_NewForm_DragDrop_Can_not_read_file {
+            get {
+                return ResourceManager.GetString("NewForm_NewForm_DragDrop_Can_not_read_file", resourceCulture);
+            }
+        }
     }
 }

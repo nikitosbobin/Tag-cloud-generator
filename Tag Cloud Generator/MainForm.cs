@@ -191,5 +191,10 @@ namespace Tag_Cloud_Generator
         {
             MessageBox.Show("Nikita Bobin");
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
