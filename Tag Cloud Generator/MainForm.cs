@@ -1,201 +1,227 @@
-﻿using System;
+﻿using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Tag_Cloud_Generator.Classes;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
+using Tag_Cloud_Generator.Properties;
 
 namespace Tag_Cloud_Generator
 {
     public partial class MainForm : Form
     {
-        private readonly ITextDecoder decoder;
-        private readonly ITextHandler textHandler;
-        private ICloudImageGenerator imageGenerator;
-        private ICloudGenerator cloudGenerator;
-        private readonly WordsColorsForm colorsForm;
-        private readonly FormDataProvider dataProvider;
         public MainForm()
         {
             InitializeComponent();
-            textHandler = new SimpleTextHandler();
-            decoder = new TxtDecoder();
-            colorsForm = new WordsColorsForm();
-            dataProvider = new FormDataProvider
+            LoadTemplates();
+            backgroundColor.Image = GetImage(Color.White);
+            data = new FormDataProvider
             {
                 WordsColors = null,
-                BackGroundColor = Color.Black,
-                WordsFont = new Font("Times New Roman", 12f),
+                BackGroundColor = Color.White,
+                WordsFont = new Font("Segoe UI", 12f),
                 WordsCount = 30
             };
-            SwitchElementsEnabled(false);
+            decoder = new TxtDecoder();
+            colorsForm = new WordsColorsForm();
+            textHandler = new SimpleTextHandler();
             imageGenerator = new ImageGenerator();
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            try
-            {
-                var openFileDialog = sender as OpenFileDialog;
-                if (openFileDialog == null)
-                {
-                    MessageBox.Show("Something wrong");
-                    return;
-                }
-                var path = openFileDialog.FileName;
-                inputTextBox.Lines = File.ReadAllLines(path);
-            }
-            catch
-            {
-                MessageBox.Show("Can not read file");
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.ShowDialog();
-        }
-
-        private void createCloudButton_Click(object sender, EventArgs e)
-        {
-            decoder.TextLines = inputTextBox.Lines;
-            imageGenerator.ImageSize = dataProvider.ImageSize;
+            cloudIsRelevant = false;
             cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, this);
-            asyncCloudCreator.RunWorkerAsync();
         }
 
-        private void SwitchElementsEnabled(bool enabled)
+        private bool cloudIsRelevant;
+        private readonly FormDataProvider data;
+        private readonly ITextDecoder decoder;
+        private readonly ITextHandler textHandler;
+        private readonly ICloudImageGenerator imageGenerator;
+        private ICloudGenerator cloudGenerator;
+        private readonly WordsColorsForm colorsForm;
+        private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
         {
-            saveAsToolStripMenuItem.Enabled = enabled;
-            tabControl1.Enabled = enabled;
-            editToolStripMenuItem.Enabled = enabled;
+            {"SD (720x576)", new Size(720, 576)},
+            {"HD (1280x720)", new Size(1280, 720)},
+            {"Full HD (1920x1080)", new Size(1920, 1080)},
+            {"2K (2048x1080)", new Size(2048, 1080)},
+            {"4K (3840x2160)", new Size(3840, 2160)}
+        };
+
+        private void LoadTemplates()
+        {
+            foreach (var template in templates)
+                templateSelector.Items.Add(template.Key);
         }
 
-        private void asyncCloudCreator_DoWork(object sender, DoWorkEventArgs e)
+        private void browseFileButton_Click(object sender, EventArgs e)
         {
-            Invoke((MethodInvoker) delegate
+            loadTextDialog.ShowDialog(this);
+        }
+
+        private void fontButton_Click(object sender, EventArgs e)
+        {
+            if (wordsFontDialog.ShowDialog(this) != DialogResult.OK) return;
+            data.WordsFont = wordsFontDialog.Font;
+            fontStringLabel.Text = data.WordsFont.Name;
+            cloudIsRelevant = false;
+        }
+
+        private void backgroundColorButton_Click(object sender, EventArgs e)
+        {
+            if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
+            data.BackGroundColor = backgroundColorDialog.Color;
+            backgroundColor.Image = GetImage(data.BackGroundColor);
+        }
+
+        public void SetProgress(int value)
+        {
+            cloudCreatingProgress.Value = value;
+            progressLabel.Text = $"{value}%";
+        }
+
+        private Bitmap GetImage(Color color)
+        {
+            var image = new Bitmap(80, 30);
+            var graphics = Graphics.FromImage(image);
+            graphics.Clear(color);
+            graphics.Dispose();
+            return image;
+        }
+
+        private void wordsColorsButton_Click(object sender, EventArgs e)
+        {
+            if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
+            data.WordsColors = colorsForm.Colors;
+            colorsCountLabel.Text = data.WordsColors.Count.ToString();
+        }
+
+        private void generateCloudButton_Click(object sender, EventArgs e)
+        {
+            saveImageButton.Enabled = false;
+            if (recreateCheckBox.Checked)
+                cloudIsRelevant = false;
+            backgroundCloudCreator.RunWorkerAsync();
+        }
+
+        private void saveImageButton_Click(object sender, EventArgs e)
+        {
+            var date = DateTime.Now;
+            saveImageDialog.FileName = $"cloud[{date.Day}_{date.Month}_{date.Year}][{date.Hour}_{date.Minute}_{date.Second}]";
+            saveImageDialog.ShowDialog(this);
+        }
+
+        private void loadTextDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            LoadText(loadTextDialog.FileName);
+        }
+
+        private void NewForm_DragDrop(object sender, DragEventArgs e)
+        {
+            var path = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).First();
+            try { LoadText(path); }
+            catch { MessageBox.Show(Resources.NewForm_NewForm_DragDrop_Can_not_read_file); }
+        }
+
+        private void LoadText(string path)
+        {
+            decoder.TextLines = File.ReadAllLines(path);
+            loadedFilePath.Text = path;
+            imageSizeGroup.Enabled = true;
+            cloudGeneratingGroup.Enabled = true;
+            generateCloudButton.Enabled = true;
+            programStatus.Text = Resources.NewForm_LoadText_Ready_to_create;
+            cloudIsRelevant = false;
+        }
+
+        private void NewForm_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void templateSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var size = templates[(string) templateSelector.SelectedItem];
+            imageWidth.Value = size.Width;
+            imageHeight.Value = size.Height;
+        }
+
+        private void cloudCreatingProgress_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void backgroundCloudCreator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Invoke((MethodInvoker)delegate
             {
-                createCloudButton.Enabled = false;
+                generateCloudButton.Enabled = false;
+                cloudGeneratingGroup.Enabled = false;
+                imageSizeGroup.Enabled = false;
+                textLoadGroup.Enabled = false;
                 programStatus.Text = "Creating";
             });
             Bitmap image;
             try
             {
-                image = imageGenerator.CreateImage(cloudGenerator, dataProvider.WordsFont,
-                    dataProvider.WordsCount, dataProvider.BackGroundColor, dataProvider.WordsColors);
+                if (cloudIsRelevant)
+                    image = imageGenerator.CreateImage(cloudGenerator, data.BackGroundColor, data.WordsColors);
+                else
+                {
+                    imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
+                    image = imageGenerator.CreateImage(cloudGenerator, data.WordsFont, data.WordsCount, data.BackGroundColor, data.WordsColors);
+                    cloudIsRelevant = true;
+                }
             }
             catch (Exception exception)
             {
-                if (!exception.Message.Contains("no words")) return;
-                MessageBox.Show("There are no words to build cloud");
-                Invoke((MethodInvoker)delegate
-                {
-                    createCloudButton.Enabled = true;
-                    cloudCreateProgress.Value = 0;
-                    programStatus.Text = "Error";
-                    saveAsToolStripMenuItem.Enabled = false;
-                });
+                MessageBox.Show(exception.Message.Contains("no words")
+                    ? "There are no words to build cloud"
+                    : exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                programStatus.Text = "Error";
+                generateCloudButton.Enabled = true;
+                cloudGeneratingGroup.Enabled = true;
+                imageSizeGroup.Enabled = true;
+                textLoadGroup.Enabled = true;
+                SetProgress(0);
                 return;
             }
-            Invoke((MethodInvoker) delegate
+            Invoke((MethodInvoker)delegate
             {
-                createCloudButton.Enabled = true;
-                pictureBox1.Image = image;
+                generateCloudButton.Enabled = true;
+                cloudGeneratingGroup.Enabled = true;
+                imageSizeGroup.Enabled = true;
+                textLoadGroup.Enabled = true;
+                cloudImageBox.Image = image;
                 programStatus.Text = "Done";
-                cloudCreateProgress.Value = 0;
-                saveAsToolStripMenuItem.Enabled = true;
+                SetProgress(0);
+                saveImageButton.Enabled = true;
             });
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void imageWidth_ValueChanged(object sender, EventArgs e)
         {
-            var newFileDialog = new NewFileForm();
-            if (newFileDialog.ShowDialog(this) != DialogResult.OK) return;
-            programStatus.Text = "Input text to create";
-            var width = newFileDialog.Width;
-            var height = newFileDialog.Height;
-            dataProvider.ImageSize = new Size(width, height);
-            SwitchElementsEnabled(true);
-            inputTextBox.Clear();
+            cloudIsRelevant = false;
         }
 
-        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        private void imageHeight_ValueChanged(object sender, EventArgs e)
         {
-            if (fontDialog1.ShowDialog(this) != DialogResult.OK) return;
-            dataProvider.WordsFont = fontDialog1.Font;
+            cloudIsRelevant = false;
         }
 
-        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        private void wordsAmountBar_Scroll(object sender, EventArgs e)
         {
-            if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
-            dataProvider.BackGroundColor = backgroundColorDialog.Color;
+            data.WordsCount = wordsAmountBar.Value;
+            cloudIsRelevant = false;
         }
 
-        private void colorsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveImageDialog_FileOk(object sender, CancelEventArgs e)
         {
-            if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
-            dataProvider.WordsColors = colorsForm.Colors;
-        }
-
-        private void wordsCountBar_Scroll(object sender, EventArgs e)
-        {
-            dataProvider.WordsCount = ((TrackBar)sender).Value;
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            programStatus.Text = string.IsNullOrEmpty(inputTextBox.Text) ? "Input text to create" : "Ready to create";
-        }
-
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var date = DateTime.Now;
-            saveFileDialog1.FileName = $"cloud[{date.Day}_{date.Month}_{date.Year}][{date.Hour}_{date.Minute}_{date.Second}]";
-            if (saveFileDialog1.ShowDialog(this) != DialogResult.OK) return;
-            pictureBox1.Image.Save(saveFileDialog1.FileName);
-        }
-        
-        private void MainForm_DragDrop(object sender, DragEventArgs e)
-        {
-            var path = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).First();
-            try
-            {
-                inputTextBox.Lines = File.ReadAllLines(path);
-                tabControl1.SelectedTab = tabControl1.TabPages[0];
-            }
-            catch
-            {
-                MessageBox.Show("Can not read file");
-            }
-        }
-
-        private void MainForm_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Move;
-        }
-
-        private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.A)
-                inputTextBox.SelectAll();
-        }
-
-        private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Program easy. You needn't in help");
-        }
-
-        private void authorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Nikita Bobin");
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
+            programStatus.Text = "Saving";
+            cloudImageBox.Image.Save(saveImageDialog.FileName);
+            programStatus.Text = "Done";
         }
     }
 }

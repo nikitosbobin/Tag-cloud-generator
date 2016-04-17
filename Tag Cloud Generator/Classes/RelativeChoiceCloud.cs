@@ -12,7 +12,7 @@ namespace Tag_Cloud_Generator.Classes
     {
         public RelativeChoiceCloud(ITextDecoder decoder, ITextHandler textHandler, Control context)
         {
-            this.context = (NewForm) context;
+            this.context = (MainForm) context;
             TextHandler = textHandler;
             this.decoder = decoder;
             frames = new List<Tuple<Rectangle, int>>();
@@ -20,7 +20,7 @@ namespace Tag_Cloud_Generator.Classes
             rnd = new Random(DateTime.Now.Millisecond);
         }
         
-        private readonly NewForm context;
+        private readonly MainForm context;
         private List<Tuple<Rectangle, int>> frames;
         private readonly ITextDecoder decoder;
         private readonly Random rnd;
