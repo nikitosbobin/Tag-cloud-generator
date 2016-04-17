@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.textLoadGroup = new System.Windows.Forms.GroupBox();
             this.loadedFilePath = new System.Windows.Forms.TextBox();
             this.fileLabel = new System.Windows.Forms.Label();
@@ -519,6 +520,7 @@
             this.Controls.Add(this.cloudGeneratingGroup);
             this.Controls.Add(this.textLoadGroup);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(744, 548);
             this.Name = "MainForm";
             this.Text = "Tag cloud generator";
