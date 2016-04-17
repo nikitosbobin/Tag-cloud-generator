@@ -157,7 +157,7 @@ namespace Tag_Cloud_Generator
             if (saveFileDialog1.ShowDialog(this) != DialogResult.OK) return;
             pictureBox1.Image.Save(saveFileDialog1.FileName);
         }
-
+        
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             var path = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).First();

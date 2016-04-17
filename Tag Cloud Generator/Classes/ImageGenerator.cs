@@ -73,16 +73,8 @@ namespace Tag_Cloud_Generator.Classes
             var better = words.First();
             var t = word.Frequency / (double)better.Frequency;
             if (t < 0.3) t = 0.3;
-            return ConvertToColor(0, (byte)(t * 255), 255);
-        }
-
-        private static Color ConvertToColor(byte r, byte g, byte b)
-        {
-            var rString = r.ToHtmlColor();
-            var gString = g.ToHtmlColor();
-            var bString = b.ToHtmlColor();
-            var totalHtmlColor = $"#{rString}{gString}{bString}";
-            return totalHtmlColor.ToColor();
+            var targetGradation = 256 - (int) (t*255);
+            return Color.FromArgb(targetGradation, targetGradation, targetGradation);
         }
 
         private void SetGraphics(Graphics graphics, Color backgroundColor)

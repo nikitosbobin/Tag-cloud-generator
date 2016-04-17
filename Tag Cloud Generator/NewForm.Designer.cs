@@ -65,6 +65,8 @@
             this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
             this.backgroundCloudCreator = new System.ComponentModel.BackgroundWorker();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
+            this.progressLabel = new System.Windows.Forms.Label();
+            this.recreateCheckBox = new System.Windows.Forms.CheckBox();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
@@ -84,9 +86,10 @@
             this.textLoadGroup.Controls.Add(this.loadedFilePath);
             this.textLoadGroup.Controls.Add(this.fileLabel);
             this.textLoadGroup.Controls.Add(this.browseFileButton);
-            this.textLoadGroup.Location = new System.Drawing.Point(12, 12);
+            this.textLoadGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.textLoadGroup.Location = new System.Drawing.Point(14, 14);
             this.textLoadGroup.Name = "textLoadGroup";
-            this.textLoadGroup.Size = new System.Drawing.Size(299, 62);
+            this.textLoadGroup.Size = new System.Drawing.Size(349, 72);
             this.textLoadGroup.TabIndex = 0;
             this.textLoadGroup.TabStop = false;
             this.textLoadGroup.Text = "Text load";
@@ -95,17 +98,17 @@
             // 
             this.loadedFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.loadedFilePath.Location = new System.Drawing.Point(42, 25);
+            this.loadedFilePath.Location = new System.Drawing.Point(49, 29);
             this.loadedFilePath.Name = "loadedFilePath";
             this.loadedFilePath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.loadedFilePath.Size = new System.Drawing.Size(170, 20);
+            this.loadedFilePath.Size = new System.Drawing.Size(198, 23);
             this.loadedFilePath.TabIndex = 2;
             // 
             // fileLabel
             // 
             this.fileLabel.AutoSize = true;
             this.fileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.fileLabel.Location = new System.Drawing.Point(6, 27);
+            this.fileLabel.Location = new System.Drawing.Point(7, 31);
             this.fileLabel.Name = "fileLabel";
             this.fileLabel.Size = new System.Drawing.Size(30, 15);
             this.fileLabel.TabIndex = 1;
@@ -114,17 +117,20 @@
             // browseFileButton
             // 
             this.browseFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.browseFileButton.Location = new System.Drawing.Point(218, 24);
+            this.browseFileButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.browseFileButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.browseFileButton.Location = new System.Drawing.Point(254, 28);
             this.browseFileButton.Name = "browseFileButton";
-            this.browseFileButton.Size = new System.Drawing.Size(75, 23);
+            this.browseFileButton.Size = new System.Drawing.Size(87, 27);
             this.browseFileButton.TabIndex = 0;
             this.browseFileButton.Text = "Browse...";
-            this.browseFileButton.UseVisualStyleBackColor = true;
+            this.browseFileButton.UseVisualStyleBackColor = false;
             this.browseFileButton.Click += new System.EventHandler(this.browseFileButton_Click);
             // 
             // cloudGeneratingGroup
             // 
             this.cloudGeneratingGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudGeneratingGroup.Controls.Add(this.recreateCheckBox);
             this.cloudGeneratingGroup.Controls.Add(this.colorsCountLabel);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsButton);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsLabel);
@@ -139,9 +145,9 @@
             this.cloudGeneratingGroup.Controls.Add(this.firstWordScaleBar);
             this.cloudGeneratingGroup.Controls.Add(this.wordsAmountBar);
             this.cloudGeneratingGroup.Enabled = false;
-            this.cloudGeneratingGroup.Location = new System.Drawing.Point(327, 117);
+            this.cloudGeneratingGroup.Location = new System.Drawing.Point(381, 135);
             this.cloudGeneratingGroup.Name = "cloudGeneratingGroup";
-            this.cloudGeneratingGroup.Size = new System.Drawing.Size(285, 246);
+            this.cloudGeneratingGroup.Size = new System.Drawing.Size(332, 284);
             this.cloudGeneratingGroup.TabIndex = 1;
             this.cloudGeneratingGroup.TabStop = false;
             this.cloudGeneratingGroup.Text = "Cloud generating";
@@ -149,123 +155,129 @@
             // colorsCountLabel
             // 
             this.colorsCountLabel.AutoSize = true;
-            this.colorsCountLabel.Location = new System.Drawing.Point(81, 181);
+            this.colorsCountLabel.Location = new System.Drawing.Point(94, 209);
             this.colorsCountLabel.Name = "colorsCountLabel";
-            this.colorsCountLabel.Size = new System.Drawing.Size(13, 13);
+            this.colorsCountLabel.Size = new System.Drawing.Size(13, 15);
             this.colorsCountLabel.TabIndex = 8;
             this.colorsCountLabel.Text = "0";
             // 
             // wordsColorsButton
             // 
-            this.wordsColorsButton.Location = new System.Drawing.Point(191, 176);
+            this.wordsColorsButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.wordsColorsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.wordsColorsButton.Location = new System.Drawing.Point(223, 203);
             this.wordsColorsButton.Name = "wordsColorsButton";
-            this.wordsColorsButton.Size = new System.Drawing.Size(75, 23);
+            this.wordsColorsButton.Size = new System.Drawing.Size(87, 27);
             this.wordsColorsButton.TabIndex = 11;
             this.wordsColorsButton.Text = "Change";
-            this.wordsColorsButton.UseVisualStyleBackColor = true;
+            this.wordsColorsButton.UseVisualStyleBackColor = false;
             this.wordsColorsButton.Click += new System.EventHandler(this.wordsColorsButton_Click);
             // 
             // wordsColorsLabel
             // 
             this.wordsColorsLabel.AutoSize = true;
-            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 181);
+            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 209);
             this.wordsColorsLabel.Name = "wordsColorsLabel";
-            this.wordsColorsLabel.Size = new System.Drawing.Size(72, 13);
+            this.wordsColorsLabel.Size = new System.Drawing.Size(79, 15);
             this.wordsColorsLabel.TabIndex = 10;
             this.wordsColorsLabel.Text = "Words colors:";
             // 
             // backgroundColor
             // 
-            this.backgroundColor.Location = new System.Drawing.Point(77, 141);
+            this.backgroundColor.Location = new System.Drawing.Point(90, 163);
             this.backgroundColor.Name = "backgroundColor";
-            this.backgroundColor.Size = new System.Drawing.Size(71, 22);
+            this.backgroundColor.Size = new System.Drawing.Size(83, 25);
             this.backgroundColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.backgroundColor.TabIndex = 9;
             this.backgroundColor.TabStop = false;
             // 
             // backgroundColorButton
             // 
-            this.backgroundColorButton.Location = new System.Drawing.Point(191, 140);
+            this.backgroundColorButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.backgroundColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.backgroundColorButton.Location = new System.Drawing.Point(223, 162);
             this.backgroundColorButton.Name = "backgroundColorButton";
-            this.backgroundColorButton.Size = new System.Drawing.Size(75, 23);
+            this.backgroundColorButton.Size = new System.Drawing.Size(87, 27);
             this.backgroundColorButton.TabIndex = 8;
             this.backgroundColorButton.Text = "Change";
-            this.backgroundColorButton.UseVisualStyleBackColor = true;
+            this.backgroundColorButton.UseVisualStyleBackColor = false;
             this.backgroundColorButton.Click += new System.EventHandler(this.backgroundColorButton_Click);
             // 
             // backgroundLabel
             // 
             this.backgroundLabel.AutoSize = true;
-            this.backgroundLabel.Location = new System.Drawing.Point(3, 145);
+            this.backgroundLabel.Location = new System.Drawing.Point(3, 167);
             this.backgroundLabel.Name = "backgroundLabel";
-            this.backgroundLabel.Size = new System.Drawing.Size(68, 13);
+            this.backgroundLabel.Size = new System.Drawing.Size(74, 15);
             this.backgroundLabel.TabIndex = 7;
             this.backgroundLabel.Text = "Background:";
             // 
             // fontStringLabel
             // 
             this.fontStringLabel.AutoSize = true;
-            this.fontStringLabel.Location = new System.Drawing.Point(48, 110);
+            this.fontStringLabel.Location = new System.Drawing.Point(56, 127);
             this.fontStringLabel.Name = "fontStringLabel";
-            this.fontStringLabel.Size = new System.Drawing.Size(97, 13);
+            this.fontStringLabel.Size = new System.Drawing.Size(53, 15);
             this.fontStringLabel.TabIndex = 6;
-            this.fontStringLabel.Text = "Times New Roman";
+            this.fontStringLabel.Text = "Segoe UI";
             // 
             // fontLabel
             // 
             this.fontLabel.AutoSize = true;
-            this.fontLabel.Location = new System.Drawing.Point(3, 110);
+            this.fontLabel.Location = new System.Drawing.Point(3, 127);
             this.fontLabel.Name = "fontLabel";
-            this.fontLabel.Size = new System.Drawing.Size(34, 13);
+            this.fontLabel.Size = new System.Drawing.Size(37, 15);
             this.fontLabel.TabIndex = 5;
             this.fontLabel.Text = "Font: ";
             // 
             // fontButton
             // 
-            this.fontButton.Location = new System.Drawing.Point(191, 105);
+            this.fontButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.fontButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.fontButton.Location = new System.Drawing.Point(223, 121);
             this.fontButton.Name = "fontButton";
-            this.fontButton.Size = new System.Drawing.Size(75, 23);
+            this.fontButton.Size = new System.Drawing.Size(87, 27);
             this.fontButton.TabIndex = 4;
             this.fontButton.Text = "Change";
-            this.fontButton.UseVisualStyleBackColor = true;
+            this.fontButton.UseVisualStyleBackColor = false;
             this.fontButton.Click += new System.EventHandler(this.fontButton_Click);
             // 
             // firstWordScaleLabel
             // 
             this.firstWordScaleLabel.AutoSize = true;
-            this.firstWordScaleLabel.Location = new System.Drawing.Point(169, 27);
-            this.firstWordScaleLabel.MaximumSize = new System.Drawing.Size(135, 50);
+            this.firstWordScaleLabel.Location = new System.Drawing.Point(197, 31);
+            this.firstWordScaleLabel.MaximumSize = new System.Drawing.Size(157, 58);
             this.firstWordScaleLabel.Name = "firstWordScaleLabel";
-            this.firstWordScaleLabel.Size = new System.Drawing.Size(80, 13);
+            this.firstWordScaleLabel.Size = new System.Drawing.Size(88, 15);
             this.firstWordScaleLabel.TabIndex = 3;
             this.firstWordScaleLabel.Text = "First word scale";
             // 
             // wordsAmountLabel
             // 
             this.wordsAmountLabel.AutoSize = true;
-            this.wordsAmountLabel.Location = new System.Drawing.Point(34, 29);
+            this.wordsAmountLabel.Location = new System.Drawing.Point(40, 33);
             this.wordsAmountLabel.Name = "wordsAmountLabel";
-            this.wordsAmountLabel.Size = new System.Drawing.Size(76, 13);
+            this.wordsAmountLabel.Size = new System.Drawing.Size(86, 15);
             this.wordsAmountLabel.TabIndex = 2;
             this.wordsAmountLabel.Text = "Words amount";
             // 
             // firstWordScaleBar
             // 
-            this.firstWordScaleBar.Location = new System.Drawing.Point(144, 56);
+            this.firstWordScaleBar.Location = new System.Drawing.Point(168, 65);
             this.firstWordScaleBar.Maximum = 100;
             this.firstWordScaleBar.Minimum = 10;
             this.firstWordScaleBar.Name = "firstWordScaleBar";
-            this.firstWordScaleBar.Size = new System.Drawing.Size(129, 45);
+            this.firstWordScaleBar.Size = new System.Drawing.Size(150, 45);
             this.firstWordScaleBar.TabIndex = 1;
             this.firstWordScaleBar.TickFrequency = 10;
             this.firstWordScaleBar.Value = 40;
             // 
             // wordsAmountBar
             // 
-            this.wordsAmountBar.Location = new System.Drawing.Point(6, 56);
+            this.wordsAmountBar.Location = new System.Drawing.Point(7, 65);
             this.wordsAmountBar.Maximum = 100;
             this.wordsAmountBar.Name = "wordsAmountBar";
-            this.wordsAmountBar.Size = new System.Drawing.Size(132, 45);
+            this.wordsAmountBar.Size = new System.Drawing.Size(154, 45);
             this.wordsAmountBar.TabIndex = 0;
             this.wordsAmountBar.TickFrequency = 10;
             this.wordsAmountBar.Value = 50;
@@ -281,9 +293,9 @@
             this.imageSizeGroup.Controls.Add(this.heightLabel);
             this.imageSizeGroup.Controls.Add(this.widthLabel);
             this.imageSizeGroup.Enabled = false;
-            this.imageSizeGroup.Location = new System.Drawing.Point(327, 12);
+            this.imageSizeGroup.Location = new System.Drawing.Point(381, 14);
             this.imageSizeGroup.Name = "imageSizeGroup";
-            this.imageSizeGroup.Size = new System.Drawing.Size(285, 99);
+            this.imageSizeGroup.Size = new System.Drawing.Size(332, 114);
             this.imageSizeGroup.TabIndex = 2;
             this.imageSizeGroup.TabStop = false;
             this.imageSizeGroup.Text = "Tag cloud size";
@@ -291,24 +303,24 @@
             // templateLabel
             // 
             this.templateLabel.AutoSize = true;
-            this.templateLabel.Location = new System.Drawing.Point(3, 29);
+            this.templateLabel.Location = new System.Drawing.Point(3, 33);
             this.templateLabel.Name = "templateLabel";
-            this.templateLabel.Size = new System.Drawing.Size(57, 13);
+            this.templateLabel.Size = new System.Drawing.Size(63, 15);
             this.templateLabel.TabIndex = 5;
             this.templateLabel.Text = "Template: ";
             // 
             // templateSelector
             // 
             this.templateSelector.FormattingEnabled = true;
-            this.templateSelector.Location = new System.Drawing.Point(64, 24);
+            this.templateSelector.Location = new System.Drawing.Point(75, 28);
             this.templateSelector.Name = "templateSelector";
-            this.templateSelector.Size = new System.Drawing.Size(215, 21);
+            this.templateSelector.Size = new System.Drawing.Size(250, 23);
             this.templateSelector.TabIndex = 4;
             this.templateSelector.SelectedIndexChanged += new System.EventHandler(this.templateSelector_SelectedIndexChanged);
             // 
             // imageHeight
             // 
-            this.imageHeight.Location = new System.Drawing.Point(206, 59);
+            this.imageHeight.Location = new System.Drawing.Point(240, 68);
             this.imageHeight.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -320,7 +332,7 @@
             0,
             0});
             this.imageHeight.Name = "imageHeight";
-            this.imageHeight.Size = new System.Drawing.Size(65, 20);
+            this.imageHeight.Size = new System.Drawing.Size(76, 23);
             this.imageHeight.TabIndex = 3;
             this.imageHeight.Value = new decimal(new int[] {
             576,
@@ -331,7 +343,7 @@
             // 
             // imageWidth
             // 
-            this.imageWidth.Location = new System.Drawing.Point(64, 59);
+            this.imageWidth.Location = new System.Drawing.Point(75, 68);
             this.imageWidth.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -343,7 +355,7 @@
             0,
             0});
             this.imageWidth.Name = "imageWidth";
-            this.imageWidth.Size = new System.Drawing.Size(65, 20);
+            this.imageWidth.Size = new System.Drawing.Size(76, 23);
             this.imageWidth.TabIndex = 2;
             this.imageWidth.Value = new decimal(new int[] {
             720,
@@ -355,18 +367,18 @@
             // heightLabel
             // 
             this.heightLabel.AutoSize = true;
-            this.heightLabel.Location = new System.Drawing.Point(160, 61);
+            this.heightLabel.Location = new System.Drawing.Point(187, 70);
             this.heightLabel.Name = "heightLabel";
-            this.heightLabel.Size = new System.Drawing.Size(44, 13);
+            this.heightLabel.Size = new System.Drawing.Size(49, 15);
             this.heightLabel.TabIndex = 1;
             this.heightLabel.Text = "Height: ";
             // 
             // widthLabel
             // 
             this.widthLabel.AutoSize = true;
-            this.widthLabel.Location = new System.Drawing.Point(17, 61);
+            this.widthLabel.Location = new System.Drawing.Point(20, 70);
             this.widthLabel.Name = "widthLabel";
-            this.widthLabel.Size = new System.Drawing.Size(41, 13);
+            this.widthLabel.Size = new System.Drawing.Size(45, 15);
             this.widthLabel.TabIndex = 0;
             this.widthLabel.Text = "Width: ";
             // 
@@ -382,9 +394,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cloudImageBox.Location = new System.Drawing.Point(12, 80);
+            this.cloudImageBox.Location = new System.Drawing.Point(14, 92);
             this.cloudImageBox.Name = "cloudImageBox";
-            this.cloudImageBox.Size = new System.Drawing.Size(299, 283);
+            this.cloudImageBox.Size = new System.Drawing.Size(348, 326);
             this.cloudImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cloudImageBox.TabIndex = 4;
             this.cloudImageBox.TabStop = false;
@@ -392,34 +404,39 @@
             // saveImageButton
             // 
             this.saveImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveImageButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.saveImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.saveImageButton.Enabled = false;
-            this.saveImageButton.Location = new System.Drawing.Point(537, 378);
+            this.saveImageButton.Location = new System.Drawing.Point(626, 436);
             this.saveImageButton.Name = "saveImageButton";
-            this.saveImageButton.Size = new System.Drawing.Size(75, 23);
+            this.saveImageButton.Size = new System.Drawing.Size(87, 27);
             this.saveImageButton.TabIndex = 5;
             this.saveImageButton.Text = "Save as";
-            this.saveImageButton.UseVisualStyleBackColor = true;
+            this.saveImageButton.UseVisualStyleBackColor = false;
             this.saveImageButton.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
             // generateCloudButton
             // 
             this.generateCloudButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.generateCloudButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.generateCloudButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.generateCloudButton.Enabled = false;
-            this.generateCloudButton.Location = new System.Drawing.Point(456, 378);
+            this.generateCloudButton.Location = new System.Drawing.Point(532, 436);
             this.generateCloudButton.Name = "generateCloudButton";
-            this.generateCloudButton.Size = new System.Drawing.Size(75, 23);
+            this.generateCloudButton.Size = new System.Drawing.Size(87, 27);
             this.generateCloudButton.TabIndex = 6;
             this.generateCloudButton.Text = "Generate";
-            this.generateCloudButton.UseVisualStyleBackColor = true;
+            this.generateCloudButton.UseVisualStyleBackColor = false;
             this.generateCloudButton.Click += new System.EventHandler(this.generateCloudButton_Click);
             // 
             // cloudCreatingProgress
             // 
             this.cloudCreatingProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cloudCreatingProgress.Location = new System.Drawing.Point(12, 378);
+            this.cloudCreatingProgress.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 436);
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
-            this.cloudCreatingProgress.Size = new System.Drawing.Size(438, 23);
+            this.cloudCreatingProgress.Size = new System.Drawing.Size(477, 27);
             this.cloudCreatingProgress.TabIndex = 7;
             this.cloudCreatingProgress.Click += new System.EventHandler(this.cloudCreatingProgress_Click);
             // 
@@ -433,12 +450,17 @@
             // 
             this.programStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programStatus});
-            this.programStatusStrip.Location = new System.Drawing.Point(0, 419);
+            this.programStatusStrip.Location = new System.Drawing.Point(0, 487);
             this.programStatusStrip.Name = "programStatusStrip";
-            this.programStatusStrip.Size = new System.Drawing.Size(624, 22);
+            this.programStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.programStatusStrip.Size = new System.Drawing.Size(728, 22);
             this.programStatusStrip.SizingGrip = false;
             this.programStatusStrip.TabIndex = 3;
             this.programStatusStrip.Text = "statusStrip1";
+            // 
+            // wordsFontDialog
+            // 
+            this.wordsFontDialog.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             // 
             // backgroundColorDialog
             // 
@@ -453,12 +475,36 @@
             this.saveImageDialog.Filter = "Png|*.png|Jpeg|*.jpeg";
             this.saveImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveImageDialog_FileOk);
             // 
+            // progressLabel
+            // 
+            this.progressLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressLabel.AutoSize = true;
+            this.progressLabel.BackColor = System.Drawing.Color.Transparent;
+            this.progressLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.progressLabel.Location = new System.Drawing.Point(494, 442);
+            this.progressLabel.Name = "progressLabel";
+            this.progressLabel.Size = new System.Drawing.Size(23, 15);
+            this.progressLabel.TabIndex = 8;
+            this.progressLabel.Text = "0%";
+            // 
+            // recreateCheckBox
+            // 
+            this.recreateCheckBox.AutoSize = true;
+            this.recreateCheckBox.Location = new System.Drawing.Point(6, 243);
+            this.recreateCheckBox.Name = "recreateCheckBox";
+            this.recreateCheckBox.Size = new System.Drawing.Size(159, 19);
+            this.recreateCheckBox.TabIndex = 13;
+            this.recreateCheckBox.Text = "Recreate cloud everytime";
+            this.recreateCheckBox.UseVisualStyleBackColor = true;
+            // 
             // NewForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 441);
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.progressLabel);
             this.Controls.Add(this.cloudCreatingProgress);
             this.Controls.Add(this.generateCloudButton);
             this.Controls.Add(this.saveImageButton);
@@ -467,7 +513,8 @@
             this.Controls.Add(this.imageSizeGroup);
             this.Controls.Add(this.cloudGeneratingGroup);
             this.Controls.Add(this.textLoadGroup);
-            this.MinimumSize = new System.Drawing.Size(640, 480);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MinimumSize = new System.Drawing.Size(744, 548);
             this.Name = "NewForm";
             this.Text = "Tag cloud generator";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NewForm_DragDrop);
@@ -530,5 +577,7 @@
         private System.Windows.Forms.TextBox loadedFilePath;
         private System.Windows.Forms.Label colorsCountLabel;
         public System.Windows.Forms.ProgressBar cloudCreatingProgress;
+        public System.Windows.Forms.Label progressLabel;
+        private System.Windows.Forms.CheckBox recreateCheckBox;
     }
 }

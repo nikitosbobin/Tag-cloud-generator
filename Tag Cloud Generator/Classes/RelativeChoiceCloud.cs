@@ -48,7 +48,7 @@ namespace Tag_Cloud_Generator.Classes
             {
                 context.Invoke((MethodInvoker)delegate
                 {
-                    context.cloudCreatingProgress.Value = (index+1) * 100 / Words.Length;
+                    context.SetProgress((index + 1) * 100 / Words.Length);
                 });
                 var word = Words[index];
                 word.FontSize = GetWordFontSize(word);

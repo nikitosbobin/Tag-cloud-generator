@@ -23,7 +23,7 @@ namespace Tag_Cloud_Generator
             {
                 WordsColors = null,
                 BackGroundColor = Color.White,
-                WordsFont = new Font("Times New Roman", 12f),
+                WordsFont = new Font("Segoe UI", 12f),
                 WordsCount = 30
             };
             decoder = new TxtDecoder();
@@ -76,6 +76,12 @@ namespace Tag_Cloud_Generator
             backgroundColor.Image = GetImage(data.BackGroundColor);
         }
 
+        public void SetProgress(int value)
+        {
+            cloudCreatingProgress.Value = value;
+            progressLabel.Text = $"{value}%";
+        }
+
         private Bitmap GetImage(Color color)
         {
             var image = new Bitmap(80, 30);
@@ -95,6 +101,8 @@ namespace Tag_Cloud_Generator
         private void generateCloudButton_Click(object sender, EventArgs e)
         {
             saveImageButton.Enabled = false;
+            if (recreateCheckBox.Checked)
+                cloudIsRelevant = false;
             backgroundCloudCreator.RunWorkerAsync();
         }
 
@@ -176,7 +184,7 @@ namespace Tag_Cloud_Generator
                 cloudGeneratingGroup.Enabled = true;
                 imageSizeGroup.Enabled = true;
                 textLoadGroup.Enabled = true;
-                cloudCreatingProgress.Value = 0;
+                SetProgress(0);
                 return;
             }
             Invoke((MethodInvoker)delegate
@@ -187,7 +195,7 @@ namespace Tag_Cloud_Generator
                 textLoadGroup.Enabled = true;
                 cloudImageBox.Image = image;
                 programStatus.Text = "Done";
-                cloudCreatingProgress.Value = 0;
+                SetProgress(0);
                 saveImageButton.Enabled = true;
             });
         }
