@@ -33,6 +33,7 @@
             this.fileLabel = new System.Windows.Forms.Label();
             this.browseFileButton = new System.Windows.Forms.Button();
             this.cloudGeneratingGroup = new System.Windows.Forms.GroupBox();
+            this.colorsCountLabel = new System.Windows.Forms.Label();
             this.wordsColorsButton = new System.Windows.Forms.Button();
             this.wordsColorsLabel = new System.Windows.Forms.Label();
             this.backgroundColor = new System.Windows.Forms.PictureBox();
@@ -64,7 +65,6 @@
             this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
             this.backgroundCloudCreator = new System.ComponentModel.BackgroundWorker();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
-            this.colorsCountLabel = new System.Windows.Forms.Label();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
@@ -79,6 +79,8 @@
             // 
             // textLoadGroup
             // 
+            this.textLoadGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textLoadGroup.Controls.Add(this.loadedFilePath);
             this.textLoadGroup.Controls.Add(this.fileLabel);
             this.textLoadGroup.Controls.Add(this.browseFileButton);
@@ -91,6 +93,8 @@
             // 
             // loadedFilePath
             // 
+            this.loadedFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.loadedFilePath.Location = new System.Drawing.Point(42, 25);
             this.loadedFilePath.Name = "loadedFilePath";
             this.loadedFilePath.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -109,6 +113,7 @@
             // 
             // browseFileButton
             // 
+            this.browseFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.browseFileButton.Location = new System.Drawing.Point(218, 24);
             this.browseFileButton.Name = "browseFileButton";
             this.browseFileButton.Size = new System.Drawing.Size(75, 23);
@@ -140,6 +145,15 @@
             this.cloudGeneratingGroup.TabIndex = 1;
             this.cloudGeneratingGroup.TabStop = false;
             this.cloudGeneratingGroup.Text = "Cloud generating";
+            // 
+            // colorsCountLabel
+            // 
+            this.colorsCountLabel.AutoSize = true;
+            this.colorsCountLabel.Location = new System.Drawing.Point(81, 181);
+            this.colorsCountLabel.Name = "colorsCountLabel";
+            this.colorsCountLabel.Size = new System.Drawing.Size(13, 13);
+            this.colorsCountLabel.TabIndex = 8;
+            this.colorsCountLabel.Text = "0";
             // 
             // wordsColorsButton
             // 
@@ -255,6 +269,7 @@
             this.wordsAmountBar.TabIndex = 0;
             this.wordsAmountBar.TickFrequency = 10;
             this.wordsAmountBar.Value = 50;
+            this.wordsAmountBar.Scroll += new System.EventHandler(this.wordsAmountBar_Scroll);
             // 
             // imageSizeGroup
             // 
@@ -312,6 +327,7 @@
             0,
             0,
             0});
+            this.imageHeight.ValueChanged += new System.EventHandler(this.imageHeight_ValueChanged);
             // 
             // imageWidth
             // 
@@ -334,6 +350,7 @@
             0,
             0,
             0});
+            this.imageWidth.ValueChanged += new System.EventHandler(this.imageWidth_ValueChanged);
             // 
             // heightLabel
             // 
@@ -356,6 +373,7 @@
             // loadTextDialog
             // 
             this.loadTextDialog.FileName = "loadTextDialog";
+            this.loadTextDialog.Filter = "Text files|*.txt|All files|*.*";
             this.loadTextDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.loadTextDialog_FileOk);
             // 
             // cloudImageBox
@@ -367,6 +385,7 @@
             this.cloudImageBox.Location = new System.Drawing.Point(12, 80);
             this.cloudImageBox.Name = "cloudImageBox";
             this.cloudImageBox.Size = new System.Drawing.Size(299, 283);
+            this.cloudImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cloudImageBox.TabIndex = 4;
             this.cloudImageBox.TabStop = false;
             // 
@@ -402,6 +421,7 @@
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
             this.cloudCreatingProgress.Size = new System.Drawing.Size(438, 23);
             this.cloudCreatingProgress.TabIndex = 7;
+            this.cloudCreatingProgress.Click += new System.EventHandler(this.cloudCreatingProgress_Click);
             // 
             // programStatus
             // 
@@ -424,14 +444,14 @@
             // 
             this.backgroundColorDialog.Color = System.Drawing.Color.White;
             // 
-            // colorsCountLabel
+            // backgroundCloudCreator
             // 
-            this.colorsCountLabel.AutoSize = true;
-            this.colorsCountLabel.Location = new System.Drawing.Point(81, 181);
-            this.colorsCountLabel.Name = "colorsCountLabel";
-            this.colorsCountLabel.Size = new System.Drawing.Size(13, 13);
-            this.colorsCountLabel.TabIndex = 8;
-            this.colorsCountLabel.Text = "0";
+            this.backgroundCloudCreator.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundCloudCreator_DoWork);
+            // 
+            // saveImageDialog
+            // 
+            this.saveImageDialog.Filter = "Png|*.png|Jpeg|*.jpeg";
+            this.saveImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveImageDialog_FileOk);
             // 
             // NewForm
             // 
@@ -447,7 +467,7 @@
             this.Controls.Add(this.imageSizeGroup);
             this.Controls.Add(this.cloudGeneratingGroup);
             this.Controls.Add(this.textLoadGroup);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "NewForm";
             this.Text = "Tag cloud generator";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NewForm_DragDrop);
@@ -500,7 +520,6 @@
         private System.Windows.Forms.Button fontButton;
         private System.Windows.Forms.Button wordsColorsButton;
         private System.Windows.Forms.Label wordsColorsLabel;
-        private System.Windows.Forms.ProgressBar cloudCreatingProgress;
         private System.Windows.Forms.ToolStripStatusLabel programStatus;
         private System.Windows.Forms.StatusStrip programStatusStrip;
         private System.Windows.Forms.ColorDialog wordsColorDialog;
@@ -510,5 +529,6 @@
         private System.Windows.Forms.SaveFileDialog saveImageDialog;
         private System.Windows.Forms.TextBox loadedFilePath;
         private System.Windows.Forms.Label colorsCountLabel;
+        public System.Windows.Forms.ProgressBar cloudCreatingProgress;
     }
 }

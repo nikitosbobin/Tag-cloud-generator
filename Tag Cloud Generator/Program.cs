@@ -13,7 +13,7 @@ namespace Tag_Cloud_Generator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new NewForm());
         }
     }
 }

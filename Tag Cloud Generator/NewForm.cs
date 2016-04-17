@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using Tag_Cloud_Generator.Classes;
 using Tag_Cloud_Generator.Interfaces;
+using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 using Tag_Cloud_Generator.Properties;
 
 namespace Tag_Cloud_Generator
@@ -27,11 +28,18 @@ namespace Tag_Cloud_Generator
             };
             decoder = new TxtDecoder();
             colorsForm = new WordsColorsForm();
+            textHandler = new SimpleTextHandler();
+            imageGenerator = new ImageGenerator();
+            cloudIsRelevant = false;
+            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, this);
         }
 
-        
+        private bool cloudIsRelevant;
         private readonly FormDataProvider data;
         private readonly ITextDecoder decoder;
+        private readonly ITextHandler textHandler;
+        private readonly ICloudImageGenerator imageGenerator;
+        private ICloudGenerator cloudGenerator;
         private readonly WordsColorsForm colorsForm;
         private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
         {
@@ -58,6 +66,7 @@ namespace Tag_Cloud_Generator
             if (wordsFontDialog.ShowDialog(this) != DialogResult.OK) return;
             data.WordsFont = wordsFontDialog.Font;
             fontStringLabel.Text = data.WordsFont.Name;
+            cloudIsRelevant = false;
         }
 
         private void backgroundColorButton_Click(object sender, EventArgs e)
@@ -85,12 +94,15 @@ namespace Tag_Cloud_Generator
 
         private void generateCloudButton_Click(object sender, EventArgs e)
         {
-
+            saveImageButton.Enabled = false;
+            backgroundCloudCreator.RunWorkerAsync();
         }
 
         private void saveImageButton_Click(object sender, EventArgs e)
         {
-
+            var date = DateTime.Now;
+            saveImageDialog.FileName = $"cloud[{date.Day}_{date.Month}_{date.Year}][{date.Hour}_{date.Minute}_{date.Second}]";
+            saveImageDialog.ShowDialog(this);
         }
 
         private void loadTextDialog_FileOk(object sender, CancelEventArgs e)
@@ -113,6 +125,7 @@ namespace Tag_Cloud_Generator
             cloudGeneratingGroup.Enabled = true;
             generateCloudButton.Enabled = true;
             programStatus.Text = Resources.NewForm_LoadText_Ready_to_create;
+            cloudIsRelevant = false;
         }
 
         private void NewForm_DragEnter(object sender, DragEventArgs e)
@@ -125,6 +138,81 @@ namespace Tag_Cloud_Generator
             var size = templates[(string) templateSelector.SelectedItem];
             imageWidth.Value = size.Width;
             imageHeight.Value = size.Height;
+        }
+
+        private void cloudCreatingProgress_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void backgroundCloudCreator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                generateCloudButton.Enabled = false;
+                cloudGeneratingGroup.Enabled = false;
+                imageSizeGroup.Enabled = false;
+                textLoadGroup.Enabled = false;
+                programStatus.Text = "Creating";
+            });
+            Bitmap image;
+            try
+            {
+                if (cloudIsRelevant)
+                    image = imageGenerator.CreateImage(cloudGenerator, data.BackGroundColor, data.WordsColors);
+                else
+                {
+                    imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
+                    image = imageGenerator.CreateImage(cloudGenerator, data.WordsFont, data.WordsCount, data.BackGroundColor, data.WordsColors);
+                    cloudIsRelevant = true;
+                }
+            }
+            catch (Exception exception)
+            {
+                if (!exception.Message.Contains("no words")) return;
+                MessageBox.Show("There are no words to build cloud");
+                programStatus.Text = "Error";
+                generateCloudButton.Enabled = true;
+                cloudGeneratingGroup.Enabled = true;
+                imageSizeGroup.Enabled = true;
+                textLoadGroup.Enabled = true;
+                cloudCreatingProgress.Value = 0;
+                return;
+            }
+            Invoke((MethodInvoker)delegate
+            {
+                generateCloudButton.Enabled = true;
+                cloudGeneratingGroup.Enabled = true;
+                imageSizeGroup.Enabled = true;
+                textLoadGroup.Enabled = true;
+                cloudImageBox.Image = image;
+                programStatus.Text = "Done";
+                cloudCreatingProgress.Value = 0;
+                saveImageButton.Enabled = true;
+            });
+        }
+
+        private void imageWidth_ValueChanged(object sender, EventArgs e)
+        {
+            cloudIsRelevant = false;
+        }
+
+        private void imageHeight_ValueChanged(object sender, EventArgs e)
+        {
+            cloudIsRelevant = false;
+        }
+
+        private void wordsAmountBar_Scroll(object sender, EventArgs e)
+        {
+            data.WordsCount = wordsAmountBar.Value;
+            cloudIsRelevant = false;
+        }
+
+        private void saveImageDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            programStatus.Text = "Saving";
+            cloudImageBox.Image.Save(saveImageDialog.FileName);
+            programStatus.Text = "Done";
         }
     }
 }

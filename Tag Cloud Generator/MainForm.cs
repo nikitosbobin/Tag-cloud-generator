@@ -32,6 +32,7 @@ namespace Tag_Cloud_Generator
                 WordsCount = 30
             };
             SwitchElementsEnabled(false);
+            imageGenerator = new ImageGenerator();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -61,8 +62,8 @@ namespace Tag_Cloud_Generator
         private void createCloudButton_Click(object sender, EventArgs e)
         {
             decoder.TextLines = inputTextBox.Lines;
-            imageGenerator = new ImageGenerator(dataProvider.ImageSize);
-            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
+            imageGenerator.ImageSize = dataProvider.ImageSize;
+            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, this);
             asyncCloudCreator.RunWorkerAsync();
         }
 

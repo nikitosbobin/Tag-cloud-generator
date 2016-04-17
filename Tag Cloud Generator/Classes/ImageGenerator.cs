@@ -10,7 +10,7 @@ namespace Tag_Cloud_Generator.Classes
 {
     class ImageGenerator : ICloudImageGenerator
     {
-        public Size ImageSize { get; }
+        public Size ImageSize { get; set; }
         private WordBlock[] words;
 
         //шрифты еще надо почистить
@@ -26,14 +26,20 @@ namespace Tag_Cloud_Generator.Classes
             set { fontFamily = value; }
         }
 
-        public ImageGenerator(Size imageSize)
+        public Bitmap CreateImage(ICloudGenerator cloud, Color backgroundColor, List<Color> wordsBrushes = null)
         {
-            ImageSize = imageSize;
-        }
-
-        public ImageGenerator(int width, int height)
-        {
-            ImageSize = new Size(width, height);
+            var image = new Bitmap(ImageSize.Width, ImageSize.Height);
+            using (var graphics = Graphics.FromImage(image))
+            {
+                SetGraphics(graphics, backgroundColor);
+                words = cloud.Words
+                    .UpdateGraphics(graphics)
+                    .OrderByDescending(w => w.Frequency)
+                    .ToArray();
+                DrawAllWords(wordsBrushes);
+                graphics.ResetTransform();
+            }
+            return image;
         }
 
         public Bitmap CreateImage(ICloudGenerator cloud, Font wordsFont, int wordsCount, Color backgroundColor, List<Color> wordsBrushes = null)
@@ -42,7 +48,9 @@ namespace Tag_Cloud_Generator.Classes
             using (var graphics = Graphics.FromImage(image))
             {
                 SetGraphics(graphics, backgroundColor);
-                words = cloud.CreateCloud(graphics, wordsFont,wordsCount).Words.OrderByDescending(w => w.Frequency).ToArray();
+                words = cloud.CreateCloud(graphics, wordsFont, wordsCount).Words
+                    .OrderByDescending(w => w.Frequency)
+                    .ToArray();
                 DrawAllWords(wordsBrushes);
                 graphics.ResetTransform();
             }

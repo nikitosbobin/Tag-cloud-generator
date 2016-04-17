@@ -38,7 +38,7 @@ namespace Tag_Cloud_Generator.Classes
             Font = font;
         }
 
-        public Graphics Graphics { get; }
+        public Graphics Graphics { get; set; }
         public string Source { get; set; }
         public int Frequency { get; set; }
         public Point Location { get; private set; }

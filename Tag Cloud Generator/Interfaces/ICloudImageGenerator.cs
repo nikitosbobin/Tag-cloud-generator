@@ -6,7 +6,8 @@ namespace Tag_Cloud_Generator.Interfaces
 {
     interface ICloudImageGenerator
     {
-        Size ImageSize { get; }
+        Size ImageSize { get; set; }
         Bitmap CreateImage(ICloudGenerator cloud, Font wordsFont, int wordsCount, Color backgroundColor, List<Color> wordsBrushes);
+        Bitmap CreateImage(ICloudGenerator cloud, Color backgroundColor, List<Color> wordsBrushes);
     }
 }
