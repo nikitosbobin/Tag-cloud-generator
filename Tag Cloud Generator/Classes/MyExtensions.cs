@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace Tag_Cloud_Generator.Classes
@@ -144,6 +143,14 @@ namespace Tag_Cloud_Generator.Classes
         public static void Add(this List<RecanglePriorityPair> source, Rectangle rect)
         {
             source.Add(new RecanglePriorityPair(rect));
+        }
+    }
+
+    static class FontExtensions
+    {
+        public static Font SetSize(this Font source, float fontSize)
+        {
+            return new Font(source.Name, fontSize,source.Style);
         }
     }
 

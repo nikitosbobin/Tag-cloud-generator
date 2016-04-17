@@ -14,19 +14,6 @@ namespace Tag_Cloud_Generator.Classes
         public Size ImageSize { get; set; }
         private WordBlock[] words;
 
-        //шрифты еще надо почистить
-        private string fontFamily;
-        public string FontFamily
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(fontFamily))
-                    fontFamily = "Times New Roman";
-                return fontFamily;
-            }
-            set { fontFamily = value; }
-        }
-
         public Bitmap CreateImage(ICloudGenerator cloud, Color backgroundColor, List<Color> wordsBrushes = null)
         {
             var image = new Bitmap(ImageSize.Width, ImageSize.Height);

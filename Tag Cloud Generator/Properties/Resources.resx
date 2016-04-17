@@ -126,4 +126,16 @@
   <data name="NewForm_LoadText_Ready_to_create" xml:space="preserve">
     <value>Ready to create</value>
   </data>
+  <data name="MainForm_backgroundCloudCreator_DoWork_Creating" xml:space="preserve">
+    <value>Creating</value>
+  </data>
+  <data name="MainForm_backgroundCloudCreator_DoWork_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MainForm_backgroundCloudCreator_DoWork_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="MainForm_saveImageDialog_FileOk_Saving" xml:space="preserve">
+    <value>Saving</value>
+  </data>
 </root>

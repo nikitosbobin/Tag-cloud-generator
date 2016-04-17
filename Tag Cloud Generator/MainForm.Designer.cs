@@ -40,7 +40,6 @@
             this.wordsColorsButton = new System.Windows.Forms.Button();
             this.wordsColorsLabel = new System.Windows.Forms.Label();
             this.backgroundColor = new System.Windows.Forms.PictureBox();
-            this.backgroundColorButton = new System.Windows.Forms.Button();
             this.backgroundLabel = new System.Windows.Forms.Label();
             this.fontStringLabel = new System.Windows.Forms.Label();
             this.fontLabel = new System.Windows.Forms.Label();
@@ -104,6 +103,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loadedFilePath.Location = new System.Drawing.Point(49, 29);
             this.loadedFilePath.Name = "loadedFilePath";
+            this.loadedFilePath.ReadOnly = true;
             this.loadedFilePath.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.loadedFilePath.Size = new System.Drawing.Size(198, 23);
             this.loadedFilePath.TabIndex = 2;
@@ -125,7 +125,7 @@
             this.browseFileButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.browseFileButton.Location = new System.Drawing.Point(254, 28);
             this.browseFileButton.Name = "browseFileButton";
-            this.browseFileButton.Size = new System.Drawing.Size(87, 27);
+            this.browseFileButton.Size = new System.Drawing.Size(87, 25);
             this.browseFileButton.TabIndex = 0;
             this.browseFileButton.Text = "Browse...";
             this.browseFileButton.UseVisualStyleBackColor = false;
@@ -139,7 +139,6 @@
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsButton);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsLabel);
             this.cloudGeneratingGroup.Controls.Add(this.backgroundColor);
-            this.cloudGeneratingGroup.Controls.Add(this.backgroundColorButton);
             this.cloudGeneratingGroup.Controls.Add(this.backgroundLabel);
             this.cloudGeneratingGroup.Controls.Add(this.fontStringLabel);
             this.cloudGeneratingGroup.Controls.Add(this.fontLabel);
@@ -169,7 +168,7 @@
             // colorsCountLabel
             // 
             this.colorsCountLabel.AutoSize = true;
-            this.colorsCountLabel.Location = new System.Drawing.Point(94, 209);
+            this.colorsCountLabel.Location = new System.Drawing.Point(88, 168);
             this.colorsCountLabel.Name = "colorsCountLabel";
             this.colorsCountLabel.Size = new System.Drawing.Size(13, 15);
             this.colorsCountLabel.TabIndex = 8;
@@ -179,7 +178,7 @@
             // 
             this.wordsColorsButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.wordsColorsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.wordsColorsButton.Location = new System.Drawing.Point(223, 203);
+            this.wordsColorsButton.Location = new System.Drawing.Point(223, 162);
             this.wordsColorsButton.Name = "wordsColorsButton";
             this.wordsColorsButton.Size = new System.Drawing.Size(87, 27);
             this.wordsColorsButton.TabIndex = 11;
@@ -190,7 +189,7 @@
             // wordsColorsLabel
             // 
             this.wordsColorsLabel.AutoSize = true;
-            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 209);
+            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 168);
             this.wordsColorsLabel.Name = "wordsColorsLabel";
             this.wordsColorsLabel.Size = new System.Drawing.Size(79, 15);
             this.wordsColorsLabel.TabIndex = 10;
@@ -198,29 +197,19 @@
             // 
             // backgroundColor
             // 
-            this.backgroundColor.Location = new System.Drawing.Point(90, 163);
+            this.backgroundColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.backgroundColor.Location = new System.Drawing.Point(91, 200);
             this.backgroundColor.Name = "backgroundColor";
             this.backgroundColor.Size = new System.Drawing.Size(83, 25);
             this.backgroundColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.backgroundColor.TabIndex = 9;
             this.backgroundColor.TabStop = false;
-            // 
-            // backgroundColorButton
-            // 
-            this.backgroundColorButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.backgroundColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.backgroundColorButton.Location = new System.Drawing.Point(223, 162);
-            this.backgroundColorButton.Name = "backgroundColorButton";
-            this.backgroundColorButton.Size = new System.Drawing.Size(87, 27);
-            this.backgroundColorButton.TabIndex = 8;
-            this.backgroundColorButton.Text = "Change";
-            this.backgroundColorButton.UseVisualStyleBackColor = false;
-            this.backgroundColorButton.Click += new System.EventHandler(this.backgroundColorButton_Click);
+            this.backgroundColor.Click += new System.EventHandler(this.backgroundColor_Click);
             // 
             // backgroundLabel
             // 
             this.backgroundLabel.AutoSize = true;
-            this.backgroundLabel.Location = new System.Drawing.Point(3, 167);
+            this.backgroundLabel.Location = new System.Drawing.Point(3, 204);
             this.backgroundLabel.Name = "backgroundLabel";
             this.backgroundLabel.Size = new System.Drawing.Size(74, 15);
             this.backgroundLabel.TabIndex = 7;
@@ -568,7 +557,6 @@
         private System.Windows.Forms.TrackBar firstWordScaleBar;
         private System.Windows.Forms.TrackBar wordsAmountBar;
         private System.Windows.Forms.PictureBox backgroundColor;
-        private System.Windows.Forms.Button backgroundColorButton;
         private System.Windows.Forms.Label backgroundLabel;
         private System.Windows.Forms.Label fontStringLabel;
         private System.Windows.Forms.Label fontLabel;

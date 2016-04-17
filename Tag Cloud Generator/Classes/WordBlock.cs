@@ -63,7 +63,7 @@ namespace Tag_Cloud_Generator.Classes
         public float FontSize
         {
             get { return Font.Size; }
-            set { Font = new Font(Font.Name, value); }
+            set { Font = Font.SetSize(value); }
         }
 
         public bool IsVertical { get; set; }

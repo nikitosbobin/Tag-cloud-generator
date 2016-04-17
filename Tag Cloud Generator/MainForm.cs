@@ -29,18 +29,16 @@ namespace Tag_Cloud_Generator
             };
             decoder = new TxtDecoder();
             colorsForm = new WordsColorsForm();
-            textHandler = new SimpleTextHandler();
             imageGenerator = new ImageGenerator();
             cloudIsRelevant = false;
-            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler);
+            cloudGenerator = new RelativeChoiceCloud(decoder, new SimpleTextHandler());
         }
 
         private bool cloudIsRelevant;
         private readonly FormDataProvider data;
         private readonly ITextDecoder decoder;
-        private readonly ITextHandler textHandler;
         private readonly ICloudImageGenerator imageGenerator;
-        private ICloudGenerator cloudGenerator;
+        private readonly ICloudGenerator cloudGenerator;
         private readonly WordsColorsForm colorsForm;
         private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
         {
@@ -68,13 +66,6 @@ namespace Tag_Cloud_Generator
             data.WordsFont = wordsFontDialog.Font;
             fontStringLabel.Text = data.WordsFont.Name;
             cloudIsRelevant = false;
-        }
-
-        private void backgroundColorButton_Click(object sender, EventArgs e)
-        {
-            if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
-            data.BackGroundColor = backgroundColorDialog.Color;
-            backgroundColor.Image = GetImage(data.BackGroundColor);
         }
 
         public void SetProgress(int value)
@@ -157,7 +148,7 @@ namespace Tag_Cloud_Generator
                 cloudGeneratingGroup.Enabled = false;
                 imageSizeGroup.Enabled = false;
                 textLoadGroup.Enabled = false;
-                programStatus.Text = "Creating";
+                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Creating;
             });
             Bitmap image;
             try
@@ -178,8 +169,8 @@ namespace Tag_Cloud_Generator
             {
                 MessageBox.Show(exception.Message.Contains("no words")
                     ? "There are no words to build cloud"
-                    : exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                programStatus.Text = "Error";
+                    : exception.Message, Resources.MainForm_backgroundCloudCreator_DoWork_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Error;
                 generateCloudButton.Enabled = true;
                 cloudGeneratingGroup.Enabled = true;
                 imageSizeGroup.Enabled = true;
@@ -194,7 +185,7 @@ namespace Tag_Cloud_Generator
                 imageSizeGroup.Enabled = true;
                 textLoadGroup.Enabled = true;
                 cloudImageBox.Image = image;
-                programStatus.Text = "Done";
+                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Done;
                 SetProgress(0);
                 saveImageButton.Enabled = true;
             });
@@ -218,15 +209,22 @@ namespace Tag_Cloud_Generator
 
         private void saveImageDialog_FileOk(object sender, CancelEventArgs e)
         {
-            programStatus.Text = "Saving";
+            programStatus.Text = Resources.MainForm_saveImageDialog_FileOk_Saving;
             cloudImageBox.Image.Save(saveImageDialog.FileName);
-            programStatus.Text = "Done";
+            programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Done;
         }
 
         private void firstWordScaleBar_Scroll(object sender, EventArgs e)
         {
             cloudIsRelevant = false;
             data.FirstScale = firstWordScaleBar.Value;
+        }
+
+        private void backgroundColor_Click(object sender, EventArgs e)
+        {
+            if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
+            data.BackGroundColor = backgroundColorDialog.Color;
+            backgroundColor.Image = GetImage(data.BackGroundColor);
         }
     }
 }

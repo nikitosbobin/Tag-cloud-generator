@@ -61,11 +61,47 @@ namespace Tag_Cloud_Generator.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Creating.
+        /// </summary>
+        internal static string MainForm_backgroundCloudCreator_DoWork_Creating {
+            get {
+                return ResourceManager.GetString("MainForm_backgroundCloudCreator_DoWork_Creating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Done.
+        /// </summary>
+        internal static string MainForm_backgroundCloudCreator_DoWork_Done {
+            get {
+                return ResourceManager.GetString("MainForm_backgroundCloudCreator_DoWork_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Error.
+        /// </summary>
+        internal static string MainForm_backgroundCloudCreator_DoWork_Error {
+            get {
+                return ResourceManager.GetString("MainForm_backgroundCloudCreator_DoWork_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Loading file.
         /// </summary>
         internal static string MainForm_button2_Click_Loading_file {
             get {
                 return ResourceManager.GetString("MainForm_button2_Click_Loading_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Saving.
+        /// </summary>
+        internal static string MainForm_saveImageDialog_FileOk_Saving {
+            get {
+                return ResourceManager.GetString("MainForm_saveImageDialog_FileOk_Saving", resourceCulture);
             }
         }
         
