@@ -24,14 +24,15 @@ namespace Tag_Cloud_Generator
                 WordsColors = null,
                 BackGroundColor = Color.White,
                 WordsFont = new Font("Segoe UI", 12f),
-                WordsCount = 30
+                WordsCount = 30,
+                FirstScale = 10
             };
             decoder = new TxtDecoder();
             colorsForm = new WordsColorsForm();
             textHandler = new SimpleTextHandler();
             imageGenerator = new ImageGenerator();
             cloudIsRelevant = false;
-            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, this);
+            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler);
         }
 
         private bool cloudIsRelevant;
@@ -148,11 +149,6 @@ namespace Tag_Cloud_Generator
             imageHeight.Value = size.Height;
         }
 
-        private void cloudCreatingProgress_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void backgroundCloudCreator_DoWork(object sender, DoWorkEventArgs e)
         {
             Invoke((MethodInvoker)delegate
@@ -171,7 +167,10 @@ namespace Tag_Cloud_Generator
                 else
                 {
                     imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
-                    image = imageGenerator.CreateImage(cloudGenerator, data.WordsFont, data.WordsCount, data.BackGroundColor, data.WordsColors);
+                    image = imageGenerator.CreateImage(cloudGenerator, data, v =>
+                    {
+                        Invoke((MethodInvoker)delegate { SetProgress(v); });
+                    });
                     cloudIsRelevant = true;
                 }
             }
@@ -222,6 +221,12 @@ namespace Tag_Cloud_Generator
             programStatus.Text = "Saving";
             cloudImageBox.Image.Save(saveImageDialog.FileName);
             programStatus.Text = "Done";
+        }
+
+        private void firstWordScaleBar_Scroll(object sender, EventArgs e)
+        {
+            cloudIsRelevant = false;
+            data.FirstScale = firstWordScaleBar.Value;
         }
     }
 }

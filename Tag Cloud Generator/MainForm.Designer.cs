@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textLoadGroup = new System.Windows.Forms.GroupBox();
             this.loadedFilePath = new System.Windows.Forms.TextBox();
             this.fileLabel = new System.Windows.Forms.Label();
             this.browseFileButton = new System.Windows.Forms.Button();
             this.cloudGeneratingGroup = new System.Windows.Forms.GroupBox();
+            this.recreateCheckBox = new System.Windows.Forms.CheckBox();
             this.colorsCountLabel = new System.Windows.Forms.Label();
             this.wordsColorsButton = new System.Windows.Forms.Button();
             this.wordsColorsLabel = new System.Windows.Forms.Label();
@@ -66,7 +68,7 @@
             this.backgroundCloudCreator = new System.ComponentModel.BackgroundWorker();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.progressLabel = new System.Windows.Forms.Label();
-            this.recreateCheckBox = new System.Windows.Forms.CheckBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
@@ -77,6 +79,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).BeginInit();
             this.programStatusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // textLoadGroup
@@ -151,6 +154,16 @@
             this.cloudGeneratingGroup.TabIndex = 1;
             this.cloudGeneratingGroup.TabStop = false;
             this.cloudGeneratingGroup.Text = "Cloud generating";
+            // 
+            // recreateCheckBox
+            // 
+            this.recreateCheckBox.AutoSize = true;
+            this.recreateCheckBox.Location = new System.Drawing.Point(6, 243);
+            this.recreateCheckBox.Name = "recreateCheckBox";
+            this.recreateCheckBox.Size = new System.Drawing.Size(159, 19);
+            this.recreateCheckBox.TabIndex = 13;
+            this.recreateCheckBox.Text = "Recreate cloud everytime";
+            this.recreateCheckBox.UseVisualStyleBackColor = true;
             // 
             // colorsCountLabel
             // 
@@ -264,13 +277,12 @@
             // firstWordScaleBar
             // 
             this.firstWordScaleBar.Location = new System.Drawing.Point(168, 65);
-            this.firstWordScaleBar.Maximum = 100;
-            this.firstWordScaleBar.Minimum = 10;
+            this.firstWordScaleBar.Minimum = 1;
             this.firstWordScaleBar.Name = "firstWordScaleBar";
             this.firstWordScaleBar.Size = new System.Drawing.Size(150, 45);
             this.firstWordScaleBar.TabIndex = 1;
-            this.firstWordScaleBar.TickFrequency = 10;
-            this.firstWordScaleBar.Value = 40;
+            this.firstWordScaleBar.Value = 10;
+            this.firstWordScaleBar.Scroll += new System.EventHandler(this.firstWordScaleBar_Scroll);
             // 
             // wordsAmountBar
             // 
@@ -438,7 +450,6 @@
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
             this.cloudCreatingProgress.Size = new System.Drawing.Size(477, 27);
             this.cloudCreatingProgress.TabIndex = 7;
-            this.cloudCreatingProgress.Click += new System.EventHandler(this.cloudCreatingProgress_Click);
             // 
             // programStatus
             // 
@@ -487,17 +498,11 @@
             this.progressLabel.TabIndex = 8;
             this.progressLabel.Text = "0%";
             // 
-            // recreateCheckBox
+            // errorProvider1
             // 
-            this.recreateCheckBox.AutoSize = true;
-            this.recreateCheckBox.Location = new System.Drawing.Point(6, 243);
-            this.recreateCheckBox.Name = "recreateCheckBox";
-            this.recreateCheckBox.Size = new System.Drawing.Size(159, 19);
-            this.recreateCheckBox.TabIndex = 13;
-            this.recreateCheckBox.Text = "Recreate cloud everytime";
-            this.recreateCheckBox.UseVisualStyleBackColor = true;
+            this.errorProvider1.ContainerControl = this;
             // 
-            // NewForm
+            // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -515,7 +520,7 @@
             this.Controls.Add(this.textLoadGroup);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MinimumSize = new System.Drawing.Size(744, 548);
-            this.Name = "NewForm";
+            this.Name = "MainForm";
             this.Text = "Tag cloud generator";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NewForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.NewForm_DragEnter);
@@ -533,6 +538,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).EndInit();
             this.programStatusStrip.ResumeLayout(false);
             this.programStatusStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -579,5 +585,6 @@
         public System.Windows.Forms.ProgressBar cloudCreatingProgress;
         public System.Windows.Forms.Label progressLabel;
         private System.Windows.Forms.CheckBox recreateCheckBox;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

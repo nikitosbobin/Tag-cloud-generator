@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 
@@ -10,30 +9,28 @@ namespace Tag_Cloud_Generator.Classes
 {
     class RelativeChoiceCloud : ICloudGenerator
     {
-        public RelativeChoiceCloud(ITextDecoder decoder, ITextHandler textHandler, Control context)
+        public RelativeChoiceCloud(ITextDecoder decoder, ITextHandler textHandler)
         {
-            this.context = (MainForm) context;
             TextHandler = textHandler;
             this.decoder = decoder;
-            frames = new List<Tuple<Rectangle, int>>();
-            WordScale = 0.06f;
+            frames = new List<RecanglePriorityPair>();
             rnd = new Random(DateTime.Now.Millisecond);
         }
         
-        private readonly MainForm context;
-        private List<Tuple<Rectangle, int>> frames;
+        private List<RecanglePriorityPair> frames;
         private readonly ITextDecoder decoder;
         private readonly Random rnd;
 
-        private void SmoothFrequences()
+        /*private void SmoothFrequences()
         {
             var count = Words.Length;
             Words = Words.OrderByDescending(u => u.Frequency).ToArray();
             for (var i = 0; i < count; ++i)
                 Words[i].Frequency = count - i;
-        }
+        }*/
 
-        public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount)
+        public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount,
+            int firstScale, Action<int> setProgressAction)
         {
             frames.Clear();
             Words = TextHandler.GetWords(decoder, graphics, wordsFont)
@@ -43,19 +40,16 @@ namespace Tag_Cloud_Generator.Classes
             Words = Words.Take((int) (Words.Length*wordsCount/(double) 100)).ToArray();
             if (Words.Length == 0)
                 throw new Exception("There are no words to build cloud");
-            Words[0].FontSize = graphics.VisibleClipBounds.Height * WordScale;
+            Words[0].FontSize = graphics.VisibleClipBounds.Height * firstScale/100f;
             for (var index = 0; index < Words.Length; index++)
             {
-                context.Invoke((MethodInvoker)delegate
-                {
-                    context.SetProgress((index + 1) * 100 / Words.Length);
-                });
+                setProgressAction((index + 1) * 100 / Words.Length);
                 var word = Words[index];
                 word.FontSize = GetWordFontSize(word);
                 if (CanFindPosition(word))
-                    frames.Add(Tuple.Create(word.GetWordRectangle(), 1));
+                    frames.Add(word.GetWordRectangle());
                 else if (frames.Count == 0)
-                    frames.Add(Tuple.Create(word.StayInCenterOfImage().GetWordRectangle(), 1));
+                    frames.Add(word.StayInCenterOfImage().GetWordRectangle());
             }
             return this;
         }
@@ -68,23 +62,20 @@ namespace Tag_Cloud_Generator.Classes
 
         public ITextHandler TextHandler { get; set; }
         public WordBlock[] Words { get; set; }
-        public float WordScale { get; set; }
-        public string FontFamily { get; set; }
-        public bool MoreDensity { get; set; }
         private static readonly int StandartIterations = 3;
 
         private bool CanFindPosition(WordBlock word)
         {
             if (frames.Count == 0) return false;
-            frames = frames.OrderBy(t => t.Item2).ThenByDescending(i => i.Item1.Perimetr()).ToList();
+            frames = frames.OrderBy(t => t.Priority).ThenByDescending(i => i.Rect.Perimetr()).ToList();
             var better = frames.First();
             var worst = frames.Last();
-            var it = worst.Item2 * StandartIterations / better.Item2;
-            for (var i = 0; i < frames.Count; ++i)
+            var it = worst.Priority * StandartIterations / better.Priority;
+            foreach (var pair in frames)
             {
-                if (BypassCircuit(word, frames[i].Item1, it != 0 ? it : 1))
+                if (BypassCircuit(word, pair.Rect, it != 0 ? it : 1))
                     return true;
-                frames[i] = Tuple.Create(frames[i].Item1, frames[i].Item2 + 1);
+                pair.Priority++;
             }
             return false;
         }
@@ -92,12 +83,7 @@ namespace Tag_Cloud_Generator.Classes
         private bool BypassCircuit(WordBlock word, Rectangle circuit, int count)
         {
             var points = circuit.GetPoints().OffsetArray(rnd.Next(0, 4));
-            for (var i = 0; i < points.Length; ++i)
-            {
-                if (MoveOnLine(word, points[i], points[(i + 1) % points.Length], count))
-                    return true;
-            }
-            return false;
+            return points.Where((t, i) => MoveOnLine(word, t, points[(i + 1)%points.Length], count)).Any();
         }
 
         private bool MoveOnLine(WordBlock word, Point start, Point end, int count)
@@ -128,7 +114,7 @@ namespace Tag_Cloud_Generator.Classes
                 word.SaveLocation();
                 word.MoveOn(-tmpRect.Width * what[j, 0],
                     tmpRect.Height * what[j, 1] * (word.IsVertical ? 1 : -1));
-                if (!word.IntersectsWith(frames.Select(h => h.Item1)) && word.InsideImage())
+                if (!word.IntersectsWith(frames.Select(h => h.Rect)) && word.InsideImage())
                     return true;
                 word.RestoreLocation();
             }

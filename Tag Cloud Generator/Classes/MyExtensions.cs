@@ -140,6 +140,11 @@ namespace Tag_Cloud_Generator.Classes
                 word.Graphics = graphics;
             return source;
         }
+
+        public static void Add(this List<RecanglePriorityPair> source, Rectangle rect)
+        {
+            source.Add(new RecanglePriorityPair(rect));
+        }
     }
 
     static class SizeExtensions
