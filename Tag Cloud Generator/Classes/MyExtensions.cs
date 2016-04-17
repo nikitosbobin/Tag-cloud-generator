@@ -133,6 +133,13 @@ namespace Tag_Cloud_Generator.Classes
             }
             return result.ToArray();
         }
+
+        public static WordBlock[] UpdateGraphics(this WordBlock[] source, Graphics graphics)
+        {
+            foreach (var word in source)
+                word.Graphics = graphics;
+            return source;
+        }
     }
 
     static class SizeExtensions

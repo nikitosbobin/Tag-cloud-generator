@@ -10,7 +10,6 @@ namespace Tag_Cloud_Generator.Interfaces
             ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount);
             ITextHandler TextHandler { get; set; }
             WordBlock[] Words { get; set; }
-            ICloudImageGenerator ImageGenerator { get; }
             float WordScale { get; set; }
             string FontFamily { get; set; }
             bool MoreDensity { get; set; }

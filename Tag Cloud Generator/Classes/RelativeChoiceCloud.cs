@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
@@ -11,37 +10,45 @@ namespace Tag_Cloud_Generator.Classes
 {
     class RelativeChoiceCloud : ICloudGenerator
     {
-        public RelativeChoiceCloud(ITextDecoder decoder, ITextHandler textHandler, 
-            ICloudImageGenerator generator, Control context)
+        public RelativeChoiceCloud(ITextDecoder decoder, ITextHandler textHandler, Control context)
         {
-            this.context = (MainForm) context;
-            ImageGenerator = generator;
+            this.context = (NewForm) context;
             TextHandler = textHandler;
             this.decoder = decoder;
             frames = new List<Tuple<Rectangle, int>>();
             WordScale = 0.06f;
             rnd = new Random(DateTime.Now.Millisecond);
         }
-
-        private readonly MainForm context;
+        
+        private readonly NewForm context;
         private List<Tuple<Rectangle, int>> frames;
         private readonly ITextDecoder decoder;
         private readonly Random rnd;
 
+        private void SmoothFrequences()
+        {
+            var count = Words.Length;
+            Words = Words.OrderByDescending(u => u.Frequency).ToArray();
+            for (var i = 0; i < count; ++i)
+                Words[i].Frequency = count - i;
+        }
+
         public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount)
         {
+            frames.Clear();
             Words = TextHandler.GetWords(decoder, graphics, wordsFont)
                 .OrderByDescending(u => u.Frequency)
+                .ThenByDescending(w => w.Source.Length)
                 .ToArray();
             Words = Words.Take((int) (Words.Length*wordsCount/(double) 100)).ToArray();
             if (Words.Length == 0)
                 throw new Exception("There are no words to build cloud");
-            Words[0].FontSize = ImageGenerator.ImageSize.Height * WordScale;
+            Words[0].FontSize = graphics.VisibleClipBounds.Height * WordScale;
             for (var index = 0; index < Words.Length; index++)
             {
                 context.Invoke((MethodInvoker)delegate
                 {
-                    context.cloudCreateProgress.Value = (index+1) * 100 / Words.Length;
+                    context.SetProgress((index + 1) * 100 / Words.Length);
                 });
                 var word = Words[index];
                 word.FontSize = GetWordFontSize(word);
@@ -61,7 +68,6 @@ namespace Tag_Cloud_Generator.Classes
 
         public ITextHandler TextHandler { get; set; }
         public WordBlock[] Words { get; set; }
-        public ICloudImageGenerator ImageGenerator { get; }
         public float WordScale { get; set; }
         public string FontFamily { get; set; }
         public bool MoreDensity { get; set; }

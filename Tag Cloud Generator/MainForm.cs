@@ -16,8 +16,8 @@ namespace Tag_Cloud_Generator
         private readonly ITextHandler textHandler;
         private ICloudImageGenerator imageGenerator;
         private ICloudGenerator cloudGenerator;
-        private WordsColorsForm colorsForm;
-        private FormDataProvider dataProvider;
+        private readonly WordsColorsForm colorsForm;
+        private readonly FormDataProvider dataProvider;
         public MainForm()
         {
             InitializeComponent();
@@ -32,6 +32,7 @@ namespace Tag_Cloud_Generator
                 WordsCount = 30
             };
             SwitchElementsEnabled(false);
+            imageGenerator = new ImageGenerator();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -61,8 +62,8 @@ namespace Tag_Cloud_Generator
         private void createCloudButton_Click(object sender, EventArgs e)
         {
             decoder.TextLines = inputTextBox.Lines;
-            imageGenerator = new ImageGenerator(dataProvider.ImageSize);
-            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, imageGenerator, this);
+            imageGenerator.ImageSize = dataProvider.ImageSize;
+            cloudGenerator = new RelativeChoiceCloud(decoder, textHandler, this);
             asyncCloudCreator.RunWorkerAsync();
         }
 
@@ -109,24 +110,6 @@ namespace Tag_Cloud_Generator
             });
         }
 
-        private void inputTextBox_DragDrop(object sender, DragEventArgs e)
-        {
-            /*var path = ((string[]) e.Data.GetData(DataFormats.FileDrop, false)).First();
-            try
-            {
-                inputTextBox.Lines = File.ReadAllLines(path);
-            }
-            catch
-            {
-                MessageBox.Show("Can not read file");
-            }*/
-        }
-
-        private void inputTextBox_DragEnter(object sender, DragEventArgs e)
-        {
-            //e.Effect = DragDropEffects.Move;
-        }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var newFileDialog = new NewFileForm();
@@ -149,16 +132,6 @@ namespace Tag_Cloud_Generator
         {
             if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
             dataProvider.BackGroundColor = backgroundColorDialog.Color;
-        }
-
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Program easy. You needn't in help");
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Nikita Bobin");
         }
 
         private void colorsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -184,7 +157,7 @@ namespace Tag_Cloud_Generator
             if (saveFileDialog1.ShowDialog(this) != DialogResult.OK) return;
             pictureBox1.Image.Save(saveFileDialog1.FileName);
         }
-
+        
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             var path = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).First();
@@ -202,6 +175,27 @@ namespace Tag_Cloud_Generator
         private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
+        }
+
+        private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                inputTextBox.SelectAll();
+        }
+
+        private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Program easy. You needn't in help");
+        }
+
+        private void authorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Nikita Bobin");
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

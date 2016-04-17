@@ -10,7 +10,7 @@ namespace Tag_Cloud_Generator.Classes
 {
     class ImageGenerator : ICloudImageGenerator
     {
-        public Size ImageSize { get; }
+        public Size ImageSize { get; set; }
         private WordBlock[] words;
 
         //шрифты еще надо почистить
@@ -26,14 +26,20 @@ namespace Tag_Cloud_Generator.Classes
             set { fontFamily = value; }
         }
 
-        public ImageGenerator(Size imageSize)
+        public Bitmap CreateImage(ICloudGenerator cloud, Color backgroundColor, List<Color> wordsBrushes = null)
         {
-            ImageSize = imageSize;
-        }
-
-        public ImageGenerator(int width, int height)
-        {
-            ImageSize = new Size(width, height);
+            var image = new Bitmap(ImageSize.Width, ImageSize.Height);
+            using (var graphics = Graphics.FromImage(image))
+            {
+                SetGraphics(graphics, backgroundColor);
+                words = cloud.Words
+                    .UpdateGraphics(graphics)
+                    .OrderByDescending(w => w.Frequency)
+                    .ToArray();
+                DrawAllWords(wordsBrushes);
+                graphics.ResetTransform();
+            }
+            return image;
         }
 
         public Bitmap CreateImage(ICloudGenerator cloud, Font wordsFont, int wordsCount, Color backgroundColor, List<Color> wordsBrushes = null)
@@ -42,7 +48,9 @@ namespace Tag_Cloud_Generator.Classes
             using (var graphics = Graphics.FromImage(image))
             {
                 SetGraphics(graphics, backgroundColor);
-                words = cloud.CreateCloud(graphics, wordsFont,wordsCount).Words.OrderByDescending(w => w.Frequency).ToArray();
+                words = cloud.CreateCloud(graphics, wordsFont, wordsCount).Words
+                    .OrderByDescending(w => w.Frequency)
+                    .ToArray();
                 DrawAllWords(wordsBrushes);
                 graphics.ResetTransform();
             }
@@ -65,16 +73,8 @@ namespace Tag_Cloud_Generator.Classes
             var better = words.First();
             var t = word.Frequency / (double)better.Frequency;
             if (t < 0.3) t = 0.3;
-            return ConvertToColor(0, (byte)(t * 255), 255);
-        }
-
-        private static Color ConvertToColor(byte r, byte g, byte b)
-        {
-            var rString = r.ToHtmlColor();
-            var gString = g.ToHtmlColor();
-            var bString = b.ToHtmlColor();
-            var totalHtmlColor = $"#{rString}{gString}{bString}";
-            return totalHtmlColor.ToColor();
+            var targetGradation = 256 - (int) (t*255);
+            return Color.FromArgb(targetGradation, targetGradation, targetGradation);
         }
 
         private void SetGraphics(Graphics graphics, Color backgroundColor)
