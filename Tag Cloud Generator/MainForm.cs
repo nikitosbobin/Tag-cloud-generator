@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Tag_Cloud_Generator.Classes;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
@@ -119,7 +120,7 @@ namespace Tag_Cloud_Generator
 
         private void LoadText(string path)
         {
-            decoder.TextLines = File.ReadAllLines(path);
+            decoder.TextLines = File.ReadAllLines(path, Encoding.Default);
             loadedFilePath.Text = path;
             imageSizeGroup.Enabled = true;
             cloudGeneratingGroup.Enabled = true;
