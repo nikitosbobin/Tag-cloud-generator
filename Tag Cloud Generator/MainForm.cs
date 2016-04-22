@@ -28,18 +28,18 @@ namespace Tag_Cloud_Generator
                 WordsCount = 30,
                 FirstScale = 10
             };
-            decoder = new TxtDecoder();
             colorsForm = new WordsColorsForm();
             imageGenerator = new ImageGenerator();
             cloudIsRelevant = false;
-            cloudGenerator = new RelativeChoiceCloud(decoder, new SimpleTextHandler());
+            textHandler = new TextSpellHandler();
+            cloudGenerator = new RelativeChoiceCloud(textHandler);
         }
 
         private bool cloudIsRelevant;
         private readonly FormDataProvider data;
-        private readonly ITextDecoder decoder;
-        private readonly ICloudImageGenerator imageGenerator;
+        private readonly ImageGenerator imageGenerator;
         private readonly ICloudGenerator cloudGenerator;
+        private readonly TextSpellHandler textHandler;
         private readonly WordsColorsForm colorsForm;
         private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
         {
@@ -120,7 +120,7 @@ namespace Tag_Cloud_Generator
 
         private void LoadText(string path)
         {
-            decoder.TextLines = File.ReadAllLines(path, Encoding.Default);
+            textHandler.TextLines = File.ReadAllLines(path, Encoding.Default);
             loadedFilePath.Text = path;
             imageSizeGroup.Enabled = true;
             cloudGeneratingGroup.Enabled = true;
@@ -165,7 +165,7 @@ namespace Tag_Cloud_Generator
             else
             {
                 imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
-                image = imageGenerator.CreateImage(cloudGenerator, data, v =>
+                image = CreateImage(cloudGenerator, data, v =>
                 {
                     Invoke((MethodInvoker)delegate { SetProgress(v); });
                 });
@@ -254,6 +254,12 @@ namespace Tag_Cloud_Generator
             if (backgroundColorDialog.ShowDialog(this) != DialogResult.OK) return;
             data.BackGroundColor = backgroundColorDialog.Color;
             backgroundColor.Image = GetImage(data.BackGroundColor);
+        }
+        
+        private Bitmap CreateImage(ICloudGenerator cloud, FormDataProvider data, Action<int> setProgress = null)
+        {
+            return imageGenerator.CreateImage(cloud, setProgress, data.WordsFont, data.WordsCount,
+                data.FirstScale, data.BackGroundColor, data.WordsColors);
         }
     }
 }

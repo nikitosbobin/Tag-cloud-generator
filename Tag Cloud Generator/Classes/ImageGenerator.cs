@@ -30,12 +30,6 @@ namespace Tag_Cloud_Generator.Classes
             return image;
         }
 
-        public Bitmap CreateImage(ICloudGenerator cloud, FormDataProvider data, Action<int> setProgress = null)
-        {
-            return CreateImage(cloud, setProgress, data.WordsFont, data.WordsCount,
-                data.FirstScale,data.BackGroundColor,data.WordsColors);
-        }
-
         public Bitmap CreateImage(ICloudGenerator cloud, Action<int> setProgress, Font wordsFont, 
             int wordsCount, int firstScale, Color backgroundColor, List<Color> wordsBrushes = null)
         {

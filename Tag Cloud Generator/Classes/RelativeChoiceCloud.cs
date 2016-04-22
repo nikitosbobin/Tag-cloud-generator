@@ -9,31 +9,21 @@ namespace Tag_Cloud_Generator.Classes
 {
     class RelativeChoiceCloud : ICloudGenerator
     {
-        public RelativeChoiceCloud(ITextDecoder decoder, ITextHandler textHandler)
+        public RelativeChoiceCloud(ITextHandler textHandler)
         {
             TextHandler = textHandler;
-            this.decoder = decoder;
             frames = new List<RecanglePriorityPair>();
             rnd = new Random(DateTime.Now.Millisecond);
         }
         
         private List<RecanglePriorityPair> frames;
-        private readonly ITextDecoder decoder;
         private readonly Random rnd;
-
-        /*private void SmoothFrequences()
-        {
-            var count = Words.Length;
-            Words = Words.OrderByDescending(u => u.Frequency).ToArray();
-            for (var i = 0; i < count; ++i)
-                Words[i].Frequency = count - i;
-        }*/
 
         public ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount,
             int firstScale, Action<int> setProgressAction)
         {
             frames.Clear();
-            Words = TextHandler.GetWords(decoder, graphics, wordsFont)
+            Words = TextHandler.GetWords(graphics, wordsFont)
                 .OrderByDescending(u => u.Frequency)
                 .ThenByDescending(w => w.Source.Length)
                 .ToArray();

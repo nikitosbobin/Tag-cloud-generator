@@ -7,24 +7,6 @@ namespace Tag_Cloud_Generator.Classes
 {
     class WordBlock
     {
-        public class Comparer : IEqualityComparer<WordBlock>
-        {
-            public bool Equals(WordBlock x, WordBlock y)
-            {
-                if (x == y) return true;
-                if (x == null || y == null)
-                    return false;
-                return x.Source == y.Source && x.Frequency == y.Frequency;
-            }
-
-            public int GetHashCode(WordBlock obj)
-            {
-                if (obj == null)
-                    return 0;
-                return obj.Source.GetHashCode() ^ obj.Frequency;
-            }
-        }
-
         public WordBlock(Graphics graphics, Font font, string source, int frequency = 1)
         {
             Graphics = graphics;
@@ -130,15 +112,12 @@ namespace Tag_Cloud_Generator.Classes
 
         public void Draw(Color color)
         {
-            //Graphics.DrawRectangle(new Pen(Color.Blue), Location.X, Location.Y, 2, 2);
-            var grState = Graphics.Save();
+            var graphicsState = Graphics.Save();
             Graphics.TranslateTransform(Location.X, Location.Y);
             var angle = IsVertical ? 270f : 0f;
             Graphics.RotateTransform(angle);
             Graphics.DrawString(Source, Font, new SolidBrush(color), 0, 0);
-            Graphics.Restore(grState);
-            //var v = GetWordRectangle(Graphics);
-            //Graphics.DrawRectangle(new Pen(Color.Crimson), v);
+            Graphics.Restore(graphicsState);
         }
     }
 }
