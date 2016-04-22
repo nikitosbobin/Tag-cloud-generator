@@ -143,52 +143,80 @@ namespace Tag_Cloud_Generator
 
         private void backgroundCloudCreator_DoWork(object sender, DoWorkEventArgs e)
         {
-            Invoke((MethodInvoker)delegate
-            {
-                generateCloudButton.Enabled = false;
-                cloudGeneratingGroup.Enabled = false;
-                imageSizeGroup.Enabled = false;
-                textLoadGroup.Enabled = false;
-                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Creating;
-            });
+            SetFormToStartSreating();
             Bitmap image;
             try
             {
-                if (cloudIsRelevant)
-                    image = imageGenerator.CreateImage(cloudGenerator, data.BackGroundColor, data.WordsColors);
-                else
-                {
-                    imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
-                    image = imageGenerator.CreateImage(cloudGenerator, data, v =>
-                    {
-                        Invoke((MethodInvoker)delegate { SetProgress(v); });
-                    });
-                    cloudIsRelevant = true;
-                }
+                image = TryCreateCloud();
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message.Contains("no words")
-                    ? "There are no words to build cloud"
-                    : exception.Message, Resources.MainForm_backgroundCloudCreator_DoWork_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Error;
-                generateCloudButton.Enabled = true;
-                cloudGeneratingGroup.Enabled = true;
-                imageSizeGroup.Enabled = true;
-                textLoadGroup.Enabled = true;
-                SetProgress(0);
+                SetFormCreatingFailed(exception);
                 return;
             }
+            SetFormCreatingSuccess(image);
+        }
+
+        private Bitmap TryCreateCloud()
+        {
+            Bitmap image;
+            if (cloudIsRelevant)
+                image = imageGenerator.CreateImage(cloudGenerator, data.BackGroundColor, data.WordsColors);
+            else
+            {
+                imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
+                image = imageGenerator.CreateImage(cloudGenerator, data, v =>
+                {
+                    Invoke((MethodInvoker)delegate { SetProgress(v); });
+                });
+                cloudIsRelevant = true;
+            }
+            return image;
+        }
+
+        private void SetFormCreatingFailed(Exception exception)
+        {
+            Invoke((MethodInvoker) delegate
+            {
+                MessageBox.Show(exception.Message.Contains("no words")
+                    ? "There are no words to build cloud"
+                    : exception.Message, Resources.MainForm_backgroundCloudCreator_DoWork_Error, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Error;
+                SwitchInputControls(true);
+                SetProgress(0);
+            });
+        }
+
+        private void SetFormToStartSreating()
+        {
             Invoke((MethodInvoker)delegate
             {
-                generateCloudButton.Enabled = true;
-                cloudGeneratingGroup.Enabled = true;
-                imageSizeGroup.Enabled = true;
-                textLoadGroup.Enabled = true;
-                cloudImageBox.Image = image;
-                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Done;
+                SwitchInputControls(false);
+                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Creating;
+            });
+        }
+
+        private void SetFormCreatingSuccess(Image createdImage)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                SwitchInputControls(true);
                 SetProgress(0);
-                saveImageButton.Enabled = true;
+                cloudImageBox.Image = createdImage;
+                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Done;
+            });
+        }
+
+        private void SwitchInputControls(bool value)
+        {
+            Invoke((MethodInvoker) delegate
+            {
+                generateCloudButton.Enabled = value;
+                cloudGeneratingGroup.Enabled = value;
+                imageSizeGroup.Enabled = value;
+                textLoadGroup.Enabled = value;
+                saveImageButton.Enabled = value;
             });
         }
 
