@@ -1,60 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using Tag_Cloud_Generator.Interfaces;
-using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
     class ImageGenerator : ICloudImageGenerator
     {
-        public Size ImageSize { get; set; }
         private WordBlock[] words;
 
-        public Bitmap CreateImage(ICloudGenerator cloud, Color backgroundColor, List<Color> wordsBrushes = null)
+        public Bitmap CreateImage(ITagCloud cloud, Color backgroundColor, List<Color> wordsBrushes = null)
         {
-            var image = new Bitmap(ImageSize.Width, ImageSize.Height);
+            var image = new Bitmap(cloud.CloudSize.Width, cloud.CloudSize.Height);
             using (var graphics = Graphics.FromImage(image))
             {
-                SetGraphics(graphics, backgroundColor);
+                SetGraphics(graphics, cloud.CloudSize.Center(), backgroundColor);
+                //oud.OffsetAllWords(cloud.CloudSize.Center().X, cloud.CloudSize.Center().Y);
                 words = cloud.Words
-                    .UpdateGraphics(graphics)
                     .OrderByDescending(w => w.Frequency)
                     .ToArray();
-                DrawAllWords(wordsBrushes);
+                DrawAllWords(graphics, wordsBrushes);
                 graphics.ResetTransform();
             }
             return image;
         }
 
-        public Bitmap CreateImage(ICloudGenerator cloud, Action<int> setProgress, Font wordsFont, 
-            int wordsCount, int firstScale, Color backgroundColor, List<Color> wordsBrushes = null)
-        {
-            var image = new Bitmap(ImageSize.Width, ImageSize.Height);
-            using (var graphics = Graphics.FromImage(image))
-            {
-                SetGraphics(graphics, backgroundColor);
-                words = cloud.CreateCloud(graphics, wordsFont, wordsCount, firstScale, setProgress).Words
-                    .OrderByDescending(w => w.Frequency)
-                    .ToArray();
-                DrawAllWords(wordsBrushes);
-                graphics.ResetTransform();
-            }
-            return image;
-            
-        }
-
-        private void DrawAllWords(List<Color> wordsBrushes)
+        private void DrawAllWords(Graphics graphics, List<Color> wordsBrushes)
         {
             foreach (var word in words)
             {
-                word.Draw(wordsBrushes == null || wordsBrushes.Count == 0 
+                DrawWord(word, graphics, wordsBrushes == null || wordsBrushes.Count == 0 
                     ? GetGrayGradation(word) 
                     : wordsBrushes.GetRandomElement());
             }
+        }
+
+        public void DrawWord(WordBlock word, Graphics graphics, Color color)
+        {
+            var graphicsState = graphics.Save();
+            graphics.TranslateTransform(word.Location.X, word.Location.Y);
+            var angle = word.IsVertical ? 270f : 0f;
+            graphics.RotateTransform(angle);
+            graphics.DrawString(word.Source, word.Font, new SolidBrush(color), 0, 0);
+            graphics.Restore(graphicsState);
         }
 
         private Color GetGrayGradation(WordBlock word)
@@ -66,10 +56,9 @@ namespace Tag_Cloud_Generator.Classes
             return Color.FromArgb(targetGradation, targetGradation, targetGradation);
         }
 
-        private void SetGraphics(Graphics graphics, Color backgroundColor)
+        private void SetGraphics(Graphics graphics, Point center, Color backgroundColor)
         {
-            var imageCenter = ImageSize.Center();
-            graphics.Transform = new Matrix(1, 0, 0, 1, imageCenter.X, imageCenter.Y);
+            //graphics.Transform = new Matrix(1, 0, 0, 1, center.X, center.Y);
             graphics.Clear(backgroundColor);
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
         }

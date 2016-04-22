@@ -36,6 +36,7 @@ namespace Tag_Cloud_Generator
         }
 
         private bool cloudIsRelevant;
+        private ITagCloud actualCloud;
         private readonly FormDataProvider data;
         private readonly ImageGenerator imageGenerator;
         private readonly ICloudGenerator cloudGenerator;
@@ -93,6 +94,7 @@ namespace Tag_Cloud_Generator
 
         private void generateCloudButton_Click(object sender, EventArgs e)
         {
+            data.ImageSize = new Size((int) imageWidth.Value, (int)imageHeight.Value);
             saveImageButton.Enabled = false;
             if (recreateCheckBox.Checked)
                 cloudIsRelevant = false;
@@ -161,15 +163,15 @@ namespace Tag_Cloud_Generator
         {
             Bitmap image;
             if (cloudIsRelevant)
-                image = imageGenerator.CreateImage(cloudGenerator, data.BackGroundColor, data.WordsColors);
+                image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
             else
             {
-                imageGenerator.ImageSize = new Size((int)imageWidth.Value, (int)imageHeight.Value);
-                image = CreateImage(cloudGenerator, data, v =>
+                actualCloud = CreateImage(cloudGenerator, data, v =>
                 {
                     Invoke((MethodInvoker)delegate { SetProgress(v); });
                 });
                 cloudIsRelevant = true;
+                image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
             }
             return image;
         }
@@ -256,10 +258,9 @@ namespace Tag_Cloud_Generator
             backgroundColor.Image = GetImage(data.BackGroundColor);
         }
         
-        private Bitmap CreateImage(ICloudGenerator cloud, FormDataProvider data, Action<int> setProgress = null)
+        private ITagCloud CreateImage(ICloudGenerator cloud, FormDataProvider data, Action<int> setProgress = null)
         {
-            return imageGenerator.CreateImage(cloud, setProgress, data.WordsFont, data.WordsCount,
-                data.FirstScale, data.BackGroundColor, data.WordsColors);
+            return cloud.CreateCloud(data.ImageSize, data.WordsFont, data.WordsCount, data.FirstScale, setProgress);
         }
     }
 }

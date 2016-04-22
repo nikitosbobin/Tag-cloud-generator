@@ -133,13 +133,6 @@ namespace Tag_Cloud_Generator.Classes
             return result.ToArray();
         }
 
-        public static WordBlock[] UpdateGraphics(this WordBlock[] source, Graphics graphics)
-        {
-            foreach (var word in source)
-                word.Graphics = graphics;
-            return source;
-        }
-
         public static void Add(this List<RecanglePriorityPair> source, Rectangle rect)
         {
             source.Add(new RecanglePriorityPair(rect));

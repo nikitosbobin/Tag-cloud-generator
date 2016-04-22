@@ -8,7 +8,7 @@ namespace Tag_Cloud_Generator.Interfaces
     {
         interface ICloudGenerator
         {
-            ICloudGenerator CreateCloud(Graphics graphics, Font wordsFont, int wordsCount,
+            ITagCloud CreateCloud(Size targetCloudSize, Font wordsFont, int wordsAmount,
                 int firstScale, Action<int> setProgressAction);
             ITextHandler TextHandler { get; set; }
             WordBlock[] Words { get; set; }

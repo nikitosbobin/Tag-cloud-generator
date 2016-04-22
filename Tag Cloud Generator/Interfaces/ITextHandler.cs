@@ -6,6 +6,6 @@ namespace Tag_Cloud_Generator.Interfaces
 {
     interface ITextHandler
     {
-        IEnumerable<WordBlock> GetWords(Graphics graphics, Font wordsFont);
+        IEnumerable<WordBlock> GetWords(Font wordsFont);
     }
 }

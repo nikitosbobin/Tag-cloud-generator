@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 
 namespace Tag_Cloud_Generator.Classes
 {
     class WordBlock
     {
-        public WordBlock(Graphics graphics, Font font, string source, int frequency = 1)
+        public WordBlock(Font font, string source, int frequency = 1)
         {
-            Graphics = graphics;
             Source = source;
             Frequency = frequency;
             Location = Point.Empty;
@@ -19,26 +17,10 @@ namespace Tag_Cloud_Generator.Classes
             savedLocations = new Stack<Point>();
             Font = font;
         }
-
-        public Graphics Graphics { get; set; }
+        
         public string Source { get; set; }
         public int Frequency { get; set; }
         public Point Location { get; private set; }
-
-        public Rectangle GetWordRectangle()
-        {
-            var currentWordSize = GetWordSize();
-            var wordWidth = currentWordSize.Width;
-            var wordHeight = currentWordSize.Height;
-            var location = new Point(Location.X, Location.Y);
-            if (IsVertical) location.Y -= wordWidth;
-            return new Rectangle(location, new Size(IsVertical ? wordHeight : wordWidth, IsVertical ? wordWidth : wordHeight));
-        }
-
-        public Size GetWordSize()
-        {
-            return Source.Measure(Graphics, Font);
-        }
 
         public Font Font { get; set; }
 
@@ -64,29 +46,6 @@ namespace Tag_Cloud_Generator.Classes
             return true;
         }
 
-        public bool IntersectsWith(IEnumerable<Rectangle> frames)
-        {
-            return frames?.Any(r => r.IntersectsWith(GetWordRectangle())) ?? false;
-        }
-
-        public WordBlock StayInCenterOfImage()
-        {
-            var center = GetWordSize().Center();
-            MoveToPoint(center.MultipleTo(-1));
-            IsVertical = false;
-            return this;
-        }
-
-        public bool InsideImage()
-        {
-            return GetWordRectangle().GetPoints().All(Graphics.IsVisible);
-        }
-
-        public double Perimetr()
-        {
-            return GetWordRectangle().Perimetr();
-        }
-
         public WordBlock MoveOn(int offsetX, int offsetY)
         {
             Location = new Point(Location.X + offsetX, Location.Y + offsetY);
@@ -108,16 +67,6 @@ namespace Tag_Cloud_Generator.Classes
         public override string ToString()
         {
             return $"{Source}--{Frequency}";
-        }
-
-        public void Draw(Color color)
-        {
-            var graphicsState = Graphics.Save();
-            Graphics.TranslateTransform(Location.X, Location.Y);
-            var angle = IsVertical ? 270f : 0f;
-            Graphics.RotateTransform(angle);
-            Graphics.DrawString(Source, Font, new SolidBrush(color), 0, 0);
-            Graphics.Restore(graphicsState);
         }
     }
 }

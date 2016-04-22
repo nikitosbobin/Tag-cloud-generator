@@ -17,7 +17,7 @@ namespace Tag_Cloud_Generator.Classes
 
         public string[] TextLines { get; set; } = new string[0];
         
-        public IEnumerable<WordBlock> GetWords(Graphics graphics, Font wordsFont)
+        public IEnumerable<WordBlock> GetWords(Font wordsFont)
         {
             var innerWords = new Dictionary<string, WordBlock>();
             var actualWords = SplitWords().Where(WordIsRight).ToArray();
@@ -26,7 +26,7 @@ namespace Tag_Cloud_Generator.Classes
                 if (innerWords.ContainsKey(word))
                     innerWords[word].Frequency++;
                 else
-                    innerWords.Add(word, new WordBlock(graphics, wordsFont, word));
+                    innerWords.Add(word, new WordBlock(wordsFont, word));
             }
             return innerWords.Select(pair => pair.Value).ToArray();
         }
