@@ -17,6 +17,7 @@ namespace Tag_Cloud_Generator.Classes
             rnd = new Random(DateTime.Now.Millisecond);
         }
 
+        private Graphics tmpGraphics;
         private Size cloudSize; 
         private List<RecanglePriorityPair> frames;
         private readonly Random rnd;
@@ -26,25 +27,40 @@ namespace Tag_Cloud_Generator.Classes
         {
             cloudSize = targetCloudSize;
             frames.Clear();
-            Words = TextHandler.GetWords(wordsFont)
+            Words = GetWords(wordsFont, wordsAmount);
+            Words[0].FontSize = targetCloudSize.Height * firstScale/100f;
+            using (var image = new Bitmap(targetCloudSize.Width, targetCloudSize.Height))
+            using (tmpGraphics = Graphics.FromImage(image))
+            {
+                for (var index = 0; index < Words.Length; index++)
+                {
+                    setProgressAction((index + 1)*100/Words.Length);
+                    var word = Words[index];
+                    word.FontSize = GetWordFontSize(word);
+                    LocateWordOnImage(word);
+                }
+            }
+            return new StemTagCloud(targetCloudSize, Words);
+        }
+
+        private void LocateWordOnImage(WordBlock word)
+        {
+            if (CanFindPosition(word))
+                frames.Add(GetWordRectangle(word));
+            else if (frames.Count == 0)
+                frames.Add(GetWordRectangle(PutWordInImageCenter(word)));
+        }
+
+        private WordBlock[] GetWords(Font wordsFont, int wordsAmount)
+        {
+            var result = TextHandler.GetWords(wordsFont)
                 .OrderByDescending(u => u.Frequency)
                 .ThenByDescending(w => w.Source.Length)
                 .ToArray();
-            Words = Words.Take((int) (Words.Length*wordsAmount/(double) 100)).ToArray();
-            if (Words.Length == 0)
+            result = result.Take((int)(result.Length * wordsAmount / (double)100)).ToArray();
+            if (result.Length == 0)
                 throw new Exception("There are no words to build cloud");
-            Words[0].FontSize = targetCloudSize.Height * firstScale/100f;
-            for (var index = 0; index < Words.Length; index++)
-            {
-                setProgressAction((index + 1) * 100 / Words.Length);
-                var word = Words[index];
-                word.FontSize = GetWordFontSize(word);
-                if (CanFindPosition(word))
-                    frames.Add(GetWordRectangle(word));
-                else if (frames.Count == 0)
-                    frames.Add(GetWordRectangle(PutWordInImageCenter(word)));
-            }
-            return new StemTagCloud(targetCloudSize, Words);
+            return result;
         }
 
         private float GetWordFontSize(WordBlock word)
@@ -57,31 +73,12 @@ namespace Tag_Cloud_Generator.Classes
         public WordBlock[] Words { get; set; }
         private static readonly int StandartIterations = 3;
 
-        private Size MeasureWord(WordBlock word)
-        {
-            var wordSize = TextRenderer.MeasureText(word.Source, word.Font);
-            return word.IsVertical ? new Size(wordSize.Height, wordSize.Width) : wordSize;
-        }
-
         private Rectangle GetWordRectangle(WordBlock word)
         {
-            var wordSize = MeasureWord(word);
+            var wordSize = word.Metrics.MeasureWord(tmpGraphics);
             var location = new Point(word.Location.X, word.Location.Y);
             if (word.IsVertical) location.Y -= wordSize.Height;
-            return new Rectangle(location, MeasureWord(word));
-        }
-
-        private bool WordInsideImage(WordBlock word)
-        {
-            var wordRect = GetWordRectangle(word);
-            return PointInsideCloud(wordRect.LeftBottom()) && PointInsideCloud(wordRect.RigthBottom());
-        }
-
-        private bool PointInsideCloud(Point point)
-        {
-            var b1 = point.X >= 0 && point.X <= cloudSize.Width;
-            var b2 = point.Y >= 0 && point.Y <= cloudSize.Height;
-            return b1 && b2;
+            return new Rectangle(location, wordSize);
         }
 
         private bool WordIntersectsWith(WordBlock word, IEnumerable<Rectangle> frames)
@@ -91,7 +88,7 @@ namespace Tag_Cloud_Generator.Classes
 
         private WordBlock PutWordInImageCenter(WordBlock word)
         {
-            var center = MeasureWord(word).Center();
+            var center = word.Metrics.MeasureWord(tmpGraphics).Center();
             word.MoveToPoint(-center.X + cloudSize.Center().X, -center.Y + cloudSize.Center().Y);
             word.IsVertical = false;
             return word;
@@ -102,10 +99,9 @@ namespace Tag_Cloud_Generator.Classes
             if (frames.Count == 0) return false;
             frames = frames.OrderBy(t => t.Priority).ThenByDescending(i => i.Rect.Perimetr()).ToList();
             var better = frames.First();
-            var worst = frames.Last();
-            var it = worst.Priority * StandartIterations / better.Priority;
             foreach (var pair in frames)
             {
+                var it = pair.Priority * StandartIterations / better.Priority;
                 if (BypassCircuit(word, pair.Rect, it != 0 ? it : 1))
                     return true;
                 pair.Priority++;
@@ -116,14 +112,15 @@ namespace Tag_Cloud_Generator.Classes
         private bool BypassCircuit(WordBlock word, Rectangle circuit, int count)
         {
             var points = circuit.GetPoints().OffsetArray(rnd.Next(0, 4));
-            return points.Where((t, i) => MoveOnLine(word, t, points[(i + 1)%points.Length], count)).Any();
+            for (var i = 0; i < points.Length; ++i)
+                if (MoveOnLine(word, points[i], points[(i + 1) % points.Length], count))
+                    return true;
+            return false;
         }
 
         private bool MoveOnLine(WordBlock word, Point start, Point end, int count)
         {
             var dist = start.OffsetTo(end);
-            var startLocation = word.Location;
-            var startRotation = word.IsVertical;
             for (var i = 0; i < count; ++i)
             {
                 word.MoveToPoint(start.X + i * dist.X / count, start.Y + i * dist.Y / count);
@@ -132,9 +129,7 @@ namespace Tag_Cloud_Generator.Classes
                 word.IsVertical = !word.IsVertical;
                 if (TryFindPosition(word))
                     return true;
-                word.IsVertical = startRotation;
             }
-            word.MoveToPoint(startLocation);
             return false;
         }
 
@@ -147,7 +142,7 @@ namespace Tag_Cloud_Generator.Classes
                 word.SaveLocation();
                 word.MoveOn(-tmpRect.Width * what[j, 0],
                     tmpRect.Height * what[j, 1] * (word.IsVertical ? 1 : -1));
-                if (!WordIntersectsWith(word, frames.Select(h => h.Rect)) && WordInsideImage(word))
+                if (!WordIntersectsWith(word, frames.Select(h => h.Rect)) && word.Metrics.WordInsideImage(tmpGraphics))
                     return true;
                 word.RestoreLocation();
             }

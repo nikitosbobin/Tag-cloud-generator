@@ -62,6 +62,7 @@
     <Compile Include="Classes\StemTagCloud.cs" />
     <Compile Include="Classes\TextSpellHandler.cs" />
     <Compile Include="Classes\WordBlock.cs" />
+    <Compile Include="Classes\WordBlockMectrics.cs" />
     <Compile Include="Interfaces\ICloudCreatingContext.cs" />
     <Compile Include="Interfaces\ICloudGenerator.cs" />
     <Compile Include="Interfaces\ICloudImageGenerator.cs" />

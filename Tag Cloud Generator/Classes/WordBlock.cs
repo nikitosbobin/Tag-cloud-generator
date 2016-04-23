@@ -16,8 +16,11 @@ namespace Tag_Cloud_Generator.Classes
             IsVertical = false;
             savedLocations = new Stack<Point>();
             Font = font;
+            Metrics = new WordBlockMectrics(this);
         }
-        
+
+
+        public WordBlockMectrics Metrics { get; }
         public string Source { get; set; }
         public int Frequency { get; set; }
         public Point Location { get; private set; }
