@@ -8,18 +8,11 @@ namespace Tag_Cloud_Generator.Classes
 {
     static class RectangleExtensions
     {
-        public static Point MultipleTo(this Point source, int constant)
-        {
-            source.X *= constant;
-            source.Y *= constant;
-            return source;
-        }
-
         public static double Perimetr(this Rectangle source)
         {
             return 2 * (source.Width + source.Height);
         }
-
+        
         public static Point RigthBottom(this Rectangle source)
         {
             return new Point(source.Right, source.Bottom);
@@ -43,18 +36,12 @@ namespace Tag_Cloud_Generator.Classes
 
     static class StringExtensions
     {
-        public static Size Measure(this string source, Graphics graphics, Font font)
-        {
-            var measureString = graphics.MeasureString(source, font);
-            return new Size((int)measureString.Width, (int)measureString.Height);
-        }
-
         public static Color ToColor(this string source)
         {
             var converter = new ColorConverter();
             var colorObj = converter.ConvertFromString(source);
             if (colorObj == null)
-                throw new NotSupportedException($"can not convert color {source}");
+                throw new NotSupportedException($"Can not convert color {source}");
             return (Color)colorObj;
         }
     }
@@ -98,28 +85,6 @@ namespace Tag_Cloud_Generator.Classes
         public static TSource GetRandomElement<TSource>(this List<TSource> source)
         {
             return source.ElementAt(Random.Next(0, source.Count));
-        }
-
-        public static IList<TSource> Shuffle<TSource>(this IList<TSource> source)
-        {
-            var n = source.Count;
-            while (n > 1)
-            {
-                n--;
-                var k = Random.Next(n + 1);
-                var value = source[k];
-                source[k] = source[n];
-                source[n] = value;
-            }
-            return source;
-        }
-
-        public static double GetMiddle<TSource>(this IEnumerable<TSource> source, Func<TSource, int> elementLabda)
-        {
-            var sourseAtArray = source as TSource[] ?? source.ToArray();
-            if (sourseAtArray.Length == 0) return 0d;
-            var allSum = sourseAtArray.Sum(elementLabda);
-            return allSum / (double)sourseAtArray.Length;
         }
 
         public static TSource[] OffsetArray<TSource>(this TSource[] source, int offset)

@@ -88,8 +88,9 @@ namespace Tag_Cloud_Generator.Classes
 
         private WordBlock PutWordInImageCenter(WordBlock word)
         {
-            var center = word.Metrics.MeasureWord(tmpGraphics).Center();
-            word.MoveToPoint(-center.X + cloudSize.Center().X, -center.Y + cloudSize.Center().Y);
+            var wordCenter = word.Metrics.MeasureWord(tmpGraphics).Center();
+            var cloudCenter = cloudSize.Center();
+            word.MoveToPoint(-wordCenter.X + cloudCenter.X, -wordCenter.Y + cloudCenter.Y);
             word.IsVertical = false;
             return word;
         }

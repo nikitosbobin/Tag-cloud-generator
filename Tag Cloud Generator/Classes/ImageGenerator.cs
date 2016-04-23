@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using Tag_Cloud_Generator.Interfaces;
@@ -16,8 +15,7 @@ namespace Tag_Cloud_Generator.Classes
             var image = new Bitmap(cloud.CloudSize.Width, cloud.CloudSize.Height);
             using (var graphics = Graphics.FromImage(image))
             {
-                SetGraphics(graphics, cloud.CloudSize.Center(), backgroundColor);
-                //oud.OffsetAllWords(cloud.CloudSize.Center().X, cloud.CloudSize.Center().Y);
+                SetGraphics(graphics, backgroundColor);
                 words = cloud.Words
                     .OrderByDescending(w => w.Frequency)
                     .ToArray();
@@ -56,9 +54,8 @@ namespace Tag_Cloud_Generator.Classes
             return Color.FromArgb(targetGradation, targetGradation, targetGradation);
         }
 
-        private void SetGraphics(Graphics graphics, Point center, Color backgroundColor)
+        private void SetGraphics(Graphics graphics, Color backgroundColor)
         {
-            //graphics.Transform = new Matrix(1, 0, 0, 1, center.X, center.Y);
             graphics.Clear(backgroundColor);
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
         }
