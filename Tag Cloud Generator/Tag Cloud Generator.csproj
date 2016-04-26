@@ -59,6 +59,7 @@
     <Compile Include="Classes\MyExtensions.cs" />
     <Compile Include="Classes\RecanglePriorityPair.cs" />
     <Compile Include="Classes\RelativeChoiceCloud.cs" />
+    <Compile Include="Classes\RelativeChoiceCloudStates.cs" />
     <Compile Include="Classes\StemTagCloud.cs" />
     <Compile Include="Classes\TextSpellHandler.cs" />
     <Compile Include="Classes\WordBlock.cs" />

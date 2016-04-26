@@ -33,8 +33,10 @@ namespace Tag_Cloud_Generator
             cloudIsRelevant = false;
             textHandler = new TextSpellHandler();
             cloudGenerator = new RelativeChoiceCloud(textHandler);
+            cancelCreating = false;
         }
 
+        private bool cancelCreating;
         private bool cloudIsRelevant;
         private ITagCloud actualCloud;
         private readonly FormDataProvider data;
@@ -94,6 +96,7 @@ namespace Tag_Cloud_Generator
 
         private void generateCloudButton_Click(object sender, EventArgs e)
         {
+            cancelCreating = false;
             data.ImageSize = new Size((int) imageWidth.Value, (int)imageHeight.Value);
             saveImageButton.Enabled = false;
             if (recreateCheckBox.Checked)
@@ -166,10 +169,15 @@ namespace Tag_Cloud_Generator
                 image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
             else
             {
-                actualCloud = CreateImage(cloudGenerator, data, v =>
-                {
-                    Invoke((MethodInvoker)delegate { SetProgress(v); });
-                });
+                cloudGenerator.InitCreating(data.ImageSize, data.WordsFont, data.WordsCount, data.FirstScale);
+                var count = 0;
+                double max = cloudGenerator.WordBlocks.Count;
+                while (cloudGenerator.HandleNextWord() && !cancelCreating)
+                Invoke((MethodInvoker) delegate
+                    {
+                        SetProgress((int) (count++ * 100 / max));
+                    });
+                actualCloud = cloudGenerator.GetCreatedCloud();
                 cloudIsRelevant = true;
                 image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
             }
@@ -219,6 +227,7 @@ namespace Tag_Cloud_Generator
                 imageSizeGroup.Enabled = value;
                 textLoadGroup.Enabled = value;
                 saveImageButton.Enabled = value;
+                cancelCreatingButton.Enabled = !value;
             });
         }
 
@@ -257,10 +266,10 @@ namespace Tag_Cloud_Generator
             data.BackGroundColor = backgroundColorDialog.Color;
             backgroundColor.Image = GetImage(data.BackGroundColor);
         }
-        
-        private ITagCloud CreateImage(ICloudGenerator cloud, FormDataProvider data, Action<int> setProgress = null)
+
+        private void cancelCreatingButton_Click(object sender, EventArgs e)
         {
-            return cloud.CreateCloud(data.ImageSize, data.WordsFont, data.WordsCount, data.FirstScale, setProgress);
+            cancelCreating = true;
         }
     }
 }

@@ -69,6 +69,7 @@
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.progressLabel = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cancelCreatingButton = new System.Windows.Forms.Button();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
@@ -137,6 +138,7 @@
             this.cloudGeneratingGroup.Controls.Add(this.recreateCheckBox);
             this.cloudGeneratingGroup.Controls.Add(this.colorsCountLabel);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsButton);
+            this.cloudGeneratingGroup.Controls.Add(this.saveImageButton);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsLabel);
             this.cloudGeneratingGroup.Controls.Add(this.backgroundColor);
             this.cloudGeneratingGroup.Controls.Add(this.backgroundLabel);
@@ -409,7 +411,7 @@
             this.saveImageButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.saveImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.saveImageButton.Enabled = false;
-            this.saveImageButton.Location = new System.Drawing.Point(626, 436);
+            this.saveImageButton.Location = new System.Drawing.Point(223, 238);
             this.saveImageButton.Name = "saveImageButton";
             this.saveImageButton.Size = new System.Drawing.Size(87, 27);
             this.saveImageButton.TabIndex = 5;
@@ -492,6 +494,19 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // cancelCreatingButton
+            // 
+            this.cancelCreatingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelCreatingButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cancelCreatingButton.Enabled = false;
+            this.cancelCreatingButton.Location = new System.Drawing.Point(626, 436);
+            this.cancelCreatingButton.Name = "cancelCreatingButton";
+            this.cancelCreatingButton.Size = new System.Drawing.Size(87, 27);
+            this.cancelCreatingButton.TabIndex = 9;
+            this.cancelCreatingButton.Text = "Cancel";
+            this.cancelCreatingButton.UseVisualStyleBackColor = false;
+            this.cancelCreatingButton.Click += new System.EventHandler(this.cancelCreatingButton_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -499,10 +514,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.cancelCreatingButton);
             this.Controls.Add(this.progressLabel);
             this.Controls.Add(this.cloudCreatingProgress);
             this.Controls.Add(this.generateCloudButton);
-            this.Controls.Add(this.saveImageButton);
             this.Controls.Add(this.cloudImageBox);
             this.Controls.Add(this.programStatusStrip);
             this.Controls.Add(this.imageSizeGroup);
@@ -576,5 +591,6 @@
         public System.Windows.Forms.Label progressLabel;
         private System.Windows.Forms.CheckBox recreateCheckBox;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button cancelCreatingButton;
     }
 }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
+
     class RelativeChoiceCloud : ICloudGenerator
     {
         public RelativeChoiceCloud(ITextHandler textHandler)
@@ -15,32 +15,64 @@ namespace Tag_Cloud_Generator.Classes
             TextHandler = textHandler;
             frames = new List<RecanglePriorityPair>();
             rnd = new Random(DateTime.Now.Millisecond);
+            generatorState = RelativeChoiceCloudStates.NotCreating;
         }
 
         private Graphics tmpGraphics;
         private Size cloudSize; 
         private List<RecanglePriorityPair> frames;
         private readonly Random rnd;
+        public ITextHandler TextHandler { get; set; }
+        private WordBlock[] words;
+        public IReadOnlyCollection<WordBlock> WordBlocks => words.ToList().AsReadOnly();
+        private static readonly int StandartIterations = 3;
+        private RelativeChoiceCloudStates generatorState;
 
-        public ITagCloud CreateCloud(Size targetCloudSize, Font wordsFont, int wordsAmount,
-            int firstScale, Action<int> setProgressAction)
+        public void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale)
         {
+            tmpGraphics?.Dispose();
             cloudSize = targetCloudSize;
             frames.Clear();
-            Words = GetWords(wordsFont, wordsAmount);
-            Words[0].FontSize = targetCloudSize.Height * firstScale/100f;
-            using (var image = new Bitmap(targetCloudSize.Width, targetCloudSize.Height))
-            using (tmpGraphics = Graphics.FromImage(image))
+            words = GetWords(wordsFont, wordsAmount);
+            words[0].FontSize = targetCloudSize.Height * firstScale / 100f;
+            var image = new Bitmap(targetCloudSize.Width, targetCloudSize.Height);
+            tmpGraphics = Graphics.FromImage(image);
+            image.Dispose();
+            generatorState = RelativeChoiceCloudStates.Creating;
+        }
+
+        public bool HandleNextWord()
+        {
+            switch (generatorState)
             {
-                for (var index = 0; index < Words.Length; index++)
-                {
-                    setProgressAction((index + 1)*100/Words.Length);
-                    var word = Words[index];
-                    word.FontSize = GetWordFontSize(word);
-                    LocateWordOnImage(word);
-                }
+                case RelativeChoiceCloudStates.NotCreating:
+                    throw new Exception("Creating process does not initialized");
+                case RelativeChoiceCloudStates.Ready:
+                    return false;
             }
-            return new StemTagCloud(targetCloudSize, Words);
+            if (frames.Count == words.Length)
+            {
+                tmpGraphics.Dispose();
+                generatorState = RelativeChoiceCloudStates.Ready;
+                return false;
+            }
+            var currentWord = words[frames.Count];
+            currentWord.FontSize = GetWordFontSize(currentWord);
+            LocateWordOnImage(currentWord);
+            return true;
+        }
+
+        public ITagCloud GetCreatedCloud()
+        {
+            switch (generatorState)
+            {
+                case RelativeChoiceCloudStates.NotCreating:
+                    throw new Exception("Creating process does not initialized");
+                case RelativeChoiceCloudStates.Creating:
+                    return new StemTagCloud(cloudSize, words.Take(frames.Count).ToArray());
+                default:
+                    return new StemTagCloud(cloudSize, words);
+            }
         }
 
         private void LocateWordOnImage(WordBlock word)
@@ -65,13 +97,9 @@ namespace Tag_Cloud_Generator.Classes
 
         private float GetWordFontSize(WordBlock word)
         {
-            var firstWord = Words.First();
+            var firstWord = words.First();
             return word.Frequency * firstWord.FontSize / firstWord.Frequency;
         }
-
-        public ITextHandler TextHandler { get; set; }
-        public WordBlock[] Words { get; set; }
-        private static readonly int StandartIterations = 3;
 
         private Rectangle GetWordRectangle(WordBlock word)
         {
@@ -81,9 +109,11 @@ namespace Tag_Cloud_Generator.Classes
             return new Rectangle(location, wordSize);
         }
 
-        private bool WordIntersectsWith(WordBlock word, IEnumerable<Rectangle> frames)
+        private bool AnyFrameIntersection(WordBlock word)
         {
-            return frames?.Any(rectangle => rectangle.IntersectsWith(GetWordRectangle(word))) ?? false;
+            return frames?
+                .Select(frame => frame.Rect)
+                .Any(rectangle => rectangle.IntersectsWith(GetWordRectangle(word))) ?? false;
         }
 
         private WordBlock PutWordInImageCenter(WordBlock word)
@@ -137,13 +167,13 @@ namespace Tag_Cloud_Generator.Classes
         private bool TryFindPosition(WordBlock word)
         {
             var tmpRect = GetWordRectangle(word);
-            var what = new[,] { { 0, 0 }, { 1, 0 }, { 0, 1 }, { 1, 1 } };
+            var permutations = new[,] { { 0, 0 }, { 1, 0 }, { 0, 1 }, { 1, 1 } };
             for (var j = 0; j < 4; ++j)
             {
                 word.SaveLocation();
-                word.MoveOn(-tmpRect.Width * what[j, 0],
-                    tmpRect.Height * what[j, 1] * (word.IsVertical ? 1 : -1));
-                if (!WordIntersectsWith(word, frames.Select(h => h.Rect)) && word.Metrics.WordInsideImage(tmpGraphics))
+                word.MoveOn(-tmpRect.Width * permutations[j, 0],
+                    tmpRect.Height * permutations[j, 1] * (word.IsVertical ? 1 : -1));
+                if (!AnyFrameIntersection(word) && word.Metrics.WordInsideImage(tmpGraphics))
                     return true;
                 word.RestoreLocation();
             }
