@@ -11,7 +11,7 @@ namespace Tag_Cloud_Generator.Interfaces
             void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale);
             bool HandleNextWord();
             ITagCloud GetCreatedCloud();
-            IReadOnlyCollection<WordBlock> WordBlocks { get; }
+            int MaxWordsCount { get; }
             ITextHandler TextHandler { get; set; }
         }
     }

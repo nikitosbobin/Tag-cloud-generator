@@ -87,6 +87,11 @@ namespace Tag_Cloud_Generator.Classes
             return source.ElementAt(Random.Next(0, source.Count));
         }
 
+        public static TSource[] RandomOffsetArray<TSource>(this TSource[] source)
+        {
+            return source.OffsetArray(Random.Next(0, source.Length));
+        }
+
         public static TSource[] OffsetArray<TSource>(this TSource[] source, int offset)
         {
             var result = new List<TSource>();

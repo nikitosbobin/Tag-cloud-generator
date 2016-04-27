@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using NHunspell;
 using Tag_Cloud_Generator.Interfaces;
@@ -17,18 +16,18 @@ namespace Tag_Cloud_Generator.Classes
 
         public string[] TextLines { get; set; } = new string[0];
         
-        public IEnumerable<WordBlock> GetWords(Font wordsFont)
+        public Dictionary<string, int> GetWords()
         {
-            var innerWords = new Dictionary<string, WordBlock>();
+            var innerWords = new Dictionary<string, int>();
             var actualWords = SplitWords().Where(WordIsRight).ToArray();
             foreach (var word in StemWords(actualWords))
             {
                 if (innerWords.ContainsKey(word))
-                    innerWords[word].Frequency++;
+                    innerWords[word]++;
                 else
-                    innerWords.Add(word, new WordBlock(wordsFont, word));
+                    innerWords.Add(word, 1);
             }
-            return innerWords.Select(pair => pair.Value).ToArray();
+            return innerWords;
         }
 
         private string[] SplitWords()

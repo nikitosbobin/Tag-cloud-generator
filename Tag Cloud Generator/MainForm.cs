@@ -171,12 +171,12 @@ namespace Tag_Cloud_Generator
             {
                 cloudGenerator.InitCreating(data.ImageSize, data.WordsFont, data.WordsCount, data.FirstScale);
                 var count = 0;
-                double max = cloudGenerator.WordBlocks.Count;
+                double max = cloudGenerator.MaxWordsCount;
                 while (cloudGenerator.HandleNextWord() && !cancelCreating)
-                Invoke((MethodInvoker) delegate
-                    {
-                        SetProgress((int) (count++ * 100 / max));
-                    });
+                    Invoke((MethodInvoker) delegate
+                        {
+                            SetProgress((int) (count++ * 100 / max));
+                        });
                 actualCloud = cloudGenerator.GetCreatedCloud();
                 cloudIsRelevant = true;
                 image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
@@ -188,10 +188,8 @@ namespace Tag_Cloud_Generator
         {
             Invoke((MethodInvoker) delegate
             {
-                MessageBox.Show(exception.Message.Contains("no words")
-                    ? "There are no words to build cloud"
-                    : exception.Message, Resources.MainForm_backgroundCloudCreator_DoWork_Error, MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(exception.Message, Resources.MainForm_backgroundCloudCreator_DoWork_Error,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Error;
                 SwitchInputControls(true);
                 SetProgress(0);

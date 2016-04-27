@@ -6,6 +6,9 @@ namespace Tag_Cloud_Generator.Classes
 {
     class WordBlock
     {
+        public WordBlock(Font font, KeyValuePair<string, int> wordFrequency) 
+            : this(font, wordFrequency.Key, wordFrequency.Value) { }
+
         public WordBlock(Font font, string source, int frequency = 1)
         {
             Source = source;
@@ -16,11 +19,8 @@ namespace Tag_Cloud_Generator.Classes
             IsVertical = false;
             savedLocations = new Stack<Point>();
             Font = font;
-            Metrics = new WordBlockMectrics(this);
         }
-
-
-        public WordBlockMectrics Metrics { get; }
+        
         public string Source { get; set; }
         public int Frequency { get; set; }
         public Point Location { get; private set; }
