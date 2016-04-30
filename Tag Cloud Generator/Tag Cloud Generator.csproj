@@ -57,7 +57,7 @@
     <Compile Include="Classes\FormDataProvider.cs" />
     <Compile Include="Classes\ImageGenerator.cs" />
     <Compile Include="Classes\MyExtensions.cs" />
-    <Compile Include="Classes\RecanglePriorityPair.cs" />
+    <Compile Include="Classes\PriorityPair.cs" />
     <Compile Include="Classes\RelativeChoiceCloud.cs" />
     <Compile Include="Classes\RelativeChoiceCloudStates.cs" />
     <Compile Include="Classes\StemTagCloud.cs" />

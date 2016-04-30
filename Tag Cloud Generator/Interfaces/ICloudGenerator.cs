@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using Tag_Cloud_Generator.Classes;
+﻿using System.Drawing;
 
 namespace Tag_Cloud_Generator.Interfaces
 {

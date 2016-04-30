@@ -11,5 +11,7 @@ namespace Tag_Cloud_Generator.Classes
         public int WordsCount { get; set; }
         public int FirstScale { get; set; }
         public Size ImageSize { get; set; }
+        public bool ShouldStemWords { get; set; }
+        public int Accuracy { get; set; }
     }
 }

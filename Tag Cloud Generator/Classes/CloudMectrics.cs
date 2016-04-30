@@ -39,7 +39,7 @@ namespace Tag_Cloud_Generator.Classes
         public bool WordInsideImage(WordBlock word)
         {
             var wordRect = GetWordRectangle(word);
-            return graphics.IsVisible(wordRect.LeftBottom()) && graphics.IsVisible(wordRect.RigthBottom());
+            return graphics.IsVisible(wordRect.Location) && graphics.IsVisible(wordRect.RigthBottom());
         }
 
         public void Dispose()

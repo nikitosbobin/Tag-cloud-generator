@@ -11,16 +11,18 @@ namespace Tag_Cloud_Generator.Classes
         private static readonly char[] Separators =
         {
             '[', ']', '$', '<','>', '{', '}', '=', ' ', ' ', '.', ',',
-            ':', '-', '…', '!', '?', '(', ')', '\'', '"', '`', ';', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '«','»','–'
+            ':', '-', '…', '!', '?', '(', ')', '\'', '"', '`', ';', '0',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '«','»','–', '_'
         };
 
         public string[] TextLines { get; set; } = new string[0];
-        
-        public Dictionary<string, int> GetWords()
+        public bool ShouldStemWords { get; set; } = false;
+
+        public Dictionary<string, int> GetWordsStatisctics()
         {
             var innerWords = new Dictionary<string, int>();
             var actualWords = SplitWords().Where(WordIsRight).ToArray();
-            foreach (var word in StemWords(actualWords))
+            foreach (var word in ShouldStemWords ? StemWords(actualWords) : actualWords)
             {
                 if (innerWords.ContainsKey(word))
                     innerWords[word]++;

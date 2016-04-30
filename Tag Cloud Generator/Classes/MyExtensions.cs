@@ -103,9 +103,9 @@ namespace Tag_Cloud_Generator.Classes
             return result.ToArray();
         }
 
-        public static void Add(this List<RecanglePriorityPair> source, Rectangle rect)
+        public static void Add(this List<PriorityPair<Rectangle>> source, Rectangle rect)
         {
-            source.Add(new RecanglePriorityPair(rect));
+            source.Add(new PriorityPair<Rectangle>(rect));
         }
     }
 

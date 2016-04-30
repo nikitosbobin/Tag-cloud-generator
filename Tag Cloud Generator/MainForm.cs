@@ -26,7 +26,8 @@ namespace Tag_Cloud_Generator
                 BackGroundColor = Color.White,
                 WordsFont = new Font("Segoe UI", 12f),
                 WordsCount = 30,
-                FirstScale = 10
+                FirstScale = 10,
+                ShouldStemWords = true
             };
             colorsForm = new WordsColorsForm();
             imageGenerator = new ImageGenerator();
@@ -41,7 +42,7 @@ namespace Tag_Cloud_Generator
         private ITagCloud actualCloud;
         private readonly FormDataProvider data;
         private readonly ImageGenerator imageGenerator;
-        private readonly ICloudGenerator cloudGenerator;
+        private readonly RelativeChoiceCloud cloudGenerator;
         private readonly TextSpellHandler textHandler;
         private readonly WordsColorsForm colorsForm;
         private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
@@ -101,7 +102,7 @@ namespace Tag_Cloud_Generator
             saveImageButton.Enabled = false;
             if (recreateCheckBox.Checked)
                 cloudIsRelevant = false;
-            backgroundCloudCreator.RunWorkerAsync();
+            backgroundCloudCreator.RunWorkerAsync(data);
         }
 
         private void saveImageButton_Click(object sender, EventArgs e)
@@ -152,7 +153,7 @@ namespace Tag_Cloud_Generator
             Bitmap image;
             try
             {
-                image = TryCreateCloud();
+                image = TryCreateCloud(e.Argument as FormDataProvider);
             }
             catch (Exception exception)
             {
@@ -162,14 +163,17 @@ namespace Tag_Cloud_Generator
             SetFormCreatingSuccess(image);
         }
 
-        private Bitmap TryCreateCloud()
+        private Bitmap TryCreateCloud(FormDataProvider provider)
         {
             Bitmap image;
             if (cloudIsRelevant)
-                image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
+                image = imageGenerator.CreateImage(actualCloud, provider.BackGroundColor, provider.WordsColors);
             else
             {
-                cloudGenerator.InitCreating(data.ImageSize, data.WordsFont, data.WordsCount, data.FirstScale);
+                textHandler.ShouldStemWords = provider.ShouldStemWords;
+                cloudGenerator.TryingIterations = provider.Accuracy;
+                cloudGenerator.InitCreating(provider.ImageSize, provider.WordsFont, 
+                    provider.WordsCount, provider.FirstScale);
                 var count = 0;
                 double max = cloudGenerator.MaxWordsCount;
                 while (cloudGenerator.HandleNextWord() && !cancelCreating)
@@ -179,7 +183,7 @@ namespace Tag_Cloud_Generator
                         });
                 actualCloud = cloudGenerator.GetCreatedCloud();
                 cloudIsRelevant = true;
-                image = imageGenerator.CreateImage(actualCloud, data.BackGroundColor, data.WordsColors);
+                image = imageGenerator.CreateImage(actualCloud, provider.BackGroundColor, provider.WordsColors);
             }
             return image;
         }
@@ -268,6 +272,18 @@ namespace Tag_Cloud_Generator
         private void cancelCreatingButton_Click(object sender, EventArgs e)
         {
             cancelCreating = true;
+        }
+
+        private void shouldStemWordsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            data.ShouldStemWords = shouldStemWordsCheckBox.Checked;
+            cloudIsRelevant = false;
+        }
+
+        private void accuracyNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            data.Accuracy = (int) accuracyNumericUpDown.Value;
+            cloudIsRelevant = false;
         }
     }
 }

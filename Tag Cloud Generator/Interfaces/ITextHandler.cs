@@ -4,6 +4,6 @@ namespace Tag_Cloud_Generator.Interfaces
 {
     interface ITextHandler
     {
-        Dictionary<string, int> GetWords();
+        Dictionary<string, int> GetWordsStatisctics();
     }
 }

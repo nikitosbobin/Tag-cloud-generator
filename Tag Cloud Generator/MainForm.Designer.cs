@@ -38,6 +38,7 @@
             this.recreateCheckBox = new System.Windows.Forms.CheckBox();
             this.colorsCountLabel = new System.Windows.Forms.Label();
             this.wordsColorsButton = new System.Windows.Forms.Button();
+            this.saveImageButton = new System.Windows.Forms.Button();
             this.wordsColorsLabel = new System.Windows.Forms.Label();
             this.backgroundColor = new System.Windows.Forms.PictureBox();
             this.backgroundLabel = new System.Windows.Forms.Label();
@@ -57,7 +58,6 @@
             this.widthLabel = new System.Windows.Forms.Label();
             this.loadTextDialog = new System.Windows.Forms.OpenFileDialog();
             this.cloudImageBox = new System.Windows.Forms.PictureBox();
-            this.saveImageButton = new System.Windows.Forms.Button();
             this.generateCloudButton = new System.Windows.Forms.Button();
             this.cloudCreatingProgress = new System.Windows.Forms.ProgressBar();
             this.programStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -70,6 +70,9 @@
             this.progressLabel = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cancelCreatingButton = new System.Windows.Forms.Button();
+            this.shouldStemWordsCheckBox = new System.Windows.Forms.CheckBox();
+            this.accuracyNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.accuracyLabel = new System.Windows.Forms.Label();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
@@ -81,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).BeginInit();
             this.programStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // textLoadGroup
@@ -93,7 +97,7 @@
             this.textLoadGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.textLoadGroup.Location = new System.Drawing.Point(14, 14);
             this.textLoadGroup.Name = "textLoadGroup";
-            this.textLoadGroup.Size = new System.Drawing.Size(349, 72);
+            this.textLoadGroup.Size = new System.Drawing.Size(475, 72);
             this.textLoadGroup.TabIndex = 0;
             this.textLoadGroup.TabStop = false;
             this.textLoadGroup.Text = "Text load";
@@ -106,7 +110,7 @@
             this.loadedFilePath.Name = "loadedFilePath";
             this.loadedFilePath.ReadOnly = true;
             this.loadedFilePath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.loadedFilePath.Size = new System.Drawing.Size(198, 23);
+            this.loadedFilePath.Size = new System.Drawing.Size(324, 23);
             this.loadedFilePath.TabIndex = 2;
             // 
             // fileLabel
@@ -124,7 +128,7 @@
             this.browseFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.browseFileButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.browseFileButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.browseFileButton.Location = new System.Drawing.Point(254, 28);
+            this.browseFileButton.Location = new System.Drawing.Point(380, 28);
             this.browseFileButton.Name = "browseFileButton";
             this.browseFileButton.Size = new System.Drawing.Size(87, 25);
             this.browseFileButton.TabIndex = 0;
@@ -135,6 +139,9 @@
             // cloudGeneratingGroup
             // 
             this.cloudGeneratingGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudGeneratingGroup.Controls.Add(this.accuracyLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.accuracyNumericUpDown);
+            this.cloudGeneratingGroup.Controls.Add(this.shouldStemWordsCheckBox);
             this.cloudGeneratingGroup.Controls.Add(this.recreateCheckBox);
             this.cloudGeneratingGroup.Controls.Add(this.colorsCountLabel);
             this.cloudGeneratingGroup.Controls.Add(this.wordsColorsButton);
@@ -150,9 +157,9 @@
             this.cloudGeneratingGroup.Controls.Add(this.firstWordScaleBar);
             this.cloudGeneratingGroup.Controls.Add(this.wordsAmountBar);
             this.cloudGeneratingGroup.Enabled = false;
-            this.cloudGeneratingGroup.Location = new System.Drawing.Point(381, 135);
+            this.cloudGeneratingGroup.Location = new System.Drawing.Point(507, 135);
             this.cloudGeneratingGroup.Name = "cloudGeneratingGroup";
-            this.cloudGeneratingGroup.Size = new System.Drawing.Size(332, 284);
+            this.cloudGeneratingGroup.Size = new System.Drawing.Size(332, 370);
             this.cloudGeneratingGroup.TabIndex = 1;
             this.cloudGeneratingGroup.TabStop = false;
             this.cloudGeneratingGroup.Text = "Cloud generating";
@@ -160,7 +167,7 @@
             // recreateCheckBox
             // 
             this.recreateCheckBox.AutoSize = true;
-            this.recreateCheckBox.Location = new System.Drawing.Point(6, 243);
+            this.recreateCheckBox.Location = new System.Drawing.Point(6, 300);
             this.recreateCheckBox.Name = "recreateCheckBox";
             this.recreateCheckBox.Size = new System.Drawing.Size(159, 19);
             this.recreateCheckBox.TabIndex = 13;
@@ -170,7 +177,7 @@
             // colorsCountLabel
             // 
             this.colorsCountLabel.AutoSize = true;
-            this.colorsCountLabel.Location = new System.Drawing.Point(88, 168);
+            this.colorsCountLabel.Location = new System.Drawing.Point(88, 225);
             this.colorsCountLabel.Name = "colorsCountLabel";
             this.colorsCountLabel.Size = new System.Drawing.Size(13, 15);
             this.colorsCountLabel.TabIndex = 8;
@@ -180,7 +187,7 @@
             // 
             this.wordsColorsButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.wordsColorsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.wordsColorsButton.Location = new System.Drawing.Point(223, 162);
+            this.wordsColorsButton.Location = new System.Drawing.Point(223, 219);
             this.wordsColorsButton.Name = "wordsColorsButton";
             this.wordsColorsButton.Size = new System.Drawing.Size(87, 27);
             this.wordsColorsButton.TabIndex = 11;
@@ -188,10 +195,24 @@
             this.wordsColorsButton.UseVisualStyleBackColor = false;
             this.wordsColorsButton.Click += new System.EventHandler(this.wordsColorsButton_Click);
             // 
+            // saveImageButton
+            // 
+            this.saveImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveImageButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.saveImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.saveImageButton.Enabled = false;
+            this.saveImageButton.Location = new System.Drawing.Point(223, 324);
+            this.saveImageButton.Name = "saveImageButton";
+            this.saveImageButton.Size = new System.Drawing.Size(87, 27);
+            this.saveImageButton.TabIndex = 5;
+            this.saveImageButton.Text = "Save as";
+            this.saveImageButton.UseVisualStyleBackColor = false;
+            this.saveImageButton.Click += new System.EventHandler(this.saveImageButton_Click);
+            // 
             // wordsColorsLabel
             // 
             this.wordsColorsLabel.AutoSize = true;
-            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 168);
+            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 225);
             this.wordsColorsLabel.Name = "wordsColorsLabel";
             this.wordsColorsLabel.Size = new System.Drawing.Size(79, 15);
             this.wordsColorsLabel.TabIndex = 10;
@@ -200,7 +221,7 @@
             // backgroundColor
             // 
             this.backgroundColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.backgroundColor.Location = new System.Drawing.Point(91, 200);
+            this.backgroundColor.Location = new System.Drawing.Point(91, 257);
             this.backgroundColor.Name = "backgroundColor";
             this.backgroundColor.Size = new System.Drawing.Size(83, 25);
             this.backgroundColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -211,7 +232,7 @@
             // backgroundLabel
             // 
             this.backgroundLabel.AutoSize = true;
-            this.backgroundLabel.Location = new System.Drawing.Point(3, 204);
+            this.backgroundLabel.Location = new System.Drawing.Point(3, 261);
             this.backgroundLabel.Name = "backgroundLabel";
             this.backgroundLabel.Size = new System.Drawing.Size(74, 15);
             this.backgroundLabel.TabIndex = 7;
@@ -220,7 +241,7 @@
             // fontStringLabel
             // 
             this.fontStringLabel.AutoSize = true;
-            this.fontStringLabel.Location = new System.Drawing.Point(56, 127);
+            this.fontStringLabel.Location = new System.Drawing.Point(56, 184);
             this.fontStringLabel.Name = "fontStringLabel";
             this.fontStringLabel.Size = new System.Drawing.Size(53, 15);
             this.fontStringLabel.TabIndex = 6;
@@ -229,7 +250,7 @@
             // fontLabel
             // 
             this.fontLabel.AutoSize = true;
-            this.fontLabel.Location = new System.Drawing.Point(3, 127);
+            this.fontLabel.Location = new System.Drawing.Point(3, 184);
             this.fontLabel.Name = "fontLabel";
             this.fontLabel.Size = new System.Drawing.Size(37, 15);
             this.fontLabel.TabIndex = 5;
@@ -239,7 +260,7 @@
             // 
             this.fontButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.fontButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.fontButton.Location = new System.Drawing.Point(223, 121);
+            this.fontButton.Location = new System.Drawing.Point(223, 178);
             this.fontButton.Name = "fontButton";
             this.fontButton.Size = new System.Drawing.Size(87, 27);
             this.fontButton.TabIndex = 4;
@@ -297,7 +318,7 @@
             this.imageSizeGroup.Controls.Add(this.heightLabel);
             this.imageSizeGroup.Controls.Add(this.widthLabel);
             this.imageSizeGroup.Enabled = false;
-            this.imageSizeGroup.Location = new System.Drawing.Point(381, 14);
+            this.imageSizeGroup.Location = new System.Drawing.Point(507, 14);
             this.imageSizeGroup.Name = "imageSizeGroup";
             this.imageSizeGroup.Size = new System.Drawing.Size(332, 114);
             this.imageSizeGroup.TabIndex = 2;
@@ -400,24 +421,10 @@
             this.cloudImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cloudImageBox.Location = new System.Drawing.Point(14, 92);
             this.cloudImageBox.Name = "cloudImageBox";
-            this.cloudImageBox.Size = new System.Drawing.Size(348, 326);
+            this.cloudImageBox.Size = new System.Drawing.Size(474, 428);
             this.cloudImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cloudImageBox.TabIndex = 4;
             this.cloudImageBox.TabStop = false;
-            // 
-            // saveImageButton
-            // 
-            this.saveImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveImageButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.saveImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.saveImageButton.Enabled = false;
-            this.saveImageButton.Location = new System.Drawing.Point(223, 238);
-            this.saveImageButton.Name = "saveImageButton";
-            this.saveImageButton.Size = new System.Drawing.Size(87, 27);
-            this.saveImageButton.TabIndex = 5;
-            this.saveImageButton.Text = "Save as";
-            this.saveImageButton.UseVisualStyleBackColor = false;
-            this.saveImageButton.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
             // generateCloudButton
             // 
@@ -425,7 +432,7 @@
             this.generateCloudButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.generateCloudButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.generateCloudButton.Enabled = false;
-            this.generateCloudButton.Location = new System.Drawing.Point(532, 436);
+            this.generateCloudButton.Location = new System.Drawing.Point(658, 538);
             this.generateCloudButton.Name = "generateCloudButton";
             this.generateCloudButton.Size = new System.Drawing.Size(87, 27);
             this.generateCloudButton.TabIndex = 6;
@@ -438,9 +445,9 @@
             this.cloudCreatingProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudCreatingProgress.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 436);
+            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 538);
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
-            this.cloudCreatingProgress.Size = new System.Drawing.Size(477, 27);
+            this.cloudCreatingProgress.Size = new System.Drawing.Size(603, 27);
             this.cloudCreatingProgress.TabIndex = 7;
             // 
             // programStatus
@@ -453,10 +460,10 @@
             // 
             this.programStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programStatus});
-            this.programStatusStrip.Location = new System.Drawing.Point(0, 487);
+            this.programStatusStrip.Location = new System.Drawing.Point(0, 589);
             this.programStatusStrip.Name = "programStatusStrip";
             this.programStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.programStatusStrip.Size = new System.Drawing.Size(728, 22);
+            this.programStatusStrip.Size = new System.Drawing.Size(854, 22);
             this.programStatusStrip.SizingGrip = false;
             this.programStatusStrip.TabIndex = 3;
             this.programStatusStrip.Text = "statusStrip1";
@@ -484,7 +491,7 @@
             this.progressLabel.AutoSize = true;
             this.progressLabel.BackColor = System.Drawing.Color.Transparent;
             this.progressLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.progressLabel.Location = new System.Drawing.Point(494, 442);
+            this.progressLabel.Location = new System.Drawing.Point(620, 544);
             this.progressLabel.Name = "progressLabel";
             this.progressLabel.Size = new System.Drawing.Size(23, 15);
             this.progressLabel.TabIndex = 8;
@@ -499,7 +506,7 @@
             this.cancelCreatingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelCreatingButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cancelCreatingButton.Enabled = false;
-            this.cancelCreatingButton.Location = new System.Drawing.Point(626, 436);
+            this.cancelCreatingButton.Location = new System.Drawing.Point(752, 538);
             this.cancelCreatingButton.Name = "cancelCreatingButton";
             this.cancelCreatingButton.Size = new System.Drawing.Size(87, 27);
             this.cancelCreatingButton.TabIndex = 9;
@@ -507,13 +514,58 @@
             this.cancelCreatingButton.UseVisualStyleBackColor = false;
             this.cancelCreatingButton.Click += new System.EventHandler(this.cancelCreatingButton_Click);
             // 
+            // shouldStemWordsCheckBox
+            // 
+            this.shouldStemWordsCheckBox.AutoSize = true;
+            this.shouldStemWordsCheckBox.Checked = true;
+            this.shouldStemWordsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.shouldStemWordsCheckBox.Location = new System.Drawing.Point(6, 113);
+            this.shouldStemWordsCheckBox.Name = "shouldStemWordsCheckBox";
+            this.shouldStemWordsCheckBox.Size = new System.Drawing.Size(127, 19);
+            this.shouldStemWordsCheckBox.TabIndex = 14;
+            this.shouldStemWordsCheckBox.Text = "Should stem words";
+            this.shouldStemWordsCheckBox.UseVisualStyleBackColor = true;
+            this.shouldStemWordsCheckBox.CheckedChanged += new System.EventHandler(this.shouldStemWordsCheckBox_CheckedChanged);
+            // 
+            // accuracyNumericUpDown
+            // 
+            this.accuracyNumericUpDown.Location = new System.Drawing.Point(223, 143);
+            this.accuracyNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.accuracyNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.accuracyNumericUpDown.Name = "accuracyNumericUpDown";
+            this.accuracyNumericUpDown.Size = new System.Drawing.Size(87, 23);
+            this.accuracyNumericUpDown.TabIndex = 6;
+            this.accuracyNumericUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.accuracyNumericUpDown.ValueChanged += new System.EventHandler(this.accuracyNumericUpDown_ValueChanged);
+            // 
+            // accuracyLabel
+            // 
+            this.accuracyLabel.AutoSize = true;
+            this.accuracyLabel.Location = new System.Drawing.Point(3, 145);
+            this.accuracyLabel.Name = "accuracyLabel";
+            this.accuracyLabel.Size = new System.Drawing.Size(56, 15);
+            this.accuracyLabel.TabIndex = 15;
+            this.accuracyLabel.Text = "Accuracy";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(728, 509);
+            this.ClientSize = new System.Drawing.Size(854, 611);
             this.Controls.Add(this.cancelCreatingButton);
             this.Controls.Add(this.progressLabel);
             this.Controls.Add(this.cloudCreatingProgress);
@@ -545,6 +597,7 @@
             this.programStatusStrip.ResumeLayout(false);
             this.programStatusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -592,5 +645,8 @@
         private System.Windows.Forms.CheckBox recreateCheckBox;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Button cancelCreatingButton;
+        private System.Windows.Forms.CheckBox shouldStemWordsCheckBox;
+        private System.Windows.Forms.Label accuracyLabel;
+        private System.Windows.Forms.NumericUpDown accuracyNumericUpDown;
     }
 }
