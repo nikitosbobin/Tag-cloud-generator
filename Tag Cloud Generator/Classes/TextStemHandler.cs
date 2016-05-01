@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NHunspell;
 using Tag_Cloud_Generator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
-    class TextSpellHandler : ITextHandler
+    class TextStemHandler : ITextHandler
     {
+        public TextStemHandler(string affixFilePath, string dictionaryFilePath)
+        {
+            if (!File.Exists(affixFilePath) || !affixFilePath.EndsWith(".aff"))
+                throw new Exception("Can not read affix file");
+            if (!File.Exists(dictionaryFilePath) || !dictionaryFilePath.EndsWith(".dic"))
+                throw new Exception("Can not read dictionary file");
+            this.dictionaryFilePath = dictionaryFilePath;
+            this.affixFilePath = affixFilePath;
+        }
+
         private static readonly char[] Separators =
         {
             '[', ']', '$', '<','>', '{', '}', '=', ' ', ' ', '.', ',',
@@ -15,6 +26,8 @@ namespace Tag_Cloud_Generator.Classes
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '«','»','–', '_'
         };
 
+        private readonly string affixFilePath;
+        private readonly string dictionaryFilePath;
         public string[] TextLines { get; set; } = new string[0];
         public bool ShouldStemWords { get; set; } = false;
 
@@ -43,10 +56,10 @@ namespace Tag_Cloud_Generator.Classes
             return word.Length >= 5;
         }
 
-        private static string[] StemWords(string[] source)
+        private string[] StemWords(string[] source)
         {
             var result = new List<string>();
-            using (var hunspell = new Hunspell("en-ru.aff", "en-ru.dic"))
+            using (var hunspell = new Hunspell(affixFilePath, dictionaryFilePath))
             {
                 foreach (var word in source.Where(WordIsRight))
                 {

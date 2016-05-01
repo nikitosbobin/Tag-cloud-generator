@@ -34,12 +34,12 @@ namespace Tag_Cloud_Generator.Classes
             metrics = new CloudMectrics(targetCloudSize, wordsFont);
             frames.Clear();
             sortedWords = GetWordsStatistics(wordsAmount);
-            words = new[] {GetFirstWord(firstScale)}.ToList();
+            words = new[] {CreateFirstWord(firstScale)}.ToList();
             frames.Add(GetWordRectangle(PutWordInImageCenter(words[0])));
             generatorState = RelativeChoiceCloudStates.Creating;
         }
 
-        private WordBlock GetFirstWord(int scale)
+        private WordBlock CreateFirstWord(int scale)
         {
             var result = new WordBlock(metrics.WordsFont, sortedWords.First())
             {
@@ -78,7 +78,7 @@ namespace Tag_Cloud_Generator.Classes
         {
             if (generatorState == RelativeChoiceCloudStates.NotCreating)
                 throw new Exception("Creating process does not initialized");
-            return new StemTagCloud(metrics.CloudSize, words.ToArray());
+            return new TagCloud(metrics.CloudSize, words.ToArray());
         }
 
         private bool LocateWordOnImage(KeyValuePair<string, int> wordFreqPair)

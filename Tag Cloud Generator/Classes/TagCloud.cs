@@ -5,9 +5,9 @@ using Tag_Cloud_Generator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
-    class StemTagCloud : ITagCloud
+    class TagCloud : ITagCloud
     {
-        public StemTagCloud(Size cloudSize, WordBlock[] words)
+        public TagCloud(Size cloudSize, WordBlock[] words)
         {
             if (cloudSize == Size.Empty || words == null)
                 throw new Exception("Can not cunstruct cloud");

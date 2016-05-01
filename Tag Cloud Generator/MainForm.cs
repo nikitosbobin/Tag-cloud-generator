@@ -32,7 +32,7 @@ namespace Tag_Cloud_Generator
             colorsForm = new WordsColorsForm();
             imageGenerator = new ImageGenerator();
             cloudIsRelevant = false;
-            textHandler = new TextSpellHandler();
+            textHandler = new TextStemHandler("en-ru.aff", "en-ru.dic");
             cloudGenerator = new RelativeChoiceCloud(textHandler);
             cancelCreating = false;
         }
@@ -43,7 +43,7 @@ namespace Tag_Cloud_Generator
         private readonly FormDataProvider data;
         private readonly ImageGenerator imageGenerator;
         private readonly RelativeChoiceCloud cloudGenerator;
-        private readonly TextSpellHandler textHandler;
+        private readonly TextStemHandler textHandler;
         private readonly WordsColorsForm colorsForm;
         private readonly Dictionary<string, Size> templates = new Dictionary<string, Size>
         {

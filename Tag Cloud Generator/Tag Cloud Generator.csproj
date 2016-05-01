@@ -60,14 +60,13 @@
     <Compile Include="Classes\PriorityPair.cs" />
     <Compile Include="Classes\RelativeChoiceCloud.cs" />
     <Compile Include="Classes\RelativeChoiceCloudStates.cs" />
-    <Compile Include="Classes\StemTagCloud.cs" />
-    <Compile Include="Classes\TextSpellHandler.cs" />
+    <Compile Include="Classes\TagCloud.cs" />
+    <Compile Include="Classes\TextStemHandler.cs" />
     <Compile Include="Classes\WordBlock.cs" />
     <Compile Include="Classes\CloudMectrics.cs" />
     <Compile Include="Interfaces\ICloudCreatingContext.cs" />
     <Compile Include="Interfaces\ICloudGenerator.cs" />
     <Compile Include="Interfaces\ICloudImageGenerator.cs" />
-    <Compile Include="Interfaces\IImageEncoder.cs" />
     <Compile Include="Interfaces\ITagCloud.cs" />
     <Compile Include="Interfaces\ITextHandler.cs" />
     <Compile Include="MainForm.cs">
