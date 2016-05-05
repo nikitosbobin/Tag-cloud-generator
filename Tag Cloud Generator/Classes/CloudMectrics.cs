@@ -5,7 +5,7 @@ namespace Tag_Cloud_Generator.Classes
 {
     class CloudMectrics : IDisposable
     {
-        private bool disposed;
+        public bool Disposed { get; private set; }
         private readonly Graphics graphics;
         public Size CloudSize { get; }
         public Font WordsFont { get; }
@@ -19,7 +19,7 @@ namespace Tag_Cloud_Generator.Classes
             var image = new Bitmap(cloudSize.Width, cloudSize.Height);
             graphics = Graphics.FromImage(image);
             image.Dispose();
-            disposed = false;
+            Disposed = false;
         }
 
         public Size MeasureWord(WordBlock word)
@@ -44,9 +44,8 @@ namespace Tag_Cloud_Generator.Classes
 
         public void Dispose()
         {
-            if (disposed) return;
             graphics.Dispose();
-            disposed = true;
+            Disposed = true;
         }
     }
 }

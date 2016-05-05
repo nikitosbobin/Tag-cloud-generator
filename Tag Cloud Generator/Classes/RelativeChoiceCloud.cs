@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 
@@ -14,6 +15,7 @@ namespace Tag_Cloud_Generator.Classes
         {
             TextHandler = textHandler;
             frames = new List<PriorityPair<Rectangle>>();
+            words = new List<WordBlock>();
             generatorState = RelativeChoiceCloudStates.NotCreating;
             TryingIterations = 3;
         }
@@ -30,13 +32,24 @@ namespace Tag_Cloud_Generator.Classes
 
         public void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale)
         {
-            metrics?.Dispose();
+            sortedWords = GetWordsStatistics(wordsAmount);
+            if (sortedWords.Count == 0)
+                throw new Exception("There are no words to build cloud");
+            if (metrics != null && !metrics.Disposed)
+                metrics.Dispose();
             metrics = new CloudMectrics(targetCloudSize, wordsFont);
             frames.Clear();
-            sortedWords = GetWordsStatistics(wordsAmount);
-            words = new[] {CreateFirstWord(firstScale)}.ToList();
-            frames.Add(GetWordRectangle(PutWordInImageCenter(words[0])));
+            words.Clear();
+            frames.Capacity = sortedWords.Count;
+            words.Capacity = frames.Capacity;
+            CommitWord(CreateFirstWord(firstScale));
             generatorState = RelativeChoiceCloudStates.Creating;
+        }
+
+        private void CommitWord(WordBlock word)
+        {
+            words.Add(word);
+            frames.Add(new PriorityPair<Rectangle>(GetWordRectangle(word)));
         }
 
         private WordBlock CreateFirstWord(int scale)
@@ -48,7 +61,7 @@ namespace Tag_Cloud_Generator.Classes
             var size = metrics.MeasureWord(result);
             if (size.Width > metrics.CloudSize.Width)
                 result.FontSize /= size.Width / (float)metrics.CloudSize.Width;
-            return result;
+            return PutWordInImageCenter(result);
         }
 
         public bool HandleNextWord()
@@ -85,17 +98,19 @@ namespace Tag_Cloud_Generator.Classes
         {
             WordBlock result;
             if (!CanFindPosition(wordFreqPair, out result)) return false;
-            frames.Add(GetWordRectangle(result));
-            words.Add(result);
+            CommitWord(result);
             return true;
         }
 
         private Dictionary<string, int> GetWordsStatistics(int wordsAmount)
         {
-            var result = TextHandler.GetWordsStatisctics().OrderByDescending(u => u.Value).ThenByDescending(w => w.Key.Length).ToDictionary(y => y.Key, pair => pair.Value);
-            result = result.Take((int) (result.Count*wordsAmount/(double) 100)).ToDictionary(j => j.Key, k => k.Value);
-            if (result.Count == 0)
-                throw new Exception("There are no words to build cloud");
+            var result = TextHandler.GetWordsStatisctics()
+                .OrderByDescending(u => u.Value)
+                .ThenByDescending(w => w.Key.Length)
+                .ToDictionary(y => y.Key, pair => pair.Value);
+            result = result
+                .Take((int) (result.Count*wordsAmount/(double) 100))
+                .ToDictionary(j => j.Key, k => k.Value);
             return result;
         }
 

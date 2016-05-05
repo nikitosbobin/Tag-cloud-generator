@@ -35,6 +35,9 @@
             this.fileLabel = new System.Windows.Forms.Label();
             this.browseFileButton = new System.Windows.Forms.Button();
             this.cloudGeneratingGroup = new System.Windows.Forms.GroupBox();
+            this.accuracyLabel = new System.Windows.Forms.Label();
+            this.accuracyNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.shouldStemWordsCheckBox = new System.Windows.Forms.CheckBox();
             this.recreateCheckBox = new System.Windows.Forms.CheckBox();
             this.colorsCountLabel = new System.Windows.Forms.Label();
             this.wordsColorsButton = new System.Windows.Forms.Button();
@@ -70,11 +73,9 @@
             this.progressLabel = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cancelCreatingButton = new System.Windows.Forms.Button();
-            this.shouldStemWordsCheckBox = new System.Windows.Forms.CheckBox();
-            this.accuracyNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.accuracyLabel = new System.Windows.Forms.Label();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.firstWordScaleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.wordsAmountBar)).BeginInit();
@@ -84,7 +85,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).BeginInit();
             this.programStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // textLoadGroup
@@ -163,6 +163,51 @@
             this.cloudGeneratingGroup.TabIndex = 1;
             this.cloudGeneratingGroup.TabStop = false;
             this.cloudGeneratingGroup.Text = "Cloud generating";
+            // 
+            // accuracyLabel
+            // 
+            this.accuracyLabel.AutoSize = true;
+            this.accuracyLabel.Location = new System.Drawing.Point(3, 145);
+            this.accuracyLabel.Name = "accuracyLabel";
+            this.accuracyLabel.Size = new System.Drawing.Size(56, 15);
+            this.accuracyLabel.TabIndex = 15;
+            this.accuracyLabel.Text = "Accuracy";
+            // 
+            // accuracyNumericUpDown
+            // 
+            this.accuracyNumericUpDown.Location = new System.Drawing.Point(223, 143);
+            this.accuracyNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.accuracyNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.accuracyNumericUpDown.Name = "accuracyNumericUpDown";
+            this.accuracyNumericUpDown.Size = new System.Drawing.Size(87, 23);
+            this.accuracyNumericUpDown.TabIndex = 6;
+            this.accuracyNumericUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.accuracyNumericUpDown.ValueChanged += new System.EventHandler(this.accuracyNumericUpDown_ValueChanged);
+            // 
+            // shouldStemWordsCheckBox
+            // 
+            this.shouldStemWordsCheckBox.AutoSize = true;
+            this.shouldStemWordsCheckBox.Checked = true;
+            this.shouldStemWordsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.shouldStemWordsCheckBox.Location = new System.Drawing.Point(6, 113);
+            this.shouldStemWordsCheckBox.Name = "shouldStemWordsCheckBox";
+            this.shouldStemWordsCheckBox.Size = new System.Drawing.Size(127, 19);
+            this.shouldStemWordsCheckBox.TabIndex = 14;
+            this.shouldStemWordsCheckBox.Text = "Should stem words";
+            this.shouldStemWordsCheckBox.UseVisualStyleBackColor = true;
+            this.shouldStemWordsCheckBox.CheckedChanged += new System.EventHandler(this.shouldStemWordsCheckBox_CheckedChanged);
             // 
             // recreateCheckBox
             // 
@@ -271,12 +316,12 @@
             // firstWordScaleLabel
             // 
             this.firstWordScaleLabel.AutoSize = true;
-            this.firstWordScaleLabel.Location = new System.Drawing.Point(197, 31);
+            this.firstWordScaleLabel.Location = new System.Drawing.Point(223, 31);
             this.firstWordScaleLabel.MaximumSize = new System.Drawing.Size(157, 58);
             this.firstWordScaleLabel.Name = "firstWordScaleLabel";
-            this.firstWordScaleLabel.Size = new System.Drawing.Size(88, 15);
+            this.firstWordScaleLabel.Size = new System.Drawing.Size(34, 15);
             this.firstWordScaleLabel.TabIndex = 3;
-            this.firstWordScaleLabel.Text = "First word scale";
+            this.firstWordScaleLabel.Text = "Scale";
             // 
             // wordsAmountLabel
             // 
@@ -514,51 +559,6 @@
             this.cancelCreatingButton.UseVisualStyleBackColor = false;
             this.cancelCreatingButton.Click += new System.EventHandler(this.cancelCreatingButton_Click);
             // 
-            // shouldStemWordsCheckBox
-            // 
-            this.shouldStemWordsCheckBox.AutoSize = true;
-            this.shouldStemWordsCheckBox.Checked = true;
-            this.shouldStemWordsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.shouldStemWordsCheckBox.Location = new System.Drawing.Point(6, 113);
-            this.shouldStemWordsCheckBox.Name = "shouldStemWordsCheckBox";
-            this.shouldStemWordsCheckBox.Size = new System.Drawing.Size(127, 19);
-            this.shouldStemWordsCheckBox.TabIndex = 14;
-            this.shouldStemWordsCheckBox.Text = "Should stem words";
-            this.shouldStemWordsCheckBox.UseVisualStyleBackColor = true;
-            this.shouldStemWordsCheckBox.CheckedChanged += new System.EventHandler(this.shouldStemWordsCheckBox_CheckedChanged);
-            // 
-            // accuracyNumericUpDown
-            // 
-            this.accuracyNumericUpDown.Location = new System.Drawing.Point(223, 143);
-            this.accuracyNumericUpDown.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.accuracyNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.accuracyNumericUpDown.Name = "accuracyNumericUpDown";
-            this.accuracyNumericUpDown.Size = new System.Drawing.Size(87, 23);
-            this.accuracyNumericUpDown.TabIndex = 6;
-            this.accuracyNumericUpDown.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.accuracyNumericUpDown.ValueChanged += new System.EventHandler(this.accuracyNumericUpDown_ValueChanged);
-            // 
-            // accuracyLabel
-            // 
-            this.accuracyLabel.AutoSize = true;
-            this.accuracyLabel.Location = new System.Drawing.Point(3, 145);
-            this.accuracyLabel.Name = "accuracyLabel";
-            this.accuracyLabel.Size = new System.Drawing.Size(56, 15);
-            this.accuracyLabel.TabIndex = 15;
-            this.accuracyLabel.Text = "Accuracy";
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -586,6 +586,7 @@
             this.textLoadGroup.PerformLayout();
             this.cloudGeneratingGroup.ResumeLayout(false);
             this.cloudGeneratingGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.firstWordScaleBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.wordsAmountBar)).EndInit();
@@ -597,7 +598,6 @@
             this.programStatusStrip.ResumeLayout(false);
             this.programStatusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
