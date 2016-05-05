@@ -1,10 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Tag_Cloud_Generator.Interfaces
 {
     namespace TagCloudGenerator.Interfaces
     {
-        interface ICloudGenerator
+        interface ICloudGenerator : IDisposable
         {
             void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale);
             bool HandleNextWord();

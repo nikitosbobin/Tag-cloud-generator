@@ -113,7 +113,9 @@ namespace Tag_Cloud_Generator.Classes
     {
         public static Font SetSize(this Font source, float fontSize)
         {
-            return new Font(source.Name, fontSize,source.Style);
+            var result = new Font(source.Name, fontSize,source.Style);
+            source.Dispose();
+            return result;
         }
     }
 

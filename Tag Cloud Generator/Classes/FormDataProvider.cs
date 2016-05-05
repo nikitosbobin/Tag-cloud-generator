@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Tag_Cloud_Generator.Classes
 {
-    class FormDataProvider
+    class FormDataProvider : IDisposable
     {
         public Font WordsFont { get; set; }
         public Color BackGroundColor { get; set; }
@@ -13,5 +14,10 @@ namespace Tag_Cloud_Generator.Classes
         public Size ImageSize { get; set; }
         public bool ShouldStemWords { get; set; }
         public int Accuracy { get; set; }
+
+        public void Dispose()
+        {
+            WordsFont?.Dispose();
+        }
     }
 }

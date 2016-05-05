@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using Tag_Cloud_Generator.Classes;
 using Tag_Cloud_Generator.Interfaces;
-using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 using Tag_Cloud_Generator.Properties;
 
 namespace Tag_Cloud_Generator
@@ -181,6 +180,7 @@ namespace Tag_Cloud_Generator
                         {
                             SetProgress((int) (count++ * 100 / max));
                         });
+                actualCloud?.Dispose();
                 actualCloud = cloudGenerator.GetCreatedCloud();
                 cloudIsRelevant = true;
                 image = imageGenerator.CreateImage(actualCloud, provider.BackGroundColor, provider.WordsColors);
@@ -284,6 +284,13 @@ namespace Tag_Cloud_Generator
         {
             data.Accuracy = (int) accuracyNumericUpDown.Value;
             cloudIsRelevant = false;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            data?.Dispose();
+            cloudGenerator?.Dispose();
+            actualCloud?.Dispose();
         }
     }
 }

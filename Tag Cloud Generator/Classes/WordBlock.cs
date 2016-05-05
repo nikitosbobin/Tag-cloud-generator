@@ -4,8 +4,26 @@ using System.Drawing;
 
 namespace Tag_Cloud_Generator.Classes
 {
-    class WordBlock
+    class WordBlock : IDisposable
     {
+        public class Comparer : IEqualityComparer<WordBlock>
+        {
+            public bool Equals(WordBlock x, WordBlock y)
+            {
+                if (x == y) return true;
+                if (x == null || y == null)
+                    return false;
+                return x.Source == y.Source && x.Frequency == y.Frequency && Equals(x.Font, y.Font);
+            }
+
+            public int GetHashCode(WordBlock word)
+            {
+                if (word == null) return 0;
+                return word.Font.GetHashCode() ^ word.Frequency.GetHashCode() ^ word.Source.GetHashCode();
+            }
+
+        }
+
         public WordBlock(Font font, KeyValuePair<string, int> wordFrequency) 
             : this(font, wordFrequency.Key, wordFrequency.Value) { }
 
@@ -21,8 +39,8 @@ namespace Tag_Cloud_Generator.Classes
             Font = font;
         }
         
-        public string Source { get; set; }
-        public int Frequency { get; set; }
+        public string Source { get; }
+        public int Frequency { get; }
         public Point Location { get; private set; }
 
         public Font Font { get; set; }
@@ -70,6 +88,11 @@ namespace Tag_Cloud_Generator.Classes
         public override string ToString()
         {
             return $"{Source}--{Frequency}";
+        }
+
+        public void Dispose()
+        {
+            Font?.Dispose();
         }
     }
 }

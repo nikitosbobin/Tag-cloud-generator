@@ -35,7 +35,7 @@ namespace Tag_Cloud_Generator.Classes
             }
         }
 
-        public void DrawWord(WordBlock word, Graphics graphics, Color color)
+        private void DrawWord(WordBlock word, Graphics graphics, Color color)
         {
             var graphicsState = graphics.Save();
             graphics.TranslateTransform(word.Location.X, word.Location.Y);

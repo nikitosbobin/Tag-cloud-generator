@@ -18,11 +18,11 @@ namespace Tag_Cloud_Generator.Classes
         public Size CloudSize { get; }
         public IEnumerable<WordBlock> Words { get; }
 
-        public ITagCloud OffsetAllWords(int offsetX, int offsetY)
+        public void Dispose()
         {
+            if (Words == null) return;
             foreach (var word in Words)
-                word.MoveOn(offsetX, offsetY);
-            return this;
+                word?.Dispose();
         }
     }
 }

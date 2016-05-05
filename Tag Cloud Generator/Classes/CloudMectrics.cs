@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Tag_Cloud_Generator.Classes
 {
     class CloudMectrics : IDisposable
     {
-        public bool Disposed { get; private set; }
         private readonly Graphics graphics;
         public Size CloudSize { get; }
         public Font WordsFont { get; }
+        private readonly Dictionary<WordBlock, Size> wordSizes;
 
         public CloudMectrics(Size cloudSize, Font wordsFont = null)
         {
@@ -16,15 +17,16 @@ namespace Tag_Cloud_Generator.Classes
                 throw new Exception("Can not create metrics");
             CloudSize = cloudSize;
             WordsFont = wordsFont ?? new Font("Segoe UI", 12f);
-            var image = new Bitmap(cloudSize.Width, cloudSize.Height);
-            graphics = Graphics.FromImage(image);
-            image.Dispose();
-            Disposed = false;
+            using (var image = new Bitmap(cloudSize.Width, cloudSize.Height))
+                graphics = Graphics.FromImage(image);
+            wordSizes = new Dictionary<WordBlock, Size>(new WordBlock.Comparer());
         }
 
         public Size MeasureWord(WordBlock word)
         {
-            var wordSize = graphics.MeasureString(word.Source, word.Font).ToSize();
+            if (!wordSizes.ContainsKey(word))
+                wordSizes.Add(word, graphics.MeasureString(word.Source, word.Font).ToSize());
+            var wordSize = wordSizes[word];
             return word.IsVertical ? new Size(wordSize.Height, wordSize.Width) : wordSize;
         }
 
@@ -45,7 +47,7 @@ namespace Tag_Cloud_Generator.Classes
         public void Dispose()
         {
             graphics.Dispose();
-            Disposed = true;
+            WordsFont.Dispose();
         }
     }
 }

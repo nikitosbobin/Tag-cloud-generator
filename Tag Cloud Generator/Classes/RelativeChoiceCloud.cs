@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using Tag_Cloud_Generator.Interfaces;
 using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 
@@ -23,7 +22,7 @@ namespace Tag_Cloud_Generator.Classes
         private CloudMectrics metrics;
         private List<PriorityPair<Rectangle>> frames;
         private Dictionary<string, int> sortedWords;
-        private List<WordBlock> words;
+        private readonly List<WordBlock> words;
         private RelativeChoiceCloudStates generatorState;
 
         public int MaxWordsCount => sortedWords?.Count ?? 0;
@@ -35,8 +34,7 @@ namespace Tag_Cloud_Generator.Classes
             sortedWords = GetWordsStatistics(wordsAmount);
             if (sortedWords.Count == 0)
                 throw new Exception("There are no words to build cloud");
-            if (metrics != null && !metrics.Disposed)
-                metrics.Dispose();
+            metrics?.Dispose();
             metrics = new CloudMectrics(targetCloudSize, wordsFont);
             frames.Clear();
             words.Clear();
@@ -61,7 +59,7 @@ namespace Tag_Cloud_Generator.Classes
             var size = metrics.MeasureWord(result);
             if (size.Width > metrics.CloudSize.Width)
                 result.FontSize /= size.Width / (float)metrics.CloudSize.Width;
-            return PutWordInImageCenter(result);
+            return PutWordInCloudCenter(result);
         }
 
         public bool HandleNextWord()
@@ -130,10 +128,13 @@ namespace Tag_Cloud_Generator.Classes
 
         private bool AnyFrameIntersection(WordBlock word)
         {
-            return frames?.Select(frame => frame.Value).Any(rectangle => rectangle.IntersectsWith(GetWordRectangle(word))) ?? false;
+            return frames?
+                .Select(frame => frame.Value)
+                .Any(rectangle => rectangle.IntersectsWith(GetWordRectangle(word)))
+                ?? false;
         }
 
-        private WordBlock PutWordInImageCenter(WordBlock word)
+        private WordBlock PutWordInCloudCenter(WordBlock word)
         {
             var wordCenter = metrics.MeasureWord(word).Center();
             var cloudCenter = metrics.CloudSize.Center();
@@ -194,12 +195,20 @@ namespace Tag_Cloud_Generator.Classes
             for (var j = 0; j < 4; ++j)
             {
                 word.SaveLocation();
-                word.MoveOn(-tmpRect.Width*permutations[j, 0], tmpRect.Height*permutations[j, 1]*(word.IsVertical ? 1 : -1));
+                word.MoveOn(-tmpRect.Width*permutations[j, 0],
+                    tmpRect.Height*permutations[j, 1]*(word.IsVertical ? 1 : -1));
                 if (metrics.WordInsideImage(word) && !AnyFrameIntersection(word))
                     return true;
                 word.RestoreLocation();
             }
             return false;
+        }
+
+        public void Dispose()
+        {
+            if (words == null) return;
+            foreach (var word in words)
+                word?.Dispose();
         }
     }
 }

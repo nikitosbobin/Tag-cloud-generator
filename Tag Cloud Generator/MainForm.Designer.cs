@@ -203,9 +203,9 @@
             this.shouldStemWordsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.shouldStemWordsCheckBox.Location = new System.Drawing.Point(6, 113);
             this.shouldStemWordsCheckBox.Name = "shouldStemWordsCheckBox";
-            this.shouldStemWordsCheckBox.Size = new System.Drawing.Size(127, 19);
+            this.shouldStemWordsCheckBox.Size = new System.Drawing.Size(188, 19);
             this.shouldStemWordsCheckBox.TabIndex = 14;
-            this.shouldStemWordsCheckBox.Text = "Should stem words";
+            this.shouldStemWordsCheckBox.Text = "Quote words in the initial form";
             this.shouldStemWordsCheckBox.UseVisualStyleBackColor = true;
             this.shouldStemWordsCheckBox.CheckedChanged += new System.EventHandler(this.shouldStemWordsCheckBox_CheckedChanged);
             // 
@@ -555,7 +555,7 @@
             this.cancelCreatingButton.Name = "cancelCreatingButton";
             this.cancelCreatingButton.Size = new System.Drawing.Size(87, 27);
             this.cancelCreatingButton.TabIndex = 9;
-            this.cancelCreatingButton.Text = "Cancel";
+            this.cancelCreatingButton.Text = "Stop";
             this.cancelCreatingButton.UseVisualStyleBackColor = false;
             this.cancelCreatingButton.Click += new System.EventHandler(this.cancelCreatingButton_Click);
             // 
@@ -580,6 +580,7 @@
             this.MinimumSize = new System.Drawing.Size(744, 548);
             this.Name = "MainForm";
             this.Text = "Tag cloud generator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.NewForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.NewForm_DragEnter);
             this.textLoadGroup.ResumeLayout(false);
