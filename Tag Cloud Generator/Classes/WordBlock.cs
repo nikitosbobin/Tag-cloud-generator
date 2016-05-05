@@ -11,8 +11,7 @@ namespace Tag_Cloud_Generator.Classes
             public bool Equals(WordBlock x, WordBlock y)
             {
                 if (x == y) return true;
-                if (x == null || y == null)
-                    return false;
+                if (x == null || y == null) return false;
                 return x.Source == y.Source && x.Frequency == y.Frequency && Equals(x.Font, y.Font);
             }
 
@@ -21,7 +20,6 @@ namespace Tag_Cloud_Generator.Classes
                 if (word == null) return 0;
                 return word.Font.GetHashCode() ^ word.Frequency.GetHashCode() ^ word.Source.GetHashCode();
             }
-
         }
 
         public WordBlock(Font font, KeyValuePair<string, int> wordFrequency) 
@@ -36,7 +34,7 @@ namespace Tag_Cloud_Generator.Classes
             IsVertical = rnd.Next(0, 2) == 1;
             IsVertical = false;
             savedLocations = new Stack<Point>();
-            Font = font;
+            Font = (Font) font.Clone();
         }
         
         public string Source { get; }

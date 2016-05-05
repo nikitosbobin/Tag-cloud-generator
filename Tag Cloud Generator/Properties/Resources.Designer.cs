@@ -79,15 +79,6 @@ namespace Tag_Cloud_Generator.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error.
-        /// </summary>
-        internal static string MainForm_backgroundCloudCreator_DoWork_Error {
-            get {
-                return ResourceManager.GetString("MainForm_backgroundCloudCreator_DoWork_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Loading file.
         /// </summary>
         internal static string MainForm_button2_Click_Loading_file {
@@ -102,6 +93,24 @@ namespace Tag_Cloud_Generator.Properties {
         internal static string MainForm_saveImageDialog_FileOk_Saving {
             get {
                 return ResourceManager.GetString("MainForm_saveImageDialog_FileOk_Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Creating error.
+        /// </summary>
+        internal static string MainForm_SetFormCreatingFailed_Creating_error {
+            get {
+                return ResourceManager.GetString("MainForm_SetFormCreatingFailed_Creating_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Warning.
+        /// </summary>
+        internal static string MainForm_SetFormCreatingFailed_Warning {
+            get {
+                return ResourceManager.GetString("MainForm_SetFormCreatingFailed_Warning", resourceCulture);
             }
         }
         

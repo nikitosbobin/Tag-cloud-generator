@@ -454,7 +454,7 @@
             // 
             // loadTextDialog
             // 
-            this.loadTextDialog.FileName = "loadTextDialog";
+            this.loadTextDialog.FileName = "text.txt";
             this.loadTextDialog.Filter = "Text files|*.txt|All files|*.*";
             this.loadTextDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.loadTextDialog_FileOk);
             // 

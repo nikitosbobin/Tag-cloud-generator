@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Tag_Cloud_Generator.Classes;
 
 namespace Tag_Cloud_Generator
 {

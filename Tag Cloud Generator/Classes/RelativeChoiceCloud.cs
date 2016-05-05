@@ -15,19 +15,19 @@ namespace Tag_Cloud_Generator.Classes
             TextHandler = textHandler;
             frames = new List<PriorityPair<Rectangle>>();
             words = new List<WordBlock>();
-            generatorState = RelativeChoiceCloudStates.NotCreating;
-            TryingIterations = 3;
+            GeneratorState = RelativeChoiceCloudStates.NotCreating;
+            MaxAttemptsCount = 3;
         }
 
         private CloudMectrics metrics;
         private List<PriorityPair<Rectangle>> frames;
         private Dictionary<string, int> sortedWords;
         private readonly List<WordBlock> words;
-        private RelativeChoiceCloudStates generatorState;
+        public RelativeChoiceCloudStates GeneratorState { get; private set; }
 
         public int MaxWordsCount => sortedWords?.Count ?? 0;
         public ITextHandler TextHandler { get; set; }
-        public int TryingIterations { get; set; }
+        public int MaxAttemptsCount { get; set; }
 
         public void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale)
         {
@@ -41,13 +41,13 @@ namespace Tag_Cloud_Generator.Classes
             frames.Capacity = sortedWords.Count;
             words.Capacity = frames.Capacity;
             CommitWord(CreateFirstWord(firstScale));
-            generatorState = RelativeChoiceCloudStates.Creating;
+            GeneratorState = RelativeChoiceCloudStates.Creating;
         }
 
         private void CommitWord(WordBlock word)
         {
             words.Add(word);
-            frames.Add(new PriorityPair<Rectangle>(GetWordRectangle(word)));
+            frames.Add(GetWordRectangle(word));
         }
 
         private WordBlock CreateFirstWord(int scale)
@@ -64,7 +64,7 @@ namespace Tag_Cloud_Generator.Classes
 
         public bool HandleNextWord()
         {
-            switch (generatorState)
+            switch (GeneratorState)
             {
                 case RelativeChoiceCloudStates.NotCreating:
                     throw new Exception("Creating process does not initialized");
@@ -78,7 +78,7 @@ namespace Tag_Cloud_Generator.Classes
             if (sortedWords.Count == words.Count)
             {
                 metrics.Dispose();
-                generatorState = RelativeChoiceCloudStates.Ready;
+                GeneratorState = RelativeChoiceCloudStates.Ready;
                 return false;
             }
             var currentWord = sortedWords.ElementAt(frames.Count);
@@ -87,7 +87,7 @@ namespace Tag_Cloud_Generator.Classes
 
         public ITagCloud GetCreatedCloud()
         {
-            if (generatorState == RelativeChoiceCloudStates.NotCreating)
+            if (GeneratorState == RelativeChoiceCloudStates.NotCreating)
                 throw new Exception("Creating process does not initialized");
             return new TagCloud(metrics.CloudSize, words.ToArray());
         }
@@ -147,38 +147,39 @@ namespace Tag_Cloud_Generator.Classes
         {
             resultWord = null;
             if (frames.Count == 0) return false;
-            frames = frames.OrderBy(t => t.Priority).ThenByDescending(i => i.Value.Perimetr()).ToList();
+            frames = frames.OrderBy(t => t.Priority).ToList();
             var betterFrame = frames.First();
+            var targetFontSize = GetWordFontSize(wordFreqPair.Value);
+            var resultWordBlock = new WordBlock(metrics.WordsFont.SetSize(targetFontSize), wordFreqPair);
             foreach (var frame in frames)
             {
-                var tryingCount = frame.Priority*TryingIterations/betterFrame.Priority;
-                var targetFontSize = GetWordFontSize(wordFreqPair.Value);
-                var resultWordBlock = new WordBlock(metrics.WordsFont.SetSize(targetFontSize), wordFreqPair);
-                if (BypassFrame(resultWordBlock, frame.Value, tryingCount != 0 ? tryingCount : 1))
+                var currentAttemptsCount = frame.Priority*MaxAttemptsCount/betterFrame.Priority;
+                if (BypassFrame(resultWordBlock, frame.Value, currentAttemptsCount != 0 ? currentAttemptsCount : 1))
                 {
                     resultWord = resultWordBlock;
                     return true;
                 }
                 frame.Priority++;
             }
+            resultWordBlock.Dispose();
             return false;
         }
 
-        private bool BypassFrame(WordBlock word, Rectangle frame, int tryingCount)
+        private bool BypassFrame(WordBlock word, Rectangle frame, int attemptsCount)
         {
             var points = frame.GetPoints().RandomOffsetArray();
             for (var i = 0; i < points.Length; ++i)
-                if (MoveOnLine(word, points[i], points[(i + 1)%points.Length], tryingCount))
+                if (MoveOnLine(word, points[i], points[(i + 1)%points.Length], attemptsCount))
                     return true;
             return false;
         }
 
-        private bool MoveOnLine(WordBlock word, Point start, Point end, int tryingCount)
+        private bool MoveOnLine(WordBlock word, Point start, Point end, int attemptsCount)
         {
             var dist = start.OffsetTo(end);
-            for (var i = 0; i < tryingCount; ++i)
+            for (var i = 0; i < attemptsCount; ++i)
             {
-                word.MoveToPoint(start.X + i*dist.X/tryingCount, start.Y + i*dist.Y/tryingCount);
+                word.MoveToPoint(start.X + i*dist.X/attemptsCount, start.Y + i*dist.Y/attemptsCount);
                 if (TryFindPosition(word))
                     return true;
                 word.IsVertical = !word.IsVertical;
@@ -206,9 +207,8 @@ namespace Tag_Cloud_Generator.Classes
 
         public void Dispose()
         {
-            if (words == null) return;
-            foreach (var word in words)
-                word?.Dispose();
+            if (GeneratorState != RelativeChoiceCloudStates.NotCreating)
+                GetCreatedCloud().Dispose();
         }
     }
 }

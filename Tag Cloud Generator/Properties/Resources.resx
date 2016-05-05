@@ -129,13 +129,16 @@
   <data name="MainForm_backgroundCloudCreator_DoWork_Creating" xml:space="preserve">
     <value>Creating</value>
   </data>
-  <data name="MainForm_backgroundCloudCreator_DoWork_Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
   <data name="MainForm_backgroundCloudCreator_DoWork_Done" xml:space="preserve">
     <value>Done</value>
   </data>
   <data name="MainForm_saveImageDialog_FileOk_Saving" xml:space="preserve">
     <value>Saving</value>
+  </data>
+  <data name="MainForm_SetFormCreatingFailed_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="MainForm_SetFormCreatingFailed_Creating_error" xml:space="preserve">
+    <value>Creating error</value>
   </data>
 </root>

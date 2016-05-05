@@ -51,8 +51,6 @@ namespace Tag_Cloud_Generator.Classes
         public static string ToHtmlColor(this byte source)
         {
             var result = Convert.ToString(source, 16);
-            if (result.Length > 2)
-                throw new NotSupportedException($"Input {source} to base 16: {result} is not valid to HTML format");
             if (result.Length == 1)
                 result = "0" + result;
             return result;

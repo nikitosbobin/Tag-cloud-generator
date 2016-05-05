@@ -148,7 +148,7 @@ namespace Tag_Cloud_Generator
 
         private void backgroundCloudCreator_DoWork(object sender, DoWorkEventArgs e)
         {
-            SetFormToStartSreating();
+            SetFormToStartCreating();
             Bitmap image;
             try
             {
@@ -170,7 +170,7 @@ namespace Tag_Cloud_Generator
             else
             {
                 textHandler.ShouldStemWords = provider.ShouldStemWords;
-                cloudGenerator.TryingIterations = provider.Accuracy;
+                cloudGenerator.MaxAttemptsCount = provider.Accuracy;
                 cloudGenerator.InitCreating(provider.ImageSize, provider.WordsFont, 
                     provider.WordsCount, provider.FirstScale);
                 var count = 0;
@@ -192,15 +192,15 @@ namespace Tag_Cloud_Generator
         {
             Invoke((MethodInvoker) delegate
             {
-                MessageBox.Show(exception.Message, Resources.MainForm_backgroundCloudCreator_DoWork_Error,
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Error;
+                MessageBox.Show(exception.Message, Resources.MainForm_SetFormCreatingFailed_Warning,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                programStatus.Text = Resources.MainForm_SetFormCreatingFailed_Creating_error;
                 SwitchInputControls(true);
                 SetProgress(0);
             });
         }
 
-        private void SetFormToStartSreating()
+        private void SetFormToStartCreating()
         {
             Invoke((MethodInvoker)delegate
             {
@@ -288,9 +288,12 @@ namespace Tag_Cloud_Generator
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            data?.Dispose();
-            cloudGenerator?.Dispose();
-            actualCloud?.Dispose();
+            wordsFontDialog.Font?.Dispose();
+            data.Dispose();
+            if (actualCloud == null)
+                cloudGenerator.Dispose();
+            else
+                actualCloud.Dispose();
         }
     }
 }

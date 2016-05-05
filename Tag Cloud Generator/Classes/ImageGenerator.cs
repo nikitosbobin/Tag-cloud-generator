@@ -8,29 +8,27 @@ namespace Tag_Cloud_Generator.Classes
 {
     class ImageGenerator : ICloudImageGenerator
     {
-        private WordBlock[] words;
-
         public Bitmap CreateImage(ITagCloud cloud, Color backgroundColor, List<Color> wordsBrushes = null)
         {
             var image = new Bitmap(cloud.CloudSize.Width, cloud.CloudSize.Height);
             using (var graphics = Graphics.FromImage(image))
             {
                 SetGraphics(graphics, backgroundColor);
-                words = cloud.Words
+                var words = cloud.Words
                     .OrderByDescending(w => w.Frequency)
                     .ToArray();
-                DrawAllWords(graphics, wordsBrushes);
+                DrawAllWords(graphics, words, wordsBrushes);
                 graphics.ResetTransform();
             }
             return image;
         }
 
-        private void DrawAllWords(Graphics graphics, List<Color> wordsBrushes)
+        private void DrawAllWords(Graphics graphics, WordBlock[] words, List<Color> wordsBrushes)
         {
             foreach (var word in words)
             {
                 DrawWord(word, graphics, wordsBrushes == null || wordsBrushes.Count == 0 
-                    ? GetGrayGradation(word) 
+                    ? GetGrayGradation(word.Frequency, words.First().Frequency) 
                     : wordsBrushes.GetRandomElement());
             }
         }
@@ -45,10 +43,9 @@ namespace Tag_Cloud_Generator.Classes
             graphics.Restore(graphicsState);
         }
 
-        private Color GetGrayGradation(WordBlock word)
+        private Color GetGrayGradation(int currentFrequency, int maxFrequency)
         {
-            var better = words.First();
-            var t = word.Frequency / (double)better.Frequency;
+            var t = currentFrequency / (double) maxFrequency;
             if (t < 0.3) t = 0.3;
             var targetGradation = 256 - (int) (t*255);
             return Color.FromArgb(targetGradation, targetGradation, targetGradation);
