@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -43,17 +44,6 @@ namespace Tag_Cloud_Generator.Classes
             if (colorObj == null)
                 throw new NotSupportedException($"Can not convert color {source}");
             return (Color)colorObj;
-        }
-    }
-
-    static class ByteExtensions
-    {
-        public static string ToHtmlColor(this byte source)
-        {
-            var result = Convert.ToString(source, 16);
-            if (result.Length == 1)
-                result = "0" + result;
-            return result;
         }
     }
 
@@ -107,27 +97,11 @@ namespace Tag_Cloud_Generator.Classes
         }
     }
 
-    static class FontExtensions
-    {
-        public static Font SetSize(this Font source, float fontSize)
-        {
-            return new Font(source.Name, fontSize, source.Style);
-        }
-    }
-
     static class SizeExtensions
     {
         public static Point Center(this Size source)
         {
             return new Point(source.Width / 2, source.Height / 2);
-        }
-    }
-
-    static class ColorExtensions
-    {
-        public static string ToHtmlColor(this Color source)
-        {
-            return $"#{source.R.ToHtmlColor()}{source.G.ToHtmlColor()}{source.B.ToHtmlColor()}";
         }
     }
 }

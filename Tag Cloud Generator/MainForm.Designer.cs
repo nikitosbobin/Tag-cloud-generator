@@ -335,17 +335,20 @@
             // firstWordScaleBar
             // 
             this.firstWordScaleBar.Location = new System.Drawing.Point(168, 65);
-            this.firstWordScaleBar.Minimum = 1;
+            this.firstWordScaleBar.Maximum = 100;
+            this.firstWordScaleBar.Minimum = 10;
             this.firstWordScaleBar.Name = "firstWordScaleBar";
             this.firstWordScaleBar.Size = new System.Drawing.Size(150, 45);
             this.firstWordScaleBar.TabIndex = 1;
-            this.firstWordScaleBar.Value = 10;
+            this.firstWordScaleBar.TickFrequency = 10;
+            this.firstWordScaleBar.Value = 60;
             this.firstWordScaleBar.Scroll += new System.EventHandler(this.firstWordScaleBar_Scroll);
             // 
             // wordsAmountBar
             // 
             this.wordsAmountBar.Location = new System.Drawing.Point(7, 65);
             this.wordsAmountBar.Maximum = 100;
+            this.wordsAmountBar.Minimum = 5;
             this.wordsAmountBar.Name = "wordsAmountBar";
             this.wordsAmountBar.Size = new System.Drawing.Size(154, 45);
             this.wordsAmountBar.TabIndex = 0;

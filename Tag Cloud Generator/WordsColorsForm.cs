@@ -9,36 +9,32 @@ namespace Tag_Cloud_Generator
 {
     public partial class WordsColorsForm : Form
     {
-        public List<Color> Colors
-        {
-            get
-            {
-                return colorsListView.Items
-                    .Cast<ListViewItem>()
-                    .Select(i => i.Text.ToColor())
-                    .ToList();
-            }
-        }
+        public IReadOnlyList<Color> Colors => colors.AsReadOnly();
+        private readonly List<Color> colors;
 
         public WordsColorsForm()
         {
             InitializeComponent();
             colorsListView.SmallImageList = new ImageList();
-
+            colors = new List<Color>();
         }
 
         private void addColorButton_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog(this) != DialogResult.OK) return;
             colorsListView.SmallImageList.Images.Add(GetImage(colorDialog1.Color));
-            colorsListView.Items.Add(colorDialog1.Color.ToHtmlColor(), colorsListView.SmallImageList.Images.Count - 1);
+            colorsListView.Items.Add(colorDialog1.Color.Name, colorsListView.SmallImageList.Images.Count - 1);
+            colors.Add(colorDialog1.Color);
         }
 
         private void deleteColorButton_Click(object sender, EventArgs e)
         {
             var selected = colorsListView.Items.SelectedItems();
             foreach (var itemIndex in selected.OrderByDescending(d => d))
+            {
                 colorsListView.Items.RemoveAt(itemIndex);
+                colors.RemoveAt(itemIndex);
+            }
         }
 
         private void acceptButton_Click(object sender, EventArgs e)

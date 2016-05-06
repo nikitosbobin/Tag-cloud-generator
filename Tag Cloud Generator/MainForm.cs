@@ -25,7 +25,7 @@ namespace Tag_Cloud_Generator
                 BackGroundColor = Color.White,
                 WordsFont = new Font("Segoe UI", 12f),
                 WordsCount = 30,
-                FirstScale = 10,
+                FirstScale = 60,
                 ShouldStemWords = true
             };
             colorsForm = new WordsColorsForm();
@@ -90,7 +90,7 @@ namespace Tag_Cloud_Generator
         private void wordsColorsButton_Click(object sender, EventArgs e)
         {
             if (colorsForm.ShowDialog(this) != DialogResult.OK) return;
-            data.WordsColors = colorsForm.Colors;
+            data.WordsColors = colorsForm.Colors.ToList();
             colorsCountLabel.Text = data.WordsColors.Count.ToString();
         }
 
@@ -176,10 +176,7 @@ namespace Tag_Cloud_Generator
                 var count = 0;
                 double max = cloudGenerator.MaxWordsCount;
                 while (cloudGenerator.HandleNextWord() && !cancelCreating)
-                    Invoke((MethodInvoker) delegate
-                        {
-                            SetProgress((int) (count++ * 100 / max));
-                        });
+                    Invoke((MethodInvoker)(() => { SetProgress((int) (count++*100/max)); }));
                 actualCloud?.Dispose();
                 actualCloud = cloudGenerator.GetCreatedCloud();
                 cloudIsRelevant = true;
@@ -190,39 +187,39 @@ namespace Tag_Cloud_Generator
 
         private void SetFormCreatingFailed(Exception exception)
         {
-            Invoke((MethodInvoker) delegate
+            Invoke((MethodInvoker)(() =>
             {
                 MessageBox.Show(exception.Message, Resources.MainForm_SetFormCreatingFailed_Warning,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 programStatus.Text = Resources.MainForm_SetFormCreatingFailed_Creating_error;
                 SwitchInputControls(true);
                 SetProgress(0);
-            });
+            }));
         }
 
         private void SetFormToStartCreating()
         {
-            Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)(() =>
             {
                 SwitchInputControls(false);
                 programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Creating;
-            });
+            }));
         }
 
         private void SetFormCreatingSuccess(Image createdImage)
         {
-            Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)(() =>
             {
                 SwitchInputControls(true);
                 SetProgress(0);
                 cloudImageBox.Image = createdImage;
                 programStatus.Text = Resources.MainForm_backgroundCloudCreator_DoWork_Done;
-            });
+            }));
         }
 
         private void SwitchInputControls(bool value)
         {
-            Invoke((MethodInvoker) delegate
+            Invoke((MethodInvoker)(() =>
             {
                 generateCloudButton.Enabled = value;
                 cloudGeneratingGroup.Enabled = value;
@@ -230,7 +227,7 @@ namespace Tag_Cloud_Generator
                 textLoadGroup.Enabled = value;
                 saveImageButton.Enabled = value;
                 cancelCreatingButton.Enabled = !value;
-            });
+            }));
         }
 
         private void imageWidth_ValueChanged(object sender, EventArgs e)

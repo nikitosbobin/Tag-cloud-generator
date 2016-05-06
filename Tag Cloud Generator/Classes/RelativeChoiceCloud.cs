@@ -53,7 +53,7 @@ namespace Tag_Cloud_Generator.Classes
 
         private WordBlock CreateFirstWord(int scale)
         {
-            var result = new WordBlock(metrics.CloudSize.Width*scale/100f, sortedWords.First());
+            var result = new WordBlock(metrics.CloudSize.Width*scale/1000f, sortedWords.First());
             var size = metrics.MeasureWord(result);
             if (size.Width > metrics.CloudSize.Width)
                 result.FontSize /= size.Width / (float)metrics.CloudSize.Width;
