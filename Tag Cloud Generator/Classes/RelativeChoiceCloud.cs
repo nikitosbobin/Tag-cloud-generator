@@ -196,7 +196,7 @@ namespace Tag_Cloud_Generator.Classes
             for (var j = 0; j < 4; ++j)
             {
                 word.SaveLocation();
-                word.MoveOn(-tmpRect.Width*permutations[j, 0],
+                word.OffsetOn(-tmpRect.Width*permutations[j, 0],
                     tmpRect.Height*permutations[j, 1]*(word.IsVertical ? 1 : -1));
                 if (metrics.WordInsideImage(word) && !AnyFrameIntersection(word))
                     return true;

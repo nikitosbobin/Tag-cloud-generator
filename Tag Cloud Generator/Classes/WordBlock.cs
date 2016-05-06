@@ -65,7 +65,7 @@ namespace Tag_Cloud_Generator.Classes
             return true;
         }
 
-        public WordBlock MoveOn(int offsetX, int offsetY)
+        public WordBlock OffsetOn(int offsetX, int offsetY)
         {
             Location = new Point(Location.X + offsetX, Location.Y + offsetY);
             return this;
@@ -79,8 +79,7 @@ namespace Tag_Cloud_Generator.Classes
 
         public WordBlock MoveToPoint(int positionX, int positionY)
         {
-            Location = new Point(positionX, positionY);
-            return this;
+            return MoveToPoint(new Point(positionX, positionY));
         }
 
         public override string ToString()

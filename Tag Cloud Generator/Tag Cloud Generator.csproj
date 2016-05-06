@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\FontsHash.cs" />
     <Compile Include="Classes\FormDataProvider.cs" />
     <Compile Include="Classes\ImageGenerator.cs" />
     <Compile Include="Classes\MyExtensions.cs" />
