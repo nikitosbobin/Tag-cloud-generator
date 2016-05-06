@@ -17,29 +17,29 @@ namespace Tag_Cloud_Generator.Classes
                 var words = cloud.Words
                     .OrderByDescending(w => w.Frequency)
                     .ToArray();
-                DrawAllWords(graphics, words, wordsBrushes);
+                DrawAllWords(graphics, words, cloud, wordsBrushes);
                 graphics.ResetTransform();
             }
             return image;
         }
 
-        private void DrawAllWords(Graphics graphics, WordBlock[] words, List<Color> wordsBrushes)
+        private void DrawAllWords(Graphics graphics, IWordBlock[] words, ITagCloud cloud, List<Color> wordsBrushes)
         {
             foreach (var word in words)
             {
                 DrawWord(word, graphics, wordsBrushes == null || wordsBrushes.Count == 0 
                     ? GetGrayGradation(word.Frequency, words.First().Frequency) 
-                    : wordsBrushes.GetRandomElement());
+                    : wordsBrushes.GetRandomElement(), cloud);
             }
         }
 
-        private void DrawWord(WordBlock word, Graphics graphics, Color color)
+        private void DrawWord(IWordBlock word, Graphics graphics, Color color, ITagCloud cloud)
         {
             var graphicsState = graphics.Save();
             graphics.TranslateTransform(word.Location.X, word.Location.Y);
             var angle = word.IsVertical ? 270f : 0f;
             graphics.RotateTransform(angle);
-            graphics.DrawString(word.Source, word.Font, new SolidBrush(color), 0, 0);
+            graphics.DrawString(word.Source, cloud.FontsCache.GetFont(word.FontSize), new SolidBrush(color), 0, 0);
             graphics.Restore(graphicsState);
         }
 

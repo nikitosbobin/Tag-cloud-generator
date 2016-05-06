@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\FontsHash.cs" />
+    <Compile Include="Classes\FontsCache.cs" />
     <Compile Include="Classes\FormDataProvider.cs" />
     <Compile Include="Classes\ImageGenerator.cs" />
     <Compile Include="Classes\MyExtensions.cs" />
@@ -67,8 +67,10 @@
     <Compile Include="Classes\CloudMectrics.cs" />
     <Compile Include="Interfaces\ICloudGenerator.cs" />
     <Compile Include="Interfaces\ICloudImageGenerator.cs" />
+    <Compile Include="Interfaces\IFontCache.cs" />
     <Compile Include="Interfaces\ITagCloud.cs" />
     <Compile Include="Interfaces\ITextHandler.cs" />
+    <Compile Include="Interfaces\IWordBlock.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

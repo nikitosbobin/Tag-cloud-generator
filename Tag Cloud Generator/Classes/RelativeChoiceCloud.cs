@@ -7,7 +7,6 @@ using Tag_Cloud_Generator.Interfaces.TagCloudGenerator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
-
     class RelativeChoiceCloud : ICloudGenerator
     {
         public RelativeChoiceCloud(ITextHandler textHandler)
@@ -23,8 +22,9 @@ namespace Tag_Cloud_Generator.Classes
         private List<PriorityPair<Rectangle>> frames;
         private Dictionary<string, int> sortedWords;
         private readonly List<WordBlock> words;
-        public RelativeChoiceCloudStates GeneratorState { get; private set; }
+        private FontsCache fontsCache;
 
+        public RelativeChoiceCloudStates GeneratorState { get; private set; }
         public int MaxWordsCount => sortedWords?.Count ?? 0;
         public ITextHandler TextHandler { get; set; }
         public int MaxAttemptsCount { get; set; }
@@ -35,7 +35,8 @@ namespace Tag_Cloud_Generator.Classes
             if (sortedWords.Count == 0)
                 throw new Exception("There are no words to build cloud");
             metrics?.Dispose();
-            metrics = new CloudMectrics(targetCloudSize, wordsFont);
+            fontsCache = new FontsCache(wordsFont);
+            metrics = new CloudMectrics(targetCloudSize, fontsCache);
             frames.Clear();
             words.Clear();
             frames.Capacity = sortedWords.Count;
@@ -52,10 +53,7 @@ namespace Tag_Cloud_Generator.Classes
 
         private WordBlock CreateFirstWord(int scale)
         {
-            var result = new WordBlock(metrics.WordsFont, sortedWords.First())
-            {
-                FontSize = metrics.CloudSize.Width*scale/100f
-            };
+            var result = new WordBlock(metrics.CloudSize.Width*scale/100f, sortedWords.First());
             var size = metrics.MeasureWord(result);
             if (size.Width > metrics.CloudSize.Width)
                 result.FontSize /= size.Width / (float)metrics.CloudSize.Width;
@@ -89,7 +87,7 @@ namespace Tag_Cloud_Generator.Classes
         {
             if (GeneratorState == RelativeChoiceCloudStates.NotCreating)
                 throw new Exception("Creating process does not initialized");
-            return new TagCloud(metrics.CloudSize, words.ToArray());
+            return new TagCloud(metrics.CloudSize, words.ToArray(), fontsCache);
         }
 
         private bool LocateWordOnImage(KeyValuePair<string, int> wordFreqPair)
@@ -150,7 +148,7 @@ namespace Tag_Cloud_Generator.Classes
             frames = frames.OrderBy(t => t.Priority).ToList();
             var betterFrame = frames.First();
             var targetFontSize = GetWordFontSize(wordFreqPair.Value);
-            var resultWordBlock = new WordBlock(metrics.WordsFont.SetSize(targetFontSize), wordFreqPair);
+            var resultWordBlock = new WordBlock(targetFontSize, wordFreqPair);
             foreach (var frame in frames)
             {
                 var currentAttemptsCount = frame.Priority*MaxAttemptsCount/betterFrame.Priority;
@@ -161,7 +159,6 @@ namespace Tag_Cloud_Generator.Classes
                 }
                 frame.Priority++;
             }
-            resultWordBlock.Dispose();
             return false;
         }
 
@@ -209,6 +206,7 @@ namespace Tag_Cloud_Generator.Classes
         {
             if (GeneratorState != RelativeChoiceCloudStates.NotCreating)
                 GetCreatedCloud().Dispose();
+            metrics?.Dispose();
         }
     }
 }

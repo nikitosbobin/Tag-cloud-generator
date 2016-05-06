@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Tag_Cloud_Generator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
@@ -8,25 +9,18 @@ namespace Tag_Cloud_Generator.Classes
     {
         private readonly Graphics graphics;
         public Size CloudSize { get; }
-        public Font WordsFont { get; }
-        private readonly Dictionary<WordBlock, Size> wordSizes;
+        private readonly FontsCache fontsCache;
+        private readonly Dictionary<IWordBlock, Size> wordSizes;
 
-        public CloudMectrics(Size cloudSize, Font wordsFont)
+        public CloudMectrics(Size cloudSize, FontsCache cache)
         {
             if (cloudSize == Size.Empty)
                 throw new Exception("Can not create metrics");
             CloudSize = cloudSize;
-            try
-            {
-                WordsFont = (Font) wordsFont.Clone();
-            }
-            catch
-            {
-                WordsFont = new Font("Segoe UI", 12f);
-            }
+            fontsCache = cache;
             using (var image = new Bitmap(cloudSize.Width, cloudSize.Height))
                 graphics = Graphics.FromImage(image);
-            wordSizes = new Dictionary<WordBlock, Size>(new WordBlock.Comparer());
+            wordSizes = new Dictionary<IWordBlock, Size>(new WordBlock.Comparer());
         }
 
         public Size MeasureWord(WordBlock word)
@@ -34,7 +28,7 @@ namespace Tag_Cloud_Generator.Classes
             Size wordSize;
             if (!wordSizes.ContainsKey(word))
             {
-                wordSize = graphics.MeasureString(word.Source, word.Font).ToSize();
+                wordSize = graphics.MeasureString(word.Source, fontsCache.GetFont(word.FontSize)).ToSize();
                 wordSizes.Add(word, wordSize);
             }
             else
@@ -59,7 +53,6 @@ namespace Tag_Cloud_Generator.Classes
         public void Dispose()
         {
             graphics.Dispose();
-            WordsFont.Dispose();
         }
     }
 }

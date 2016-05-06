@@ -7,22 +7,22 @@ namespace Tag_Cloud_Generator.Classes
 {
     class TagCloud : ITagCloud
     {
-        public TagCloud(Size cloudSize, WordBlock[] words)
+        public TagCloud(Size cloudSize, WordBlock[] words, IFontCache cache)
         {
             if (cloudSize == Size.Empty || words == null)
                 throw new Exception("Can not cunstruct cloud");
             CloudSize = cloudSize;
             Words = words;
+            FontsCache = cache;
         }
 
         public Size CloudSize { get; }
-        public IEnumerable<WordBlock> Words { get; }
+        public IEnumerable<IWordBlock> Words { get; }
+        public IFontCache FontsCache { get; }
 
         public void Dispose()
         {
-            if (Words == null) return;
-            foreach (var word in Words)
-                word?.Dispose();
+            FontsCache?.Dispose();
         }
     }
 }

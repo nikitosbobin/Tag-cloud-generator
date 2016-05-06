@@ -1,31 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Tag_Cloud_Generator.Interfaces;
 
 namespace Tag_Cloud_Generator.Classes
 {
-    class WordBlock : IDisposable
+    class WordBlock : IWordBlock
     {
-        public class Comparer : IEqualityComparer<WordBlock>
+        public class Comparer : IEqualityComparer<IWordBlock>
         {
-            public bool Equals(WordBlock x, WordBlock y)
+            public bool Equals(IWordBlock x, IWordBlock y)
             {
                 if (x == y) return true;
                 if (x == null || y == null) return false;
-                return x.Source == y.Source && x.Frequency == y.Frequency && Equals(x.Font, y.Font);
+                return x.Source == y.Source && x.Frequency == y.Frequency
+                    && Math.Abs(x.FontSize - y.FontSize) < double.Epsilon;
             }
 
-            public int GetHashCode(WordBlock word)
+            public int GetHashCode(IWordBlock word)
             {
                 if (word == null) return 0;
-                return word.Font.GetHashCode() ^ word.Frequency.GetHashCode() ^ word.Source.GetHashCode();
+                return word.FontSize.GetHashCode() ^ word.Frequency.GetHashCode() ^ word.Source.GetHashCode();
             }
         }
 
-        public WordBlock(Font font, KeyValuePair<string, int> wordFrequency) 
-            : this(font, wordFrequency.Key, wordFrequency.Value) { }
+        public WordBlock(float fontSize, KeyValuePair<string, int> wordFrequency) 
+            : this(fontSize, wordFrequency.Key, wordFrequency.Value) { }
 
-        public WordBlock(Font font, string source, int frequency = 1)
+        public WordBlock(float fontSize, string source, int frequency = 1)
         {
             Source = source;
             Frequency = frequency;
@@ -34,21 +36,13 @@ namespace Tag_Cloud_Generator.Classes
             IsVertical = rnd.Next(0, 2) == 1;
             IsVertical = false;
             savedLocations = new Stack<Point>();
-            Font = (Font) font.Clone();
+            FontSize = fontSize;
         }
         
         public string Source { get; }
         public int Frequency { get; }
         public Point Location { get; private set; }
-
-        public Font Font { get; set; }
-
-        public float FontSize
-        {
-            get { return Font.Size; }
-            set { Font = Font.SetSize(value); }
-        }
-
+        public float FontSize { get; set; }
         public bool IsVertical { get; set; }
         private readonly Stack<Point> savedLocations;
 
@@ -85,11 +79,6 @@ namespace Tag_Cloud_Generator.Classes
         public override string ToString()
         {
             return $"{Source}--{Frequency}";
-        }
-
-        public void Dispose()
-        {
-            Font?.Dispose();
         }
     }
 }
