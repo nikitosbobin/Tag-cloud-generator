@@ -7,9 +7,16 @@ namespace Tag_Cloud_Generator.Classes
     class FormDataProvider : IDisposable
     {
         private Font wordsFont;
-        public Font WordsFont {
-            get { return wordsFont; }
-            set { wordsFont = (Font) value.Clone(); }
+        public Font WordsFont
+        {
+            get
+            {
+                return wordsFont;
+            }
+            set
+            {
+                wordsFont = (Font) value.Clone();
+            }
         }
         public Color BackGroundColor { get; set; }
         public List<Color> WordsColors { get; set; }
@@ -18,6 +25,7 @@ namespace Tag_Cloud_Generator.Classes
         public Size ImageSize { get; set; }
         public bool ShouldStemWords { get; set; }
         public int Accuracy { get; set; }
+        public int MinWordsLength { get; set; }
 
         public void Dispose()
         {

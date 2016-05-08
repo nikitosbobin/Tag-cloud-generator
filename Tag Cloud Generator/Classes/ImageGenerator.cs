@@ -27,13 +27,13 @@ namespace Tag_Cloud_Generator.Classes
         {
             foreach (var word in words)
             {
-                DrawWord(word, graphics, wordsBrushes == null || wordsBrushes.Count == 0 
+                DrawWord(graphics, cloud, word, wordsBrushes == null || wordsBrushes.Count == 0 
                     ? GetGrayGradation(word.Frequency, words.First().Frequency) 
-                    : wordsBrushes.GetRandomElement(), cloud);
+                    : wordsBrushes.GetRandomElement());
             }
         }
 
-        private void DrawWord(IWordBlock word, Graphics graphics, Color color, ITagCloud cloud)
+        private void DrawWord(Graphics graphics, ITagCloud cloud, IWordBlock word, Color color)
         {
             var graphicsState = graphics.Save();
             graphics.TranslateTransform(word.Location.X, word.Location.Y);

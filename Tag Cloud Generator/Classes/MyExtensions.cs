@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,11 +8,6 @@ namespace Tag_Cloud_Generator.Classes
 {
     static class RectangleExtensions
     {
-        public static double Perimetr(this Rectangle source)
-        {
-            return 2 * (source.Width + source.Height);
-        }
-        
         public static Point RigthBottom(this Rectangle source)
         {
             return new Point(source.Right, source.Bottom);
@@ -34,19 +28,7 @@ namespace Tag_Cloud_Generator.Classes
             return new[] { source.Location, source.RightTop(), source.RigthBottom(), source.LeftBottom() };
         }
     }
-
-    static class StringExtensions
-    {
-        public static Color ToColor(this string source)
-        {
-            var converter = new ColorConverter();
-            var colorObj = converter.ConvertFromString(source);
-            if (colorObj == null)
-                throw new NotSupportedException($"Can not convert color {source}");
-            return (Color)colorObj;
-        }
-    }
-
+    
     static class PointExtensions
     {
         public static Point OffsetTo(this Point p1, Point p2)
@@ -89,11 +71,6 @@ namespace Tag_Cloud_Generator.Classes
                 offset++;
             }
             return result.ToArray();
-        }
-
-        public static void Add(this List<PriorityPair<Rectangle>> source, Rectangle rect)
-        {
-            source.Add(new PriorityPair<Rectangle>(rect));
         }
     }
 

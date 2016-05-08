@@ -26,6 +26,7 @@ namespace Tag_Cloud_Generator
                 WordsFont = new Font("Segoe UI", 12f),
                 WordsCount = 30,
                 FirstScale = 60,
+                MinWordsLength = 5,
                 ShouldStemWords = true
             };
             colorsForm = new WordsColorsForm();
@@ -172,10 +173,10 @@ namespace Tag_Cloud_Generator
                 textHandler.ShouldStemWords = provider.ShouldStemWords;
                 cloudGenerator.MaxAttemptsCount = provider.Accuracy;
                 cloudGenerator.InitCreating(provider.ImageSize, provider.WordsFont, 
-                    provider.WordsCount, provider.FirstScale);
+                    provider.WordsCount, provider.MinWordsLength, provider.FirstScale);
                 var count = 0;
                 double max = cloudGenerator.MaxWordsCount;
-                while (cloudGenerator.HandleNextWord() && !cancelCreating)
+                while (cloudGenerator.TryHandleNextWord() && !cancelCreating)
                     Invoke((MethodInvoker)(() => { SetProgress((int) (count++*100/max)); }));
                 actualCloud?.Dispose();
                 actualCloud = cloudGenerator.GetCreatedCloud();
@@ -291,6 +292,12 @@ namespace Tag_Cloud_Generator
                 cloudGenerator.Dispose();
             else
                 actualCloud.Dispose();
+        }
+
+        private void minWordsLengthNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            data.MinWordsLength = (int) minWordsLengthNumericUpDown.Value;
+            cloudIsRelevant = false;
         }
     }
 }

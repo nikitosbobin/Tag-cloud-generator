@@ -7,8 +7,9 @@ namespace Tag_Cloud_Generator.Interfaces
     {
         interface ICloudGenerator : IDisposable
         {
-            void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale);
-            bool HandleNextWord();
+            void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, 
+                int minWordsLength, int firstScale);
+            bool TryHandleNextWord();
             ITagCloud GetCreatedCloud();
             int MaxWordsCount { get; }
             ITextHandler TextHandler { get; set; }

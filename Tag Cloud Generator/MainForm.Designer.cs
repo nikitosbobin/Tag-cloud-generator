@@ -73,6 +73,8 @@
             this.progressLabel = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.cancelCreatingButton = new System.Windows.Forms.Button();
+            this.minWordsLengthNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.minWordsLengthLabel = new System.Windows.Forms.Label();
             this.textLoadGroup.SuspendLayout();
             this.cloudGeneratingGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.accuracyNumericUpDown)).BeginInit();
@@ -85,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cloudImageBox)).BeginInit();
             this.programStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.minWordsLengthNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // textLoadGroup
@@ -139,6 +142,8 @@
             // cloudGeneratingGroup
             // 
             this.cloudGeneratingGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cloudGeneratingGroup.Controls.Add(this.minWordsLengthLabel);
+            this.cloudGeneratingGroup.Controls.Add(this.minWordsLengthNumericUpDown);
             this.cloudGeneratingGroup.Controls.Add(this.accuracyLabel);
             this.cloudGeneratingGroup.Controls.Add(this.accuracyNumericUpDown);
             this.cloudGeneratingGroup.Controls.Add(this.shouldStemWordsCheckBox);
@@ -159,7 +164,7 @@
             this.cloudGeneratingGroup.Enabled = false;
             this.cloudGeneratingGroup.Location = new System.Drawing.Point(507, 135);
             this.cloudGeneratingGroup.Name = "cloudGeneratingGroup";
-            this.cloudGeneratingGroup.Size = new System.Drawing.Size(332, 370);
+            this.cloudGeneratingGroup.Size = new System.Drawing.Size(332, 413);
             this.cloudGeneratingGroup.TabIndex = 1;
             this.cloudGeneratingGroup.TabStop = false;
             this.cloudGeneratingGroup.Text = "Cloud generating";
@@ -167,7 +172,7 @@
             // accuracyLabel
             // 
             this.accuracyLabel.AutoSize = true;
-            this.accuracyLabel.Location = new System.Drawing.Point(3, 145);
+            this.accuracyLabel.Location = new System.Drawing.Point(3, 186);
             this.accuracyLabel.Name = "accuracyLabel";
             this.accuracyLabel.Size = new System.Drawing.Size(56, 15);
             this.accuracyLabel.TabIndex = 15;
@@ -175,7 +180,7 @@
             // 
             // accuracyNumericUpDown
             // 
-            this.accuracyNumericUpDown.Location = new System.Drawing.Point(223, 143);
+            this.accuracyNumericUpDown.Location = new System.Drawing.Point(223, 184);
             this.accuracyNumericUpDown.Maximum = new decimal(new int[] {
             10,
             0,
@@ -212,7 +217,7 @@
             // recreateCheckBox
             // 
             this.recreateCheckBox.AutoSize = true;
-            this.recreateCheckBox.Location = new System.Drawing.Point(6, 300);
+            this.recreateCheckBox.Location = new System.Drawing.Point(6, 341);
             this.recreateCheckBox.Name = "recreateCheckBox";
             this.recreateCheckBox.Size = new System.Drawing.Size(159, 19);
             this.recreateCheckBox.TabIndex = 13;
@@ -222,7 +227,7 @@
             // colorsCountLabel
             // 
             this.colorsCountLabel.AutoSize = true;
-            this.colorsCountLabel.Location = new System.Drawing.Point(88, 225);
+            this.colorsCountLabel.Location = new System.Drawing.Point(88, 266);
             this.colorsCountLabel.Name = "colorsCountLabel";
             this.colorsCountLabel.Size = new System.Drawing.Size(13, 15);
             this.colorsCountLabel.TabIndex = 8;
@@ -232,7 +237,7 @@
             // 
             this.wordsColorsButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.wordsColorsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.wordsColorsButton.Location = new System.Drawing.Point(223, 219);
+            this.wordsColorsButton.Location = new System.Drawing.Point(223, 260);
             this.wordsColorsButton.Name = "wordsColorsButton";
             this.wordsColorsButton.Size = new System.Drawing.Size(87, 27);
             this.wordsColorsButton.TabIndex = 11;
@@ -246,7 +251,7 @@
             this.saveImageButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.saveImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.saveImageButton.Enabled = false;
-            this.saveImageButton.Location = new System.Drawing.Point(223, 324);
+            this.saveImageButton.Location = new System.Drawing.Point(223, 367);
             this.saveImageButton.Name = "saveImageButton";
             this.saveImageButton.Size = new System.Drawing.Size(87, 27);
             this.saveImageButton.TabIndex = 5;
@@ -257,7 +262,7 @@
             // wordsColorsLabel
             // 
             this.wordsColorsLabel.AutoSize = true;
-            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 225);
+            this.wordsColorsLabel.Location = new System.Drawing.Point(3, 266);
             this.wordsColorsLabel.Name = "wordsColorsLabel";
             this.wordsColorsLabel.Size = new System.Drawing.Size(79, 15);
             this.wordsColorsLabel.TabIndex = 10;
@@ -266,7 +271,7 @@
             // backgroundColor
             // 
             this.backgroundColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.backgroundColor.Location = new System.Drawing.Point(91, 257);
+            this.backgroundColor.Location = new System.Drawing.Point(91, 298);
             this.backgroundColor.Name = "backgroundColor";
             this.backgroundColor.Size = new System.Drawing.Size(83, 25);
             this.backgroundColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -277,7 +282,7 @@
             // backgroundLabel
             // 
             this.backgroundLabel.AutoSize = true;
-            this.backgroundLabel.Location = new System.Drawing.Point(3, 261);
+            this.backgroundLabel.Location = new System.Drawing.Point(3, 302);
             this.backgroundLabel.Name = "backgroundLabel";
             this.backgroundLabel.Size = new System.Drawing.Size(74, 15);
             this.backgroundLabel.TabIndex = 7;
@@ -286,7 +291,7 @@
             // fontStringLabel
             // 
             this.fontStringLabel.AutoSize = true;
-            this.fontStringLabel.Location = new System.Drawing.Point(56, 184);
+            this.fontStringLabel.Location = new System.Drawing.Point(56, 225);
             this.fontStringLabel.Name = "fontStringLabel";
             this.fontStringLabel.Size = new System.Drawing.Size(53, 15);
             this.fontStringLabel.TabIndex = 6;
@@ -295,7 +300,7 @@
             // fontLabel
             // 
             this.fontLabel.AutoSize = true;
-            this.fontLabel.Location = new System.Drawing.Point(3, 184);
+            this.fontLabel.Location = new System.Drawing.Point(3, 225);
             this.fontLabel.Name = "fontLabel";
             this.fontLabel.Size = new System.Drawing.Size(37, 15);
             this.fontLabel.TabIndex = 5;
@@ -305,7 +310,7 @@
             // 
             this.fontButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.fontButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.fontButton.Location = new System.Drawing.Point(223, 178);
+            this.fontButton.Location = new System.Drawing.Point(223, 219);
             this.fontButton.Name = "fontButton";
             this.fontButton.Size = new System.Drawing.Size(87, 27);
             this.fontButton.TabIndex = 4;
@@ -469,7 +474,7 @@
             this.cloudImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cloudImageBox.Location = new System.Drawing.Point(14, 92);
             this.cloudImageBox.Name = "cloudImageBox";
-            this.cloudImageBox.Size = new System.Drawing.Size(474, 413);
+            this.cloudImageBox.Size = new System.Drawing.Size(474, 497);
             this.cloudImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cloudImageBox.TabIndex = 4;
             this.cloudImageBox.TabStop = false;
@@ -480,7 +485,7 @@
             this.generateCloudButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.generateCloudButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.generateCloudButton.Enabled = false;
-            this.generateCloudButton.Location = new System.Drawing.Point(658, 523);
+            this.generateCloudButton.Location = new System.Drawing.Point(658, 607);
             this.generateCloudButton.Name = "generateCloudButton";
             this.generateCloudButton.Size = new System.Drawing.Size(87, 27);
             this.generateCloudButton.TabIndex = 6;
@@ -493,7 +498,7 @@
             this.cloudCreatingProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudCreatingProgress.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 523);
+            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 607);
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
             this.cloudCreatingProgress.Size = new System.Drawing.Size(603, 27);
             this.cloudCreatingProgress.TabIndex = 7;
@@ -508,7 +513,7 @@
             // 
             this.programStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programStatus});
-            this.programStatusStrip.Location = new System.Drawing.Point(0, 574);
+            this.programStatusStrip.Location = new System.Drawing.Point(0, 658);
             this.programStatusStrip.Name = "programStatusStrip";
             this.programStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.programStatusStrip.Size = new System.Drawing.Size(854, 22);
@@ -539,7 +544,7 @@
             this.progressLabel.AutoSize = true;
             this.progressLabel.BackColor = System.Drawing.Color.Transparent;
             this.progressLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.progressLabel.Location = new System.Drawing.Point(620, 529);
+            this.progressLabel.Location = new System.Drawing.Point(620, 613);
             this.progressLabel.Name = "progressLabel";
             this.progressLabel.Size = new System.Drawing.Size(23, 15);
             this.progressLabel.TabIndex = 8;
@@ -554,7 +559,7 @@
             this.cancelCreatingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelCreatingButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cancelCreatingButton.Enabled = false;
-            this.cancelCreatingButton.Location = new System.Drawing.Point(752, 523);
+            this.cancelCreatingButton.Location = new System.Drawing.Point(752, 607);
             this.cancelCreatingButton.Name = "cancelCreatingButton";
             this.cancelCreatingButton.Size = new System.Drawing.Size(87, 27);
             this.cancelCreatingButton.TabIndex = 9;
@@ -562,13 +567,45 @@
             this.cancelCreatingButton.UseVisualStyleBackColor = false;
             this.cancelCreatingButton.Click += new System.EventHandler(this.cancelCreatingButton_Click);
             // 
+            // minWordsLengthNumericUpDown
+            // 
+            this.minWordsLengthNumericUpDown.Location = new System.Drawing.Point(223, 146);
+            this.minWordsLengthNumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.minWordsLengthNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.minWordsLengthNumericUpDown.Name = "minWordsLengthNumericUpDown";
+            this.minWordsLengthNumericUpDown.Size = new System.Drawing.Size(87, 23);
+            this.minWordsLengthNumericUpDown.TabIndex = 16;
+            this.minWordsLengthNumericUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.minWordsLengthNumericUpDown.ValueChanged += new System.EventHandler(this.minWordsLengthNumericUpDown_ValueChanged);
+            // 
+            // minWordsLengthLabel
+            // 
+            this.minWordsLengthLabel.AutoSize = true;
+            this.minWordsLengthLabel.Location = new System.Drawing.Point(3, 148);
+            this.minWordsLengthLabel.Name = "minWordsLengthLabel";
+            this.minWordsLengthLabel.Size = new System.Drawing.Size(100, 15);
+            this.minWordsLengthLabel.TabIndex = 17;
+            this.minWordsLengthLabel.Text = "Min words length";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(854, 596);
+            this.ClientSize = new System.Drawing.Size(854, 680);
             this.Controls.Add(this.cancelCreatingButton);
             this.Controls.Add(this.progressLabel);
             this.Controls.Add(this.cloudCreatingProgress);
@@ -602,6 +639,7 @@
             this.programStatusStrip.ResumeLayout(false);
             this.programStatusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.minWordsLengthNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -652,5 +690,7 @@
         private System.Windows.Forms.CheckBox shouldStemWordsCheckBox;
         private System.Windows.Forms.Label accuracyLabel;
         private System.Windows.Forms.NumericUpDown accuracyNumericUpDown;
+        private System.Windows.Forms.Label minWordsLengthLabel;
+        private System.Windows.Forms.NumericUpDown minWordsLengthNumericUpDown;
     }
 }

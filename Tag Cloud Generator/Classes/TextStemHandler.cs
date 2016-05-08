@@ -23,7 +23,7 @@ namespace Tag_Cloud_Generator.Classes
         {
             '[', ']', '$', '<','>', '{', '}', '=', ' ', ' ', '.', ',',
             ':', '-', '…', '!', '?', '(', ')', '\'', '"', '`', ';', '0',
-            '1', '2', '3', '4', '5', '6', '7', '8', '9', '«','»','–', '_'
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '«','»','–', '_', '—'
         };
 
         private readonly string affixFilePath;
@@ -31,10 +31,10 @@ namespace Tag_Cloud_Generator.Classes
         public string[] TextLines { get; set; } = new string[0];
         public bool ShouldStemWords { get; set; } = false;
 
-        public Dictionary<string, int> GetWordsStatisctics()
+        public Dictionary<string, int> GetWordsStatisctics(int minWordLength)
         {
             var innerWords = new Dictionary<string, int>();
-            var actualWords = SplitWords().Where(WordIsRight).ToArray();
+            var actualWords = SplitWords().Where(word => word.Length >= minWordLength).ToArray();
             foreach (var word in ShouldStemWords ? StemWords(actualWords) : actualWords)
             {
                 if (innerWords.ContainsKey(word))
@@ -51,17 +51,12 @@ namespace Tag_Cloud_Generator.Classes
             return words.SelectMany(line => line.Select(word => word.ToUpper())).ToArray();
         }
 
-        private static bool WordIsRight(string word)
-        {
-            return word.Length >= 5;
-        }
-
         private string[] StemWords(string[] source)
         {
             var result = new List<string>();
             using (var hunspell = new Hunspell(affixFilePath, dictionaryFilePath))
             {
-                foreach (var word in source.Where(WordIsRight))
+                foreach (var word in source)
                 {
                     var tmp = hunspell.Stem(word);
                     if (tmp.Count == 0)

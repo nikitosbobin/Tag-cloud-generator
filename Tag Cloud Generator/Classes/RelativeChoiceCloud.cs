@@ -12,14 +12,14 @@ namespace Tag_Cloud_Generator.Classes
         public RelativeChoiceCloud(ITextHandler textHandler)
         {
             TextHandler = textHandler;
-            frames = new List<PriorityPair<Rectangle>>();
+            frames = new Dictionary<Rectangle, int>();
             words = new List<WordBlock>();
             GeneratorState = RelativeChoiceCloudStates.NotCreating;
             MaxAttemptsCount = 3;
         }
 
         private CloudMectrics metrics;
-        private List<PriorityPair<Rectangle>> frames;
+        private Dictionary<Rectangle, int> frames;
         private Dictionary<string, int> sortedWords;
         private readonly List<WordBlock> words;
         private FontsCache fontsCache;
@@ -29,9 +29,10 @@ namespace Tag_Cloud_Generator.Classes
         public ITextHandler TextHandler { get; set; }
         public int MaxAttemptsCount { get; set; }
 
-        public void InitCreating(Size targetCloudSize, Font wordsFont, int wordsAmount, int firstScale)
+        public void InitCreating(Size targetCloudSize, Font wordsFont, 
+            int wordsAmount, int minWordsLength, int firstScale)
         {
-            sortedWords = GetWordsStatistics(wordsAmount);
+            sortedWords = GetWordsStatistics(wordsAmount, minWordsLength);
             if (sortedWords.Count == 0)
                 throw new Exception("There are no words to build cloud");
             metrics?.Dispose();
@@ -39,28 +40,12 @@ namespace Tag_Cloud_Generator.Classes
             metrics = new CloudMectrics(targetCloudSize, fontsCache);
             frames.Clear();
             words.Clear();
-            frames.Capacity = sortedWords.Count;
-            words.Capacity = frames.Capacity;
+            words.Capacity = sortedWords.Count;
             CommitWord(CreateFirstWord(firstScale));
             GeneratorState = RelativeChoiceCloudStates.Creating;
         }
 
-        private void CommitWord(WordBlock word)
-        {
-            words.Add(word);
-            frames.Add(GetWordRectangle(word));
-        }
-
-        private WordBlock CreateFirstWord(int scale)
-        {
-            var result = new WordBlock(metrics.CloudSize.Width*scale/1000f, sortedWords.First());
-            var size = metrics.MeasureWord(result);
-            if (size.Width > metrics.CloudSize.Width)
-                result.FontSize /= size.Width / (float)metrics.CloudSize.Width;
-            return PutWordInCloudCenter(result);
-        }
-
-        public bool HandleNextWord()
+        public bool TryHandleNextWord()
         {
             switch (GeneratorState)
             {
@@ -80,7 +65,7 @@ namespace Tag_Cloud_Generator.Classes
                 return false;
             }
             var currentWord = sortedWords.ElementAt(frames.Count);
-            return LocateWordOnImage(currentWord);
+            return TryLocateWordOnImage(currentWord);
         }
 
         public ITagCloud GetCreatedCloud()
@@ -90,7 +75,22 @@ namespace Tag_Cloud_Generator.Classes
             return new TagCloud(metrics.CloudSize, words.ToArray(), fontsCache);
         }
 
-        private bool LocateWordOnImage(KeyValuePair<string, int> wordFreqPair)
+        private void CommitWord(WordBlock word)
+        {
+            words.Add(word);
+            frames.Add(GetWordRectangle(word), 1);
+        }
+
+        private WordBlock CreateFirstWord(int scale)
+        {
+            var result = new WordBlock(metrics.CloudSize.Width * scale / 1000f, sortedWords.First());
+            var size = metrics.MeasureWord(result);
+            if (size.Width > metrics.CloudSize.Width)
+                result.FontSize /= size.Width / (float)metrics.CloudSize.Width;
+            return PutWordInCloudCenter(result);
+        }
+
+        private bool TryLocateWordOnImage(KeyValuePair<string, int> wordFreqPair)
         {
             WordBlock result;
             if (!CanFindPosition(wordFreqPair, out result)) return false;
@@ -98,9 +98,9 @@ namespace Tag_Cloud_Generator.Classes
             return true;
         }
 
-        private Dictionary<string, int> GetWordsStatistics(int wordsAmount)
+        private Dictionary<string, int> GetWordsStatistics(int wordsAmount, int minWordsLength)
         {
-            var result = TextHandler.GetWordsStatisctics()
+            var result = TextHandler.GetWordsStatisctics(minWordsLength)
                 .OrderByDescending(u => u.Value)
                 .ThenByDescending(w => w.Key.Length)
                 .ToDictionary(y => y.Key, pair => pair.Value);
@@ -126,9 +126,9 @@ namespace Tag_Cloud_Generator.Classes
 
         private bool AnyFrameIntersection(WordBlock word)
         {
+            var currentWordRectangle = GetWordRectangle(word);
             return frames?
-                .Select(frame => frame.Value)
-                .Any(rectangle => rectangle.IntersectsWith(GetWordRectangle(word)))
+                .Any(frame => frame.Key.IntersectsWith(currentWordRectangle))
                 ?? false;
         }
 
@@ -145,33 +145,34 @@ namespace Tag_Cloud_Generator.Classes
         {
             resultWord = null;
             if (frames.Count == 0) return false;
-            frames = frames.OrderBy(t => t.Priority).ToList();
-            var betterFrame = frames.First();
+            frames = frames.OrderBy(t => t.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var firstFrame = frames.First();
             var targetFontSize = GetWordFontSize(wordFreqPair.Value);
             var resultWordBlock = new WordBlock(targetFontSize, wordFreqPair);
-            foreach (var frame in frames)
+            foreach (var frame in frames.Keys.ToArray())
             {
-                var currentAttemptsCount = frame.Priority*MaxAttemptsCount/betterFrame.Priority;
-                if (BypassFrame(resultWordBlock, frame.Value, currentAttemptsCount != 0 ? currentAttemptsCount : 1))
+                var currentPriority = frames[frame];
+                var currentAttemptsCount = currentPriority * MaxAttemptsCount / firstFrame.Value;
+                if (TryBypassFrame(resultWordBlock, frame, currentAttemptsCount > 0 ? currentAttemptsCount : 1))
                 {
                     resultWord = resultWordBlock;
                     return true;
                 }
-                frame.Priority++;
+                frames[frame]++;
             }
             return false;
         }
 
-        private bool BypassFrame(WordBlock word, Rectangle frame, int attemptsCount)
+        private bool TryBypassFrame(WordBlock word, Rectangle frame, int attemptsCount)
         {
             var points = frame.GetPoints().RandomOffsetArray();
             for (var i = 0; i < points.Length; ++i)
-                if (MoveOnLine(word, points[i], points[(i + 1)%points.Length], attemptsCount))
+                if (TryFindPositionOnLine(word, points[i], points[(i + 1)%points.Length], attemptsCount))
                     return true;
             return false;
         }
 
-        private bool MoveOnLine(WordBlock word, Point start, Point end, int attemptsCount)
+        private bool TryFindPositionOnLine(WordBlock word, Point start, Point end, int attemptsCount)
         {
             var dist = start.OffsetTo(end);
             for (var i = 0; i < attemptsCount; ++i)
