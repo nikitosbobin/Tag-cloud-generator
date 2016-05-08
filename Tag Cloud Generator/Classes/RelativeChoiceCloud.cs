@@ -93,7 +93,7 @@ namespace Tag_Cloud_Generator.Classes
         private bool TryLocateWordOnImage(KeyValuePair<string, int> wordFreqPair)
         {
             WordBlock result;
-            if (!CanFindPosition(wordFreqPair, out result)) return false;
+            if (!TryFindPosition(wordFreqPair, out result)) return false;
             CommitWord(result);
             return true;
         }
@@ -141,7 +141,7 @@ namespace Tag_Cloud_Generator.Classes
             return word;
         }
 
-        private bool CanFindPosition(KeyValuePair<string, int> wordFreqPair, out WordBlock resultWord)
+        private bool TryFindPosition(KeyValuePair<string, int> wordFreqPair, out WordBlock resultWord)
         {
             resultWord = null;
             if (frames.Count == 0) return false;
@@ -178,16 +178,16 @@ namespace Tag_Cloud_Generator.Classes
             for (var i = 0; i < attemptsCount; ++i)
             {
                 word.MoveToPoint(start.X + i*dist.X/attemptsCount, start.Y + i*dist.Y/attemptsCount);
-                if (TryFindPosition(word))
+                if (ChoosePermutationAroundPoint(word))
                     return true;
                 word.IsVertical = !word.IsVertical;
-                if (TryFindPosition(word))
+                if (ChoosePermutationAroundPoint(word))
                     return true;
             }
             return false;
         }
 
-        private bool TryFindPosition(WordBlock word)
+        private bool ChoosePermutationAroundPoint(WordBlock word)
         {
             var tmpRect = GetWordRectangle(word);
             var permutations = new[,] {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
