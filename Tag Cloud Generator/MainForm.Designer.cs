@@ -474,7 +474,7 @@
             this.cloudImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cloudImageBox.Location = new System.Drawing.Point(14, 92);
             this.cloudImageBox.Name = "cloudImageBox";
-            this.cloudImageBox.Size = new System.Drawing.Size(474, 497);
+            this.cloudImageBox.Size = new System.Drawing.Size(474, 456);
             this.cloudImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cloudImageBox.TabIndex = 4;
             this.cloudImageBox.TabStop = false;
@@ -485,7 +485,7 @@
             this.generateCloudButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.generateCloudButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.generateCloudButton.Enabled = false;
-            this.generateCloudButton.Location = new System.Drawing.Point(658, 607);
+            this.generateCloudButton.Location = new System.Drawing.Point(658, 566);
             this.generateCloudButton.Name = "generateCloudButton";
             this.generateCloudButton.Size = new System.Drawing.Size(87, 27);
             this.generateCloudButton.TabIndex = 6;
@@ -498,7 +498,7 @@
             this.cloudCreatingProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cloudCreatingProgress.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 607);
+            this.cloudCreatingProgress.Location = new System.Drawing.Point(13, 566);
             this.cloudCreatingProgress.Name = "cloudCreatingProgress";
             this.cloudCreatingProgress.Size = new System.Drawing.Size(603, 27);
             this.cloudCreatingProgress.TabIndex = 7;
@@ -513,7 +513,7 @@
             // 
             this.programStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programStatus});
-            this.programStatusStrip.Location = new System.Drawing.Point(0, 658);
+            this.programStatusStrip.Location = new System.Drawing.Point(0, 617);
             this.programStatusStrip.Name = "programStatusStrip";
             this.programStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.programStatusStrip.Size = new System.Drawing.Size(854, 22);
@@ -544,7 +544,7 @@
             this.progressLabel.AutoSize = true;
             this.progressLabel.BackColor = System.Drawing.Color.Transparent;
             this.progressLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.progressLabel.Location = new System.Drawing.Point(620, 613);
+            this.progressLabel.Location = new System.Drawing.Point(620, 572);
             this.progressLabel.Name = "progressLabel";
             this.progressLabel.Size = new System.Drawing.Size(23, 15);
             this.progressLabel.TabIndex = 8;
@@ -559,7 +559,7 @@
             this.cancelCreatingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelCreatingButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cancelCreatingButton.Enabled = false;
-            this.cancelCreatingButton.Location = new System.Drawing.Point(752, 607);
+            this.cancelCreatingButton.Location = new System.Drawing.Point(752, 566);
             this.cancelCreatingButton.Name = "cancelCreatingButton";
             this.cancelCreatingButton.Size = new System.Drawing.Size(87, 27);
             this.cancelCreatingButton.TabIndex = 9;
@@ -605,7 +605,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(854, 680);
+            this.ClientSize = new System.Drawing.Size(854, 639);
             this.Controls.Add(this.cancelCreatingButton);
             this.Controls.Add(this.progressLabel);
             this.Controls.Add(this.cloudCreatingProgress);
@@ -617,7 +617,7 @@
             this.Controls.Add(this.textLoadGroup);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(870, 635);
+            this.MinimumSize = new System.Drawing.Size(870, 678);
             this.Name = "MainForm";
             this.Text = "Tag cloud generator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
